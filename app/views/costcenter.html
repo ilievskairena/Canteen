@@ -1,0 +1,59 @@
+<div class="panel panel-default">
+	<div class="row">
+	<br/>
+		<fieldset>
+			<legend>Додади ново трошковно место</legend>
+				<div>
+					<div class="col-md-12">
+						<div class="col-md-3">
+							<label for="Title">Име</label>
+						</div>
+						<div class="col-md-6">
+							<input class="form-control" type="text" id="Title" ng-model="vm.Title" placeholder="Внеси назив на трошковно место...">
+						</div>		
+					</div>
+				</div>
+				<div>
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="CostCenterNum">Код на трошковно место</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" id="CostCenterNum" ng-model="vm.CostCenterNum" placeholder="Внеси код на трошковно место...">
+						</div>
+					</div>	
+				</div>
+		</fieldset>
+	</div>
+	<br/>
+	<div class="row">
+		<button class="btn btn-info pull-right" ng-click="vm.addNewCostCenter()">Додади трошковно место</button>
+	</div>
+</div>	
+<br/>
+<br/>
+<div class="panel panel-default">
+	<div class="col-md-12">
+		<table class="table table-bordered table-striped table-condensed" class="col-md-12">
+			<tr>
+				<th>Назив на трошковно место</th>
+				<th>Код</th>
+				<th colspan="2">Акции</th>
+			</tr>
+			<tr>
+				<td>Sales WH-SD</td>
+				<td>4304110181</td>
+				<td>
+			        <a href="" ng-click="vm.editCostCenter(row.UIN)">
+			          <span class="glyphicon glyphicon-edit"></span>
+			        </a>
+			        &nbsp;&nbsp;
+			        <a href="" ng-click="vm.openRemoveDialog(row.UIN)">
+			       		<span class="glyphicon glyphicon-remove"></span>
+			       	</a>	
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

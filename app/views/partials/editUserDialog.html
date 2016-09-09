@@ -1,0 +1,100 @@
+<div class="panel panel-default">
+	<div class="row">
+		<div>
+			<div class="col-md-12" style="margin-left:25px">
+				<h3>Промени податоци за корисник</h3>
+			</div>
+			<div class="col-md-12">
+				<div class="col-md-5">
+					<label for="Name">Име и презиме</label>
+				</div>
+				<div class="col-md-7">
+					<input class="form-control" type="text" id="Name" ng-model="vm.Name" placeholder="Внеси име и презиме...">
+				</div>		
+			</div>
+		</div>
+		<div>
+			<div class="col-md-12">
+			<br/>
+				<div class="col-md-5">
+					<label for="PersonNumber">ID број</label>
+				</div>
+				<div class="col-md-7">
+					<input type="text" class="form-control" id="PersonNumber" ng-model="vm.PersonNumber" placeholder="Внеси број на вработен...">
+				</div>
+			</div>	
+		</div>
+		<div>	
+			<div class="col-md-12">
+			<br/>
+				<div class="col-md-5">
+					<label for="Username">Корисничко име</label>
+				</div>
+				<div class="col-md-7">
+					<input type="text" class="form-control" id="Username" ng-model="vm.Username" placeholder="Внеси корисничко име (MKxxxx)...">
+				</div>
+			</div>	
+		</div>
+		<div>	
+			<div class="col-md-12">
+			<br/>
+				<div class="col-md-5">
+					<label for="CostCenter">Трошковно место</label>
+				</div>
+				<div class="col-md-7">
+					<input type="text" class="form-control" id="CostCenter" ng-model="vm.CostCenter" placeholder="Одбери трошковно место...">
+				</div>
+			</div>	
+		</div>
+		<div>	
+			<div class="col-md-12">
+			<br/>
+				<div class="col-md-5">
+					<label for="CostCenter">Корисничка улога</label>
+				</div>
+				<div class="col-md-7">
+					<input type="text" class="form-control" id="UserRole" ng-model="vm.UserRole" placeholder="Одбери трошковно место...">
+				</div>
+			</div>	
+		</div>
+		<div>	
+			<div class="col-md-12">
+			<br/>
+				<div class="col-md-5">
+					<label for="CostCenter">Вработен во Пивара?</label>
+				</div>
+				<div class="col-md-7">
+					<input type="checkbox" id="isEmployee">
+				</div>
+			</div>	
+		</div>
+	</div>
+	<div class="row">
+			<div>	
+				<div class="col-md-12">
+				<br/>
+					<div class="col-md-5">
+						<label for="CardNum">Број на картичка</label>
+					</div>
+					<div class="col-md-7">
+						<input type="text" class="form-control" id="CardNum" ng-model="vm.CardNum" placeholder="Внеси картичка...">
+					</div>
+				</div>	
+			</div>
+			<div>	
+				<div class="col-md-12">
+				<br/>
+					<div class="col-md-5">
+						<label for="CardType">Тип на картичка</label>
+					</div>
+					<div class="col-md-7">
+						<input type="text" class="form-control" id="CardType" ng-model="vm.CardType" placeholder="Внеси тип на картичка...">
+					</div>
+				</div>
+			</div>
+	</div>
+	<br/>
+	<div class="row">
+		<button class="btn btn-info pull-right" style="margin-right: 24px;margin-bottom: -38px;" ng-click="vm.saveUser(vm)">Зачувај промени</button>
+	</div>
+</div>	

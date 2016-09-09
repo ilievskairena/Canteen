@@ -1,0 +1,76 @@
+<div class="panel panel-default">
+	<div class="row">
+		<br/>
+		<fieldset>
+			<legend>Додади нов оброк</legend>
+				<div>
+					<div class="col-md-12">
+						<div class="col-md-3">
+							<label for="MealDescription">Опис</label>
+						</div>
+						<div class="col-md-6">
+							<input class="form-control" type="text" id="MealDescription" ng-model="vm.MealDescription" placeholder="Внеси опис на оброк...">
+						</div>		
+					</div>
+				</div>
+				<div>
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="MealType">Тип на оброк</label>
+						</div>
+						<div class="col-md-6">
+							<select class="form-control" name="MealType" ng-model="vm.MealType">
+								<option selected disabled value="">Одбери тип оброк</option>
+								<option value="personal">Сув оброк</option>
+								<option value="menager">Нормален оброк</option>
+							</select>	
+						</div>
+					</div>	
+				</div>
+		</fieldset>
+	</div>
+	<br/>
+	<div class="row">
+		<button class="btn btn-info pull-right" ng-click="vm.addNewCard()">Додади оброк</button>
+	</div>
+</div>	
+<br/>
+<br/>
+<div class="panel panel-default">
+	<div class="col-md-12">
+		<table class="table table-bordered table-striped table-condensed" class="col-md-12">
+			<tr>
+				<th>Опис на оброк</th>
+				<th>Тип</th>
+				<th colspan="2">Акции</th>
+			</tr>
+			<tr>
+				<td>Путер, мармалад, леб, чај</td>
+				<td>Сув оброк</td>
+				<td>
+			        <a href="" ng-click="vm.editCard(row.UIN)">
+			          <span class="glyphicon glyphicon-edit"></span>
+			        </a>
+			        &nbsp;&nbsp;
+			        <a href="" ng-click="vm.openRemoveDialog(row.UIN)">
+			       		<span class="glyphicon glyphicon-remove"></span>
+			       	</a>	
+				</td>
+			</tr>
+			<tr>
+				<td>Шницли со гарнир од печени компири и супа</td>
+				<td>Нормален оброк</td>
+				<td>
+			        <a href="" ng-click="vm.editCard(row.UIN)">
+			          <span class="glyphicon glyphicon-edit"></span>
+			        </a>
+			        &nbsp;&nbsp;
+			        <a href="" ng-click="vm.openRemoveDialog(row.UIN)">
+			       		<span class="glyphicon glyphicon-remove"></span>
+			       	</a>	
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

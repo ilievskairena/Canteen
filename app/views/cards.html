@@ -1,0 +1,62 @@
+<div class="panel panel-default">
+	<div class="row">
+	<br/>
+		<fieldset>
+			<legend>Додади новa SPICA картичка</legend>
+				<div>
+					<div class="col-md-12">
+						<div class="col-md-3">
+							<label for="CodeCard">Код на картичка</label>
+						</div>
+						<div class="col-md-6">
+							<input class="form-control" type="text" id="CodeCard" ng-model="vm.CodeCard" placeholder="Внеси код на картичка...">
+						</div>		
+					</div>
+				</div>
+				<div>
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="CardType">Тип на картичка</label>
+						</div>
+						<div class="col-md-6">
+							<select class="form-control" name="CardType" ng-model="vm.CardType">
+								<option selected disabled value="">Одбери тип на картичка</option>
+								<option value="personal">Персонална</option>
+								<option value="menager">Менаџерска</option>
+						</div>
+					</div>	
+				</div>
+		</fieldset>
+	</div>
+	<br/>
+	<div class="row">
+		<button class="btn btn-info pull-right" ng-click="vm.addNewCard()">Додади SPICA картичка</button>
+	</div>
+</div>	
+<br/>
+<br/>
+<div class="panel panel-default">
+	<div class="col-md-12">
+		<table class="table table-bordered table-striped table-condensed" class="col-md-12">
+			<tr>
+				<th>Код на картичка</th>
+				<th>Тип</th>
+				<th colspan="2">Акции</th>
+			</tr>
+			<tr>
+				<td>4351692440</td>
+				<td>Персонална</td>
+				<td>
+			        <a href="" ng-click="vm.editCard(row.UIN)">
+			          <span class="glyphicon glyphicon-edit"></span>
+			        </a>
+			        &nbsp;&nbsp;
+			        <a href="" ng-click="vm.openRemoveDialog(row.UIN)">
+			       		<span class="glyphicon glyphicon-remove"></span>
+			       	</a>	
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,67 @@
+<div class="row">
+	<frameset>
+		<legend>Креирај мени</legend>
+	    <div class="col-lg-12">
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	                <h3>Датум {{vm.menuForDate() | date:"dd.mm.yyyy"}} ({{vm.dayOfWeek()}})</h3>
+	            </div>
+	            <!-- .panel-heading -->
+	            <div class="panel-body">
+	                <div class="panel-group" id="accordion">
+	                    <div class="panel panel-default">
+	                        <div class="panel-heading">
+	                            <h4 class="panel-title">
+	                                <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">Тип на мени: Сув оброк</a>
+	                            </h4>
+	                        </div>
+	                        <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+	                            <div class="well" style="overflow:scroll; height:25rem;">
+	                            	<p ng-repeat="role in vm.roles">
+											<input type="checkbox" data-checklist-model="vm.user.roles" data-checklist-value="role"> {{role.text}}
+
+									</p>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="panel panel-default">
+	                        <div class="panel-heading">
+	                            <h4 class="panel-title">
+	                                <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" class="collapsed" aria-expanded="false">Тип на мени: Нормален оброк</a>
+	                            </h4>
+	                        </div>
+	                        <div id="collapseTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+	                            <div class="well" style="overflow:scroll; height:25rem;">
+	                            	<p ng-repeat="role in vm.roles">
+											<input type="checkbox" data-checklist-model="vm.user.roles" data-checklist-value="role"> {{role.text}}
+										</p>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="panel panel-default">
+	                        <div class="panel-heading">
+	                            <h4 class="panel-title">
+	                                <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree" class="collapsed" aria-expanded="false">Тип на мени: Вегетаријански оброк</a>
+	                            </h4>
+	                        </div>
+	                        <div id="collapseThree" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+	                            <div class="well" style="overflow:scroll; height:25rem;">
+	                            	<p ng-repeat="role in vm.roles">
+											<input type="checkbox" data-checklist-model="vm.user.roles" data-checklist-value="role"> {{role.text}}
+										</p>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <!-- .panel-body -->
+	        </div>
+	        <!-- /.panel -->
+	    </div>
+	    <!-- /.col-lg-12 -->
+	    <div class="row col-md-12">
+	    <button class="btn btn-success pull-center col-md-4" style="margin:10px;" ng-click="vm.saveAndCreateNext()">Зачувај</button>
+		<button class="btn btn-primary pull-right col-md-5" style="margin:10px;" ng-click="vm.saveAndCreateNext()">Зачувај и креирај мени за нареден ден</button>
+	</div>
+    </frameset>
+</div>

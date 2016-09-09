@@ -1,0 +1,147 @@
+<div class="panel panel-default">
+	<div class="row">
+	<br/>
+		<fieldset>
+			<legend>Додади нов корисник</legend>
+				<div>
+					<div class="col-md-12">
+						<div class="col-md-3">
+							<label for="Name">Име и презиме</label>
+						</div>
+						<div class="col-md-6">
+							<input class="form-control" type="text" id="Name" ng-model="vm.Name" placeholder="Внеси име и презиме...">
+						</div>		
+					</div>
+				</div>
+				<div>
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="PersonNumber">ID број</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" id="PersonNumber" ng-model="vm.PersonNumber" placeholder="Внеси број на вработен...">
+						</div>
+					</div>	
+				</div>
+				<div>	
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="Username">Корисничко име</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" id="Username" ng-model="vm.Username" placeholder="Внеси корисничко име (MKxxxx)...">
+						</div>
+					</div>	
+				</div>
+				<div>	
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="CostCenter">Трошковно место</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" id="CostCenter" ng-model="vm.CostCenter" placeholder="Одбери трошковно место...">
+						</div>
+					</div>	
+				</div>
+				<div>	
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="CostCenter">Корисничка улога</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" id="UserRole" ng-model="vm.UserRole" placeholder="Одбери трошковно место...">
+						</div>
+					</div>	
+				</div>
+				<div>	
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="CostCenter">Вработен во Пивара?</label>
+						</div>
+						<div class="col-md-6">
+							<input type="checkbox" id="isEmployee">
+						</div>
+					</div>	
+				</div>
+		</fieldset>
+	</div>	
+	<br/>
+	<div class="row">
+		<fieldset>
+			<legend>SPICA Картичка</legend>
+			<div>	
+				<div class="col-md-12">
+				<br/>
+					<div class="col-md-3">
+						<label for="CardNum">Број на картичка</label>
+					</div>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="CardNum" ng-model="vm.CardNum" placeholder="Внеси картичка...">
+					</div>
+				</div>	
+			</div>
+			<div>	
+				<div class="col-md-12">
+				<br/>
+					<div class="col-md-3">
+						<label for="CardType">Тип на картичка</label>
+					</div>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="CardType" ng-model="vm.CardType" placeholder="Внеси тип на картичка...">
+					</div>
+				</div>
+			</div>
+			<div id="newCardDiv" style="display:hidden">
+				<!-- Place for inserting another card for the same user -->
+			</div>
+			<div>
+				<button id="btnAddCard" class="btn btn-primary btn-circle pull-right" ng-click="vm.attachNewCard()">
+			       	<i class="fa fa-plus fa-3"></i>
+			    </button>
+			</div>
+		</fieldset>
+	</div>
+	<br/>
+	<div class="row">
+		<button class="btn btn-info pull-right" ng-click="vm.addNewUser(vm)">Додади корисник</button>
+	</div>
+</div>	
+<br/>
+<br/>
+<div class="panel panel-default">
+	<div class="col-md-12">
+		<table class="table table-bordered table-striped table-condensed" class="col-md-12">
+			<tr>
+				<th>ID на вработен</th>
+				<th>ID број</th>
+				<th>Име и презиме</th>
+				<th>Корисничко име</th><!-- 
+				<th>Трошковно место</th>
+				<th>Број на картичка</th> -->
+				<th colspan="2">Акции</th>
+			</tr>
+			<tr ng-repeat="row in vm.userTable">
+				<td>{{row.ID}}</td>
+				<td>{{row.PersonNumber}}</td>
+				<td>{{row.Name}}</td>
+				<td>{{row.UserName}}</td><!-- 
+				<td>{{row.CostCenter}}</td>
+				<td>{{row.CardCode}}</td> -->
+				<td>
+			        <a href="" ng-click="vm.openEditDialog(row)">
+			          <span class="glyphicon glyphicon-edit"></span>
+			        </a>
+			        &nbsp;&nbsp;
+			        <a href="" ng-click="vm.openRemoveDialog(row)">
+			       		<span class="glyphicon glyphicon-remove"></span>
+			       	</a>	
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,140 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+        Мени за категории
+    </div>
+    <div class="navbar navbar-default">
+	<div class="panel-body">
+	<br/>
+	<!-- Nav tabs -->
+        <ul class="nav nav-pills">
+            <li class="active">
+            	<a data-target="#thirdShift-pills" data-toggle="tab" aria-expanded="true">Трета смена</a>
+            </li>
+            <li class=""><a data-target="#workers-pills" data-toggle="tab" aria-expanded="false">Ангажирани работници</a>
+            </li>
+            <li class=""><a data-target="#collaborators-pills" data-toggle="tab" aria-expanded="false">Надворешни соработници</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+        	<div class="tab-pane fade active in" id="thirdShift-pills">
+        	<div class="panel panel-default">
+        		<div class="panel-heading">
+                        <h4 class="panel-title">
+                           Трета смена
+                        </h4>
+                    </div>
+                   <br/> 
+				<div>
+					<div class="col-md-12">
+						<div class="col-md-3">
+							<label for="Monday">Понеделник</label>
+						</div>
+						<div class="col-md-3">
+							<input class="form-control" type="number" id="Monday" ng-model="vm.Monday" placeholder="Внеси број...">
+						</div>		
+					</div>
+				</div>
+				<div>
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="Thuesday">Вторник</label>
+						</div>
+						<div class="col-md-3">
+							<input type="number" class="form-control" id="Thuesday" ng-model="vm.Thuesday" placeholder="Внеси број...">
+						</div>
+					</div>	
+				</div>
+				<div>	
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="Wednesday">Среда</label>
+						</div>
+						<div class="col-md-3">
+							<input type="number" class="form-control" id="Wednesday" ng-model="vm.Wednesday" placeholder="Внеси број...">
+						</div>
+					</div>	
+				</div>
+				<div>	
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="Thursday">Четврток</label>
+						</div>
+						<div class="col-md-3">
+							<input type="number" class="form-control" id="Thursday" ng-model="vm.Thursday" placeholder="Внеси број...">
+						</div>
+					</div>	
+				</div>
+				<div>	
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="Friday">Петок</label>
+						</div>
+						<div class="col-md-3">
+							<input type="number" class="form-control" id="Friday" ng-model="vm.Friday" placeholder="Внеси број...">
+						</div>
+					</div>	
+				</div>
+				<div>	
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="Saturday">Сабота</label>
+						</div>
+						<div class="col-md-3">
+							<input type="number" class="form-control" id="Saturday" ng-model="vm.Saturday" placeholder="Внеси број...">
+						</div>
+					</div>	
+				</div>
+				<div>	
+					<div class="col-md-12">
+					<br/>
+						<div class="col-md-3">
+							<label for="Sunday">Недела</label>
+						</div>
+						<div class="col-md-3">
+							<input type="number" class="form-control" id="Sunday" ng-model="vm.Sunday" placeholder="Внеси број...">
+						</div>
+					</div>	
+				</div>
+        	</div>
+	        	<div class="row" style="margin-top:10px;">
+					<button class="btn btn-primary center col-md-3" ng-click="vm.saveThirdShift()">Зачувај</button>
+				</div>
+        	</div>
+
+        	<!-- HiredHelp -->
+        	<div class="tab-pane fade" id="workers-pills">
+				<div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                           Ангажирани работници
+                        </h4>
+                    </div>
+                    <div class="col-md-12">
+                    <br/>
+                    	<div ng-repeat="day in vm.daysOfTheWeek()">
+                    		<div id="{{day}}" class="row" style="margin:5px;">
+                    			<div class="col-md-4">
+									<input type="checkbox" data-checklist-model="weekday" data-checklist-value="day"> <label>{{day}}</label>
+                    			</div>
+                    			<div class="col-md-4">
+									<input id="day" type="number" style="float:right" class="form-control" placeholder="Внеси број...">
+                    			</div>
+							</div>
+						</div>
+                    </div>
+                </div>
+				
+        	
+	        	<div class="row" style="margin-top:10px;">
+					<button class="btn btn-primary center col-md-3" ng-click="vm.saveThirdShift()">Зачувај</button>
+				</div>
+        	</div>
+        </div>
+	</div>
+	</div>
+</div>
