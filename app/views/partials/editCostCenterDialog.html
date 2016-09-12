@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+	<div class="row">
+		<div>
+			<div class="col-md-12" style="margin-left:25px">
+				<h3>Промени податоци за трошковно место</h3>
+			</div>
+			<div class="col-md-12">
+				<div class="col-md-5">
+					<label for="Title">Назив</label>
+				</div>
+				<div class="col-md-7">
+					<input class="form-control" type="text" id="Title" ng-model="ngDialogData.Name" placeholder="Внеси назив...">
+				</div>		
+			</div>
+		</div>
+		<div>
+			<div class="col-md-12">
+			<br/>
+				<div class="col-md-5">
+					<label for="CostCenterNum">Код на трошковно место</label>
+				</div>
+				<div class="col-md-7">
+					<input type="text" class="form-control" id="CostCenterNum" ng-model="ngDialogData.Code" placeholder="Внеси код...">
+				</div>
+			</div>	
+		</div>
+	</div>
+	<br/>
+	<div class="row">
+		<button class="btn btn-info pull-right" style="margin-right: 24px;margin-bottom: -38px;" ng-click="vm.saveUser(vm)">Зачувај промени</button>
+	</div>
+</div>	

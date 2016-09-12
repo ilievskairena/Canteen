@@ -1,0 +1,38 @@
+<div class="panel panel-default">
+	<div class="row">
+		<div>
+			<div class="col-md-12" style="margin-left:25px">
+				<h3>Промени податоци за оброк</h3>
+			</div>
+			<div>
+				<div class="col-md-12">
+					<div class="col-md-3">
+						<label for="MealDescription">Опис</label>
+					</div>
+					<div class="col-md-6">
+						<input class="form-control" type="text" id="MealDescription" ng-model="vm.MealDescription" placeholder="Внеси опис на оброк...">
+					</div>		
+				</div>
+			</div>
+			<div>
+				<div class="col-md-12">
+				<br/>
+					<div class="col-md-3">
+						<label for="MealType">Тип на оброк</label>
+					</div>
+					<div class="col-md-6">
+						<select class="form-control" name="MealType" ng-model="vm.MealType">
+							<option selected disabled value="">Одбери тип оброк</option>
+							<option value="personal">Сув оброк</option>
+							<option value="menager">Нормален оброк</option>
+						</select>	
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+	<br/>
+	<div class="row">
+		<button class="btn btn-info pull-right" style="margin-right: 24px;margin-bottom: -38px;" ng-click="vm.saveUser(vm)">Зачувај промени</button>
+	</div>
+</div>	

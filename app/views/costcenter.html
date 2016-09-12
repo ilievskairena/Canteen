@@ -28,7 +28,7 @@
 	</div>
 	<br/>
 	<div class="row">
-		<button class="btn btn-info pull-right" ng-click="vm.addNewCostCenter()">Додади трошковно место</button>
+		<button class="btn btn-info pull-right" ng-click="vm.addCostCenter(vm)">Додади трошковно место</button>
 	</div>
 </div>	
 <br/>
@@ -41,15 +41,15 @@
 				<th>Код</th>
 				<th colspan="2">Акции</th>
 			</tr>
-			<tr>
-				<td>Sales WH-SD</td>
-				<td>4304110181</td>
+			<tr ng-repeat="row in vm.allCostCenters">
+				<td>{{row.Name}}</td>
+				<td>{{row.Code}}</td>
 				<td>
-			        <a href="" ng-click="vm.editCostCenter(row.UIN)">
+			        <a href="" ng-click="vm.editCostCenter(row)">
 			          <span class="glyphicon glyphicon-edit"></span>
 			        </a>
 			        &nbsp;&nbsp;
-			        <a href="" ng-click="vm.openRemoveDialog(row.UIN)">
+			        <a href="" ng-click="vm.openRemoveDialog(row)">
 			       		<span class="glyphicon glyphicon-remove"></span>
 			       	</a>	
 				</td>

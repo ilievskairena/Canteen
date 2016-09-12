@@ -9,7 +9,7 @@
 					<label for="Name">Име и презиме</label>
 				</div>
 				<div class="col-md-7">
-					<input class="form-control" type="text" id="Name" ng-model="vm.Name" placeholder="Внеси име и презиме...">
+					<input class="form-control" type="text" id="Name" ng-model="ngDialogData.Name" placeholder="Внеси име и презиме...">
 				</div>		
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 					<label for="PersonNumber">ID број</label>
 				</div>
 				<div class="col-md-7">
-					<input type="text" class="form-control" id="PersonNumber" ng-model="vm.PersonNumber" placeholder="Внеси број на вработен...">
+					<input type="text" class="form-control" id="PersonNumber" ng-model="ngDialogData.PersonNumber" placeholder="Внеси број на вработен...">
 				</div>
 			</div>	
 		</div>
@@ -31,7 +31,7 @@
 					<label for="Username">Корисничко име</label>
 				</div>
 				<div class="col-md-7">
-					<input type="text" class="form-control" id="Username" ng-model="vm.Username" placeholder="Внеси корисничко име (MKxxxx)...">
+					<input type="text" class="form-control" id="Username" ng-model="ngDialogData.UserName" placeholder="Корисничко име (MKxxxx)...">
 				</div>
 			</div>	
 		</div>
@@ -42,7 +42,7 @@
 					<label for="CostCenter">Трошковно место</label>
 				</div>
 				<div class="col-md-7">
-					<input type="text" class="form-control" id="CostCenter" ng-model="vm.CostCenter" placeholder="Одбери трошковно место...">
+					<input type="text" class="form-control" id="CostCenter" ng-model="ngDialogData.CostCenter" placeholder="Одбери трошковно место...">
 				</div>
 			</div>	
 		</div>
@@ -53,7 +53,7 @@
 					<label for="CostCenter">Корисничка улога</label>
 				</div>
 				<div class="col-md-7">
-					<input type="text" class="form-control" id="UserRole" ng-model="vm.UserRole" placeholder="Одбери трошковно место...">
+					<input type="text" class="form-control" id="UserRole" ng-model="ngDialogData.UserRole" placeholder="Одбери трошковно место...">
 				</div>
 			</div>	
 		</div>
@@ -64,7 +64,7 @@
 					<label for="CostCenter">Вработен во Пивара?</label>
 				</div>
 				<div class="col-md-7">
-					<input type="checkbox" id="isEmployee">
+					<input type="checkbox" id="isEmployee" ng-model="ngDialogData.isEmployee">
 				</div>
 			</div>	
 		</div>
@@ -77,7 +77,7 @@
 						<label for="CardNum">Број на картичка</label>
 					</div>
 					<div class="col-md-7">
-						<input type="text" class="form-control" id="CardNum" ng-model="vm.CardNum" placeholder="Внеси картичка...">
+						<input type="text" class="form-control" id="CardNum" ng-model="ngDialogData.CardNum" placeholder="Внеси картичка...">
 					</div>
 				</div>	
 			</div>
@@ -88,7 +88,7 @@
 						<label for="CardType">Тип на картичка</label>
 					</div>
 					<div class="col-md-7">
-						<input type="text" class="form-control" id="CardType" ng-model="vm.CardType" placeholder="Внеси тип на картичка...">
+						<input type="text" class="form-control" id="CardType" ng-model="ngDialogData.CardType" placeholder="Внеси тип на картичка...">
 					</div>
 				</div>
 			</div>

@@ -42,7 +42,10 @@
 							<label for="CostCenter">Трошковно место</label>
 						</div>
 						<div class="col-md-6">
-							<input type="text" class="form-control" id="CostCenter" ng-model="vm.CostCenter" placeholder="Одбери трошковно место...">
+							<select id="costCenterS" class="form-control" ng-model="vm.CostCenterSelect">
+								<option selected disabled value="">Одбери трошковно место</option>
+								<option ng-repeat="costCenter in vm.allCostCenters">{{costCenter.Name}}</option>
+							</select>
 						</div>
 					</div>	
 				</div>
@@ -53,7 +56,10 @@
 							<label for="CostCenter">Корисничка улога</label>
 						</div>
 						<div class="col-md-6">
-							<input type="text" class="form-control" id="UserRole" ng-model="vm.UserRole" placeholder="Одбери трошковно место...">
+							<select id="userRole" class="form-control" ng-model="vm.RoleModelSelect">
+								<option selected disabled value="">Одбери улога</option>
+								<option ng-repeat="role in vm.Roles">{{role.RoleName}}</option>
+							</select>
 						</div>
 					</div>	
 				</div>
@@ -61,10 +67,10 @@
 					<div class="col-md-12">
 					<br/>
 						<div class="col-md-3">
-							<label for="CostCenter">Вработен во Пивара?</label>
+							<label for="isEmployee">Вработен во Пивара?</label>
 						</div>
 						<div class="col-md-6">
-							<input type="checkbox" id="isEmployee">
+							<input type="checkbox" id="vm.isEmployee">
 						</div>
 					</div>	
 				</div>

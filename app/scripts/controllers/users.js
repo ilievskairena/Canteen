@@ -8,12 +8,8 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('UsersCtrl', function ($scope,$http,ngDialog) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('UsersCtrl', function ($scope,$http,ngDialog,APP_CONFIG,utility) {
+
     var vm = this;
 
     vm.attachNewCard = function(){
@@ -26,19 +22,35 @@ angular.module('canteenApp')
    		btnElement.disabled = true;
     };
 
+    vm.getRoles = function(){
+        $http({
+                method: 'GET',
+                crossDomain: true,
+                url:  APP_CONFIG.BASE_URL +"/api/roles"
+            }).
+            success(function(data) {
+                console.log("Success getting roles");
+                vm.Roles = data;
+            }).
+            error(function(data, status, headers, config) {
+                console.log("Error getting roles");
+            });
+    }
+
     vm.addNewUser = function(data){
     	var newUser = {
     		UserName:data.Username,
     		Name:data.Name,
     		CostCenterID:data.CostCenter,
-    		PersonNumber:data.PersonNumber
+    		PersonNumber:data.PersonNumber,
+            isEmployee: data.isEmployee
     	};
     	$http({
                 method: 'POST',
                 data: newUser,
                 contentType:'application/json',
                 crossDomain: true,
-                url: "http://localhost:59700/api/users"
+                url: APP_CONFIG.BASE_URL +"/api/users"
             }).
             success(function(data) {
                 console.log("Success inserting user");
@@ -56,12 +68,11 @@ angular.module('canteenApp')
             $http({
                 method: 'GET',
                 crossDomain: true,
-                url: "http://localhost:59700/api/users"
+                url:  APP_CONFIG.BASE_URL +"/api/users"
             }).
             success(function(data) {
                 console.log("Success getting users");
                 vm.userTable = data;
-                console.log(data);
             }).
             error(function(data, status, headers, config) {
             	console.log("Error getting users");
@@ -93,11 +104,11 @@ angular.module('canteenApp')
         return nestedConfirmDialog;   
     };
 
-    vm.removeUser = function(userId){
+    vm.removeItem = function(userId){
         console.log(userId);
         $http({
             method:"DELETE",
-            url:"http://localhost:59700/api/users/"+ userId,
+            url: APP_CONFIG.BASE_URL +"/api/users/"+ userId,
             crossDomain: true
             
         }).success(function(data){
@@ -105,9 +116,18 @@ angular.module('canteenApp')
         }).error(function(data){
             console.log(data);
         });
-    }
+    };
+
+    vm.getCostCenters = function(){
+        utility.getAllCostCenters().then(function(result) {
+            vm.allCostCenters = result.data;
+        });
+    };
 
         vm.getUsers();
+        vm.getRoles();
+        vm.getCostCenters();
+        
 
 
   });
