@@ -17,4 +17,16 @@
                 return result;
             });
         };
+
+    this.getUserPerID = function(userID) {
+            return $http.get(APP_CONFIG.BASE_URL+"/api/users/"+userID).then(function(result) {
+                return result;
+            });
+        }; 
+
+    this.getMealTypes = function() {
+            return $http.get(APP_CONFIG.BASE_URL+"/api/mealtype").then(function(result) {
+                return result;
+            });
+        };       
  });

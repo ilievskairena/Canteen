@@ -1,23 +1,26 @@
-<div class="panel panel-default">
-	<div class="row">
-		<div>
+<form name="submitMealTypeForm" class="myForm" required ng-submit="vm.saveMealType(ngDialogData)">
+	<div class="panel panel-default">
+		<div class="row">
+		<br/>
 			<div class="col-md-12" style="margin-left:25px">
 				<h3>Промени податоци за тип на оброк</h3>
 			</div>
-			<div>
-				<div class="col-md-12">
-					<div class="col-md-3">
-						<label for="MealTypeTitle">Опис</label>
-					</div>
-					<div class="col-md-6">
-						<input class="form-control" type="text" id="MealTypeTitle" ng-model="vm.MealTypeTitle" placeholder="Внеси опис на оброк...">
-					</div>		
+			<div class="col-md-12">
+				<div class="col-md-3">
+					<label for="MealTypeTitle">Назив</label>
 				</div>
+				<div class="col-md-6">
+					<input class="form-control" required type="text" id="MealTypeTitle" name="MealTypeTitle" ng-model="ngDialogData.Name" placeholder="Внеси назив...">
+				</div>
+				<div ng-messages="submitMealTypeForm.MealTypeTitle.$error">
+				  <div ng-message="required">Задолжително поле</div>
+				</div>		
 			</div>
+			</fieldset>
 		</div>
-	</div>
-	<br/>
-	<div class="row">
-		<button class="btn btn-info pull-right" style="margin-right: 24px;margin-bottom: -38px;" ng-click="vm.saveUser(vm)">Зачувај промени</button>
-	</div>
-</div>	
+		<br/>
+		<div class="row">
+			<input type="submit" class="btn btn-info pull-right" value="Додади тип на оброк"/>
+		</div>
+	</div>	
+</form>

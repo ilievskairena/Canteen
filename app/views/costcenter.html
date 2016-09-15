@@ -1,36 +1,45 @@
-<div class="panel panel-default">
-	<div class="row">
-	<br/>
-		<fieldset>
-			<legend>Додади ново трошковно место</legend>
-				<div>
-					<div class="col-md-12">
-						<div class="col-md-3">
-							<label for="Title">Име</label>
-						</div>
-						<div class="col-md-6">
-							<input class="form-control" type="text" id="Title" ng-model="vm.Title" placeholder="Внеси назив на трошковно место...">
-						</div>		
-					</div>
+<form name="submitCostCenterForm" class="myForm" required ng-submit="vm.addCostCenter()">
+	<div class="panel panel-default">
+		<div class="row">
+		<br/>
+			<fieldset>
+				<div class="col-md-12" style="margin-left:25px">
+				<h3>Податоци за трошковно место</h3>
 				</div>
-				<div>
-					<div class="col-md-12">
-					<br/>
-						<div class="col-md-3">
-							<label for="CostCenterNum">Код на трошковно место</label>
-						</div>
-						<div class="col-md-6">
-							<input type="text" class="form-control" id="CostCenterNum" ng-model="vm.CostCenterNum" placeholder="Внеси код на трошковно место...">
-						</div>
+				<div class="ng-hide">
+					<label  ng-model="ngDialogData.ID" id="UserID">{{ngDialogData.ID}}</label>
+				</div>
+				<div class="col-md-12">
+					<div class="col-md-3">
+						<label for="Title">Име</label>
+					</div>
+					<div class="col-md-6">
+						<input class="form-control" required type="text" id="Title" name="Title" ng-model="vm.Title" placeholder="Внеси назив на трошковно место...">
+					</div>	
+					<div ng-messages="submitCostCenterForm.Title.$error">
+					  <div ng-message="required">Задолжително поле</div>
 					</div>	
 				</div>
-		</fieldset>
-	</div>
-	<br/>
-	<div class="row">
-		<button class="btn btn-info pull-right" ng-click="vm.addCostCenter(vm)">Додади трошковно место</button>
-	</div>
-</div>	
+				<div class="col-md-12">
+					<br/>
+					<div class="col-md-3">
+						<label for="CostCenterNum">Код на трошковно место</label>
+					</div>
+					<div class="col-md-6">
+						<input type="text" class="form-control" required id="CostCenterNum" name="CostCenterNum" ng-model="vm.CostCenterNum" placeholder="Внеси код на трошковно место...">
+					</div>
+					<div ng-messages="submitCostCenterForm.CostCenterNum.$error">
+					  <div ng-message="required">Задолжително поле</div>
+					</div>
+				</div>	
+			</fieldset>
+		</div>
+		<br/>
+		<div class="row">
+			<input type="submit" class="btn btn-info pull-right" value="Додади трошковно место"/>
+		</div>
+	</div>	
+</form>
 <br/>
 <br/>
 <div class="panel panel-default">

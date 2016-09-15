@@ -11,6 +11,7 @@ angular.module('canteenApp')
   .controller('UsersCtrl', function ($scope,$http,ngDialog,APP_CONFIG,utility) {
 
     var vm = this;
+    vm.returnedUser = {};
 
     vm.attachNewCard = function(){
     	var newCardHtml = '<br/><div style="margin-top:10px;"><h4>Прикачи уште една картичка</h4><div><div class="col-md-12"><br/><div class="col-md-3"><label for="CardNum1">Број на картичка</label></div><div class="col-md-6"><input type="text" class="form-control" id="CardNum1" ng-model="vm.CardNum1" placeholder="Внеси картичка..."></div></div></div><div><div class="col-md-12"><br/><div class="col-md-3"><label for="CardType1">Тип на картичка</label></div><div class="col-md-6"><input type="text" class="form-control" id="CardType1" ng-model="vm.CardType1" placeholder="Внеси тип на картичка..."></div></div></div></div>';
@@ -29,22 +30,27 @@ angular.module('canteenApp')
                 url:  APP_CONFIG.BASE_URL +"/api/roles"
             }).
             success(function(data) {
-                console.log("Success getting roles");
+                //console.log("Success getting roles");
                 vm.Roles = data;
             }).
             error(function(data, status, headers, config) {
                 console.log("Error getting roles");
             });
-    }
+    };
 
-    vm.addNewUser = function(data){
+
+    vm.addNewUser = function(){
     	var newUser = {
-    		UserName:data.Username,
-    		Name:data.Name,
-    		CostCenterID:data.CostCenter,
-    		PersonNumber:data.PersonNumber,
-            isEmployee: data.isEmployee
+    		Username:vm.Username,
+    		Name:vm.Name,
+    		CostCenterID: vm.CostCenterSelect,
+    		PersonNumber:vm.PersonNumber,
+            isEmployee: vm.isEmployee,
+            CardNumber: vm.CardNum,
+            CardType: vm.CardType,
+            CardID: null
     	};
+        console.log(newUser);
     	$http({
                 method: 'POST',
                 data: newUser,
@@ -53,7 +59,7 @@ angular.module('canteenApp')
                 url: APP_CONFIG.BASE_URL +"/api/users"
             }).
             success(function(data) {
-                console.log("Success inserting user");
+                //console.log("Success inserting user");
                 vm.getUsers();
                 vm.Name=vm.PersonNumber=vm.Username=vm.CostCenter=vm.CardNum=vm.CardType="";
 
@@ -63,24 +69,60 @@ angular.module('canteenApp')
             });
 
     };
-    
-    vm.getUsers = function() {
-            $http({
-                method: 'GET',
+
+    vm.saveUser = function(data){
+        var editUser = {
+            Username:data.Username ==null || data.Username ==undefined ? "": data.Username,
+            Name:data.Name,
+            CostCenterID:data.CostCenterID,
+            PersonNumber:data.PersonNumber,
+            isEmployee: data.isEmployee,
+            CardNumber: data.UserCards[0].Cards.CardNum,
+            CardType: data.UserCards[0].Cards.CardType,
+            CardID: data.UserCards[0].CardID
+        };
+        $http({
+                method: 'PUT',
+                data: editUser,
+                contentType:'application/json',
                 crossDomain: true,
-                url:  APP_CONFIG.BASE_URL +"/api/users"
+                url: APP_CONFIG.BASE_URL +"/api/users/" + data.ID
             }).
             success(function(data) {
-                console.log("Success getting users");
-                vm.userTable = data;
+                console.log("Success editing user");
+                vm.getUsers();
             }).
             error(function(data, status, headers, config) {
-            	console.log("Error getting users");
+                console.log("Error editing user");
             });
-        };
+
+    };
+    
+    vm.getUsers = function() {
+        $http({
+            method: 'GET',
+            crossDomain: true,
+            url:  APP_CONFIG.BASE_URL +"/api/users"
+        }).
+        success(function(data) {
+            //console.log("Success getting users");
+            vm.userTable = data;
+        }).
+        error(function(data, status, headers, config) {
+        	console.log("Error getting users");
+        });
+    };
+
+    vm.getUser = function(user){
+        utility.getUserPerID(user.ID).then(function(result) {
+            /*console.log(result.data);*/
+            vm.returnedUser = result.data;
+            vm.openEditDialog();
+        });
+    };
+
 
     vm.openRemoveDialog = function(data){
-        console.log(data.ID);
         var nestedConfirmDialog = ngDialog.openConfirm({
             template: "../../views/partials/removeDialog.html",
             scope: $scope,
@@ -91,13 +133,12 @@ angular.module('canteenApp')
         return nestedConfirmDialog;   
     };
 
-    vm.openEditDialog = function(data){
-        console.log(data.ID);
+    vm.openEditDialog = function(){
         var nestedConfirmDialog = ngDialog.openConfirm({
             template: "../../views/partials/editUserDialog.html",
             className:'ngdialog-theme-default',
             scope: $scope,
-            data: data
+            data: vm.returnedUser
         });
 
         // NOTE: return the promise from openConfirm
@@ -113,6 +154,7 @@ angular.module('canteenApp')
             
         }).success(function(data){
             console.log("Successfully deleted user");
+            vm.getUsers();
         }).error(function(data){
             console.log(data);
         });
@@ -123,6 +165,7 @@ angular.module('canteenApp')
             vm.allCostCenters = result.data;
         });
     };
+
 
         vm.getUsers();
         vm.getRoles();

@@ -1,25 +1,28 @@
-<div class="panel panel-default">
-	<div class="row">
-	<br/>
-		<fieldset>
-			<legend>Додади тип на оброк</legend>
-				<div>
+<form name="submitMealTypeForm" class="myForm" required ng-submit="vm.addMealType()">
+	<div class="panel panel-default">
+		<div class="row">
+		<br/>
+			<fieldset>
+				<legend>Додади тип на оброк</legend>
 					<div class="col-md-12">
 						<div class="col-md-3">
 							<label for="MealTypeTitle">Назив</label>
 						</div>
 						<div class="col-md-6">
-							<input class="form-control" type="text" id="MealTypeTitle" ng-model="vm.MealTypeTitle" placeholder="Внеси назив...">
+							<input class="form-control" required type="text" id="MealTypeTitle" name="MealTypeTitle" ng-model="vm.MealTypeTitle" placeholder="Внеси назив...">
+						</div>
+						<div ng-messages="submitMealTypeForm.MealTypeTitle.$error">
+						  <div ng-message="required">Задолжително поле</div>
 						</div>		
 					</div>
-				</div>
-		</fieldset>
-	</div>
-	<br/>
-	<div class="row">
-		<button class="btn btn-info pull-right" ng-click="vm.addNewCard()">Додади тип на оброк</button>
-	</div>
-</div>	
+			</fieldset>
+		</div>
+		<br/>
+		<div class="row">
+			<input type="submit" class="btn btn-info pull-right" value="Додади тип на оброк"/>
+		</div>
+	</div>	
+</form>
 <br/>
 <br/>
 <div class="panel panel-default">
@@ -29,38 +32,14 @@
 				<th>Назив</th>
 				<th colspan="2">Акции</th>
 			</tr>
-			<tr>
-				<td>Сув оброк</td>
+			<tr ng-repeat="row in vm.allMealTypes">
+				<td>{{row.Name}}</td>
 				<td>
-			        <a href="" ng-click="vm.editMealType(row.UIN)">
+			        <a href="" ng-click="vm.editMealType(row)">
 			          <span class="glyphicon glyphicon-edit"></span>
 			        </a>
 			        &nbsp;&nbsp;
-			        <a href="" ng-click="vm.openRemoveDialog(row.UIN)">
-			       		<span class="glyphicon glyphicon-remove"></span>
-			       	</a>	
-				</td>
-			</tr>
-			<tr>
-				<td>Нормален оброк</td>
-				<td>
-			        <a href="" ng-click="vm.editMealType(row.UIN)">
-			          <span class="glyphicon glyphicon-edit"></span>
-			        </a>
-			        &nbsp;&nbsp;
-			        <a href="" ng-click="vm.openRemoveDialog(row.UIN)">
-			       		<span class="glyphicon glyphicon-remove"></span>
-			       	</a>	
-				</td>
-			</tr>
-			<tr>
-				<td>Вегетаријански оброк</td>
-				<td>
-			        <a href="" ng-click="vm.editMealType(row.UIN)">
-			          <span class="glyphicon glyphicon-edit"></span>
-			        </a>
-			        &nbsp;&nbsp;
-			        <a href="" ng-click="vm.openRemoveDialog(row.UIN)">
+			        <a href="" ng-click="vm.openRemoveDialog(row)">
 			       		<span class="glyphicon glyphicon-remove"></span>
 			       	</a>	
 				</td>

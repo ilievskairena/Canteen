@@ -30,10 +30,10 @@ angular.module('canteenApp')
         return nestedConfirmDialog;   
     };
 
-    vm.addCostCenter = function(data){
+    vm.addCostCenter = function(){
       var newCostCenter = {
-        "Name": data.Title,
-        "Code": data.CostCenterNum
+        "Name": vm.Title,
+        "Code": vm.CostCenterNum
       };
       $http({
           method: 'POST',
@@ -45,11 +45,32 @@ angular.module('canteenApp')
       success(function(data) {
           /*console.log("Success adding cost center");*/
           vm.getAllCostCenters();
-          /*console.log(data);*/
       }).
       error(function(data, status, headers, config) {
           console.log("Error adding cost center");
       });
+    };
+
+    vm.saveCostCenter = function(data){
+        var editCCenter = {
+            "Name": data.Name,
+            "Code": data.Code
+        };
+        $http({
+                method: 'PUT',
+                data: editCCenter,
+                contentType:'application/json',
+                crossDomain: true,
+                url: APP_CONFIG.BASE_URL +"/api/costcenter/" + data.ID
+            }).
+            success(function(data) {
+                console.log("Success editing user");
+                vm.getAllCostCenters();
+            }).
+            error(function(data, status, headers, config) {
+                console.log("Error editing user");
+            });
+
     };
 
     vm.getAllCostCenters = function(){
@@ -68,7 +89,7 @@ angular.module('canteenApp')
     };
 
     vm.openRemoveDialog = function(data){
-        console.log(data.ID);
+        console.log(data);
         var nestedConfirmDialog = ngDialog.openConfirm({
             template: "../../views/partials/removeDialog.html",
             scope: $scope,
