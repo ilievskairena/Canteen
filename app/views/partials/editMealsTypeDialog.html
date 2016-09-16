@@ -1,4 +1,4 @@
-<form name="submitMealTypeForm" class="myForm" required ng-submit="vm.saveMealType(ngDialogData)">
+<form name="editMealTypeForm" class="myForm" required ng-submit="vm.saveMealType(ngDialogData)">
 	<div class="panel panel-default">
 		<div class="row">
 		<br/>
@@ -12,7 +12,7 @@
 				<div class="col-md-6">
 					<input class="form-control" required type="text" id="MealTypeTitle" name="MealTypeTitle" ng-model="ngDialogData.Name" placeholder="Внеси назив...">
 				</div>
-				<div ng-messages="submitMealTypeForm.MealTypeTitle.$error">
+				<div ng-messages="editMealTypeForm.MealTypeTitle.$error">
 				  <div ng-message="required">Задолжително поле</div>
 				</div>		
 			</div>

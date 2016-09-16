@@ -18,6 +18,8 @@ angular
     'ngTouch',
     'ngDialog',
     'ngMessages',
+    'ngMaterial', 
+    'materialCalendar',
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -64,6 +66,11 @@ angular
       .when('/menusPerCategory', {
         templateUrl: 'views/menuspercategory.html',
         controller: 'MenuspercategoryCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/dates', {
+        templateUrl: 'views/dates.html',
+        controller: 'DatesCtrl',
         controllerAs: 'vm'
       })
       .otherwise({

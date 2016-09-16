@@ -1,4 +1,4 @@
-<form name="submitUserForm" class="myForm" required ng-submit="vm.saveUser(ngDialogData)">
+<form name="editUserForm" class="myForm" required ng-submit="vm.saveUser(ngDialogData)">
 	<div class="panel panel-default form-group">
 		<div class="row">
 		<br/>
@@ -15,7 +15,7 @@
 				<div class="col-md-6">
 					<input class="form-control" required type="text" autofocus="true" name="Name" id="Name" ng-model="ngDialogData.Name" placeholder="Внеси име и презиме...">
 				</div>		
-				<div ng-messages="submitUserForm.Name.$error">
+				<div ng-messages="editUserForm.Name.$error">
 				  <div ng-message="required">Задолжително поле</div>
 				</div>
 			</div>
@@ -27,7 +27,7 @@
 				<div class="col-md-6">
 					<input type="text" class="form-control" id="PersonNumber" pattern="[0-9]{8}" required name="PersonNumber" ng-model="ngDialogData.PersonNumber" placeholder="Внеси број на вработен...">
 				</div>
-				<div ng-messages="submitUserForm.PersonNumber.$error">
+				<div ng-messages="editUserForm.PersonNumber.$error">
 				  <div ng-message="required">Задолжително поле</div>
 				  <div ng-message="pattern">Полето треба да содржи 8 цифри</div>
 				</div>
@@ -40,7 +40,7 @@
 				<div class="col-md-6">
 					<input type="text" class="form-control" id="Username" pattern="MK[0-9]{4}" name="Username" ng-model="ngDialogData.Username" placeholder="Внеси корисничко име (MKxxxx)...">
 				</div>
-				<div ng-messages="submitUserForm.Username.$error">
+				<div ng-messages="editUserForm.Username.$error">
 				  <div ng-message="pattern">Полето треба да содржи MK и 4 цифри</div>
 				</div>
 			</div>	
@@ -55,7 +55,7 @@
 						<option ng-repeat="costCenter in vm.allCostCenters" value="{{costCenter.ID}}">{{costCenter.Name}}</option>
 					</select>
 				</div>
-				<div ng-messages="submitUserForm.costCenterS.$error">
+				<div ng-messages="editUserForm.costCenterS.$error">
 				  <div ng-message="required">Задолжително поле</div>
 				</div>
 			</div>
@@ -70,7 +70,7 @@
 						<option ng-repeat="role in vm.Roles" value="{{role.ID}}">{{role.RoleName}}</option>
 					</select>
 				</div>
-				<div ng-messages="submitUserForm.userRole.$error">
+				<div ng-messages="editUserForm.userRole.$error">
 				  <div ng-message="required">Задолжително поле</div>
 				</div>
 			</div>	
@@ -97,7 +97,7 @@
 					<div class="col-md-6">
 						<input type="text" name="CardNum" required class="form-control" pattern="[0-9]{11}" id="CardNum" ng-model="ngDialogData.UserCards[0].Cards.CardNum" placeholder="Внеси картичка...">
 					</div>
-					<div ng-messages="submitUserForm.CardNum.$error">
+					<div ng-messages="editUserForm.CardNum.$error">
 						<div ng-message="required">Задолжително поле</div>
 						<div ng-message="pattern">Полето треба да содржи 11 цифри</div>
 					</div>
@@ -110,7 +110,7 @@
 					<div class="col-md-6">
 						<input type="text" required name="CardType" class="form-control" id="CardType" ng-model="ngDialogData.UserCards[0].Cards.CardType" placeholder="Внеси тип на картичка...">
 					</div>
-					<div ng-messages="submitUserForm.CardType.$error">
+					<div ng-messages="editUserForm.CardType.$error">
 						<div ng-message="required">Задолжително поле</div>
 					</div>
 				</div>

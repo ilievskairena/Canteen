@@ -57,8 +57,8 @@ angular.module('canteenApp')
     };
     vm.saveMeal = function(data){
         var editMeal = {
-          "Description": vm.MealDescription,
-          "TypeId": vm.MealType
+          "Description": data.Description,
+          "TypeId": data.MealType
         };
         $http({
                 method: 'PUT',
@@ -117,4 +117,5 @@ angular.module('canteenApp')
     };
 
     vm.getAllMeals();
+    vm.getAllMealTypes();
   });

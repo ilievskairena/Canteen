@@ -1,0 +1,55 @@
+<div class="panel panel-default">
+	<div class="row" style="height:70rem;width:110rem">
+		<br/>
+		<calendar-md flex layout layout-fill
+		calendar-direction="vm.direction"
+		on-prev-month="vm.prevMonth"
+		on-next-month="vm.nextMonth"
+		on-day-click="vm.dayClick"
+		title-format="'MMMM y'"
+		ng-model='vm.selectedDate'
+		week-starts-on="vm.firstDayOfWeek"
+		data-start-month="9"
+		data-start-year="2016"
+		tooltips="tooltips"
+		day-format="dayFormat"
+		day-label-format="'EEE'"
+		day-label-tooltip-format="'EEEE'"
+		day-tooltip-format="'fullDate'"
+		day-content="vm.setDayContent"
+		disable-future-selection="false"
+		class="ng-pristine ng-untouched ng-valid layout-fill ng-isolate-scope layout-row flex"></calendar-md>
+	</div>
+	<br/>
+	<div class="row" style="margin-top:50px">
+		<button class="btn btn-primary btn-lg" ng-click="vm.saveDates()">Зачувај датуми"</button>
+	</div>
+</div>
+<div class="row" style="margin-top:50px">
+			<button ng-click="vm.sortDates()">Сортирај</button>
+</div>
+
+<div class="panel panel-default">
+	<div class="col-md-12">
+		<table class="table table-bordered table-striped table-condensed" class="col-md-12">
+			<tr>
+				<th>Датум</th>
+				<th>ID</th>
+				<th colspan="2">Акции</th>
+			</tr>
+			<tr ng-repeat="row in vm.dateObjectList">
+				<td>{{row.Date}}</td>
+				<td>{{row.ID}}</td>
+				<td>
+			        <a href="" ng-click="vm.editMealType(row)">
+			          <span class="glyphicon glyphicon-edit"></span>
+			        </a>
+			        &nbsp;&nbsp;
+			        <a href="" ng-click="vm.openRemoveDialog(row)">
+			       		<span class="glyphicon glyphicon-remove"></span>
+			       	</a>	
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

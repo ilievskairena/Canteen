@@ -1,4 +1,4 @@
-<form name="submitCostCenterForm" class="myForm" required ng-submit="vm.saveCostCenter(ngDialogData)">
+<form name="editCostCenterForm" class="myForm" required ng-submit="vm.saveCostCenter(ngDialogData)">
 	<div class="panel panel-default">
 		<div class="row">
 		<br/>
@@ -10,7 +10,7 @@
 				<div class="col-md-6">
 					<input class="form-control" type="text" id="Name" name="Name" ng-model="ngDialogData.Name" placeholder="Внеси назив на трошковно место...">
 				</div>	
-				<div ng-messages="submitCostCenterForm.Name.$error">
+				<div ng-messages="editCostCenterForm.Name.$error">
 				  <div ng-message="required">Задолжително поле</div>
 				</div>	
 			</div>
@@ -22,7 +22,7 @@
 				<div class="col-md-6">
 					<input type="text" class="form-control" id="Code" name="Code" ng-model="ngDialogData.Code" placeholder="Внеси код на трошковно место...">
 				</div>
-				<div ng-messages="submitCostCenterForm.Code.$error">
+				<div ng-messages="editCostCenterForm.Code.$error">
 				  <div ng-message="required">Задолжително поле</div>
 				</div>
 			</div>
