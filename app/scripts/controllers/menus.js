@@ -8,12 +8,32 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('MenusCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MenusCtrl', function ($http,$scope,utility, APP_CONFIG) {
+
+    var vm = this;
+
+   vm.getAllMealTypes = function(){
+        utility.getMealTypes().then(function(result) {
+            vm.allMealTypes = result.data;
+        });
+    }; 
+
+    vm.getAllMealsPerType = function(mealTypeID){
+      if(vm.mealTypeSelected == mealTypeID) return;
+        $http({
+          method: 'GET',
+          crossDomain: true,
+          url:  APP_CONFIG.BASE_URL +"/api/meals/MealsPerType/" + mealTypeID
+      }).
+      success(function(data) {/*
+          console.log("Success getting cost centers");*/
+          vm.mealsPerType = data;
+          vm.mealTypeSelected = mealTypeID;
+      }).
+      error(function(data, status, headers, config) {
+          console.log("Error getting meals");
+      });
+    }; 
 
   var weekday = new Array(7);
 	weekday[0]=  "Недела";
@@ -23,6 +43,7 @@ angular.module('canteenApp')
 	weekday[4] = "Четврток";
 	weekday[5] = "Петок";
 	weekday[6] = "Сабота";
+
     var vm = this;
     vm.menuForDate = function(){
     	return new Date();
@@ -66,4 +87,8 @@ angular.module('canteenApp')
     vm.user.roles = null;
   };
 
-  });
+
+    //
+    vm.getAllMealTypes();
+    //vm.getAllMealsPerType();
+});

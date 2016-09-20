@@ -32,6 +32,7 @@ angular.module('canteenApp')
       //vm.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
       if(vm.dates[date]==undefined)
       	vm.dates[date] = 0;
+      //console.log(date);
       vm.setOpen(date);
       //console.log(vm.dates);
     };
@@ -42,6 +43,9 @@ angular.module('canteenApp')
       //$scope.msg = "You clicked (next) month " + data.month + ", " + data.year;
     };
     vm.setDayContent = function(date,content="") {
+        //console.log(date.dayOfTheWeek);
+        if(date.getDay() == 0 || date.getDay() == 6) 
+            content = '<p>Викенд</p>';
     	return content;
     };
 	
@@ -50,7 +54,7 @@ angular.module('canteenApp')
 	    if(vm.dates[date] == 0) {
 	    	vm.dates[date] = 1;
 
-	      	vm.dateObjectList.push({date:new Date(date)});
+	      	vm.dateObjectList.push({date:$filter('date')(new Date(date), "yyyy-MM-dd HH:mm:ss.sss")});
 		    MaterialCalendarData.setDayContent(date, '<p>Празник</p>');
 	    } else {
 			vm.dates[date] = 0;
@@ -60,7 +64,11 @@ angular.module('canteenApp')
 			    	return el;
 			});
 			vm.dateObjectList = tempObjectList;
-	      	MaterialCalendarData.setDayContent(date, '<p></p>');
+            if(date.getDay() == 0 || date.getDay() == 6) {
+                MaterialCalendarData.setDayContent(date, '<p>Викенд</p>');
+            }
+            else
+	      	    MaterialCalendarData.setDayContent(date, '<p></p>');
 	      	
 	    }
 
@@ -68,6 +76,8 @@ angular.module('canteenApp')
 	};
 
 	vm.saveDates = function(){
+		vm.sortDates();
+		console.log(vm.dateObjectList);
 		$http({
             method: 'POST',
             data: vm.dateObjectList,
@@ -92,6 +102,12 @@ angular.module('canteenApp')
         success(function(data) {
             console.log("Success getting dates");
             vm.dateObjectList = data;
+            //console.log(vm.dateObjectList);
+            //console.log((new Date(vm.dateObjectList[0].Date)).getFullYear());
+            if((new Date(vm.dateObjectList[0].Date)).getFullYear())
+            	vm.currentYearCreated = true;
+            else
+            	vm.currentYearCreated = false;
             //need to set vm.dates list
         }).
         error(function(data, status, headers, config) {
@@ -104,5 +120,5 @@ angular.module('canteenApp')
 		vm.dateObjectList = tempList;
 	};
 
-	//vm.getAllDates();
+	vm.getAllDates();
   });

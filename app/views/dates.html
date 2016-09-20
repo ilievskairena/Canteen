@@ -22,24 +22,19 @@
 	</div>
 	<br/>
 	<div class="row" style="margin-top:50px">
-		<button class="btn btn-primary btn-lg" ng-click="vm.saveDates()">Зачувај датуми"</button>
+		<button class="btn btn-primary btn-lg" ng-disabled="vm.currentYearCreated" ng-click="vm.saveDates()">Зачувај датуми</button>
 	</div>
-</div>
-<div class="row" style="margin-top:50px">
-			<button ng-click="vm.sortDates()">Сортирај</button>
 </div>
 
 <div class="panel panel-default">
 	<div class="col-md-12">
-		<table class="table table-bordered table-striped table-condensed" class="col-md-12">
+		<table class="table table-bordered table-striped table-condensed" class="col-md-6">
 			<tr>
-				<th>Датум</th>
-				<th>ID</th>
-				<th colspan="2">Акции</th>
+				<th class="col-md-3">Датум</th>
+				<th>Акции</th>
 			</tr>
 			<tr ng-repeat="row in vm.dateObjectList">
-				<td>{{row.Date}}</td>
-				<td>{{row.ID}}</td>
+				<td>{{row.Date | date:'dd.MM.yyyy'}}</td>
 				<td>
 			        <a href="" ng-click="vm.editMealType(row)">
 			          <span class="glyphicon glyphicon-edit"></span>
