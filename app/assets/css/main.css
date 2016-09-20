@@ -83,3 +83,8 @@ body {
 text-decoration: none;
 /* background-color: #eee; */
 }
+
+fieldset, #usersTable, #costCenterTable, #mealsTable, #mealTypeTable{
+  max-width: 60%;
+  margin: auto;
+}
