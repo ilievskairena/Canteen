@@ -71,7 +71,7 @@ angular
       .when('/dates', {
         templateUrl: 'views/dates.html',
         controller: 'DatesCtrl',
-        controllerAs: 'vm'
+        controllerAs: 'vm' 
       })
       .otherwise({
         redirectTo: '/'
