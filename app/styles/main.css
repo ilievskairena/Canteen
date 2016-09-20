@@ -81,3 +81,13 @@ body {
     border-bottom: 0;
   }
 }
+
+.navbar-right {
+  margin-right: 0px;
+}
+
+md-toolbar,
+.md-toolbar-tools {
+  max-height: 50px !important;
+  min-height: 50px !important;
+}

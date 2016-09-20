@@ -8,22 +8,17 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('DatesCtrl', function ($scope, $filter, $http, MaterialCalendarData,APP_CONFIG) {
-  	var numFmt = function(num) {
-        num = num.toString();
-        if (num.length < 2) {
-            num = "0" + num;
-        }
-        return num;
-    };
-
+  .controller('DatesCtrl', function ($scope, $filter, $http, MaterialCalendarData, APP_CONFIG, ngTableParams) {
     var vm = this;
 
-    vm.dates = [];//keep the dates that were set as holidays
-    vm.dateObjectList = [];//keep list of dates objest that are set as holidays
+    //Keep the dates that were set as holidays
+    vm.dates = [];
+    //Keeps list of dates objest that are set as holidays
+    vm.dateObjectList = [];
 
     vm.selectedDate = [];
     vm.firstDayOfWeek = 1;
+
     vm.setDirection = function(direction) {
       vm.direction = direction;
     };
@@ -36,12 +31,15 @@ angular.module('canteenApp')
       vm.setOpen(date);
       //console.log(vm.dates);
     };
-    vm.prevMonth = function(data) {
-      //vm.msg = "You clicked (prev) month " + data.month + ", " + data.year;
-    };
-    vm.nextMonth = function(data) {
-      //$scope.msg = "You clicked (next) month " + data.month + ", " + data.year;
-    };
+
+    vm.dates = [{
+
+    },{
+
+    },{
+
+    }]
+
     vm.setDayContent = function(date,content="") {
         //console.log(date.dayOfTheWeek);
         if(date.getDay() == 0 || date.getDay() == 6) 
@@ -50,6 +48,8 @@ angular.module('canteenApp')
     };
 	
     vm.setOpen = function(date) {
+        console.log(date);
+        console.log(vm.dates);
     	//check if the date is already set as Holiday, if not add the date as holiday to the list
 	    if(vm.dates[date] == 0) {
 	    	vm.dates[date] = 1;
@@ -71,7 +71,7 @@ angular.module('canteenApp')
 	      	    MaterialCalendarData.setDayContent(date, '<p></p>');
 	      	
 	    }
-
+        console.log(vm.dates);
         //console.log(vm.dateObjectList);
 	};
 
@@ -102,12 +102,35 @@ angular.module('canteenApp')
         success(function(data) {
             console.log("Success getting dates");
             vm.dateObjectList = data;
-            //console.log(vm.dateObjectList);
-            //console.log((new Date(vm.dateObjectList[0].Date)).getFullYear());
-            if((new Date(vm.dateObjectList[0].Date)).getFullYear())
-            	vm.currentYearCreated = true;
-            else
-            	vm.currentYearCreated = false;
+            vm.dates = [];
+
+            for(var i in data) {
+                var dateObj = data[i];
+                var date = new Date(dateObj.Date);
+                date.setHours(0);
+                date.setMinutes(0);
+                date.setSeconds(0);
+                vm.dates[date] = 1;
+                MaterialCalendarData.setDayContent(date, '<p>Празник</p>');
+            }
+
+            vm.datesTable = new ngTableParams({
+                page: 1,
+                count: 10
+            }, {
+                total: vm.dates.length,
+                //Hide the count div
+                counts: [],
+                getData: function($defer, params) {
+                    var filter = params.filter();
+                    var sorting = params.sorting();
+                    var count = params.count();
+                    var page = params.page();
+                    //var filteredData = filter ? $filter('filter')(vm.data, filter) : vm.data
+                
+                    $defer.resolve(data.slice((page - 1) * count, page * count));
+                }
+            });
             //need to set vm.dates list
         }).
         error(function(data, status, headers, config) {

@@ -1,45 +1,67 @@
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 	<div class="navbar-header">
+
+	    <a class="navbar-brand" href="#/">
+	        <img alt="Brand" src="../images/logo.png" height="25px">
+	    </a>
+	    <a class="navbar-brand" href="#/">
+	        Кантина
+	    </a>
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		<span class="sr-only">Toggle navigation</span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="index.html">Кантина</a>
 	</div>
-	<div style="float:right;display:inline-block;vertical-align:middle">
-	<span style="font-size:2rem;padding:20px;">Најавен корисник: Петар Петров</span>
-	<button type="button" class="btn btn-info" style="float:right;margin:10px" id="Logout">Logout</button>
-	</div>
+
+		<ul class="nav navbar-nav navbar-right pull-right">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+				Корисник <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="#">Одјави се</a></li>
+				</ul>
+			</li>
+		</ul>
 	<!-- /.navbar-header -->
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav in" id="side-menu">
-				<!-- <li ng-class="{'active': collapseVar==1}">
-					<a href="#usersManagement" data-toggle="collapse" ng-click="check(1)"><i class="fa fa-users fa-fw"></i>Управување со корисници<span class="fa arrow"></span></a>
-					<ul class="nav nav-second-level" ng-class="[collapseVar!=1 ?'panel-collapse collapse':'panel-collapse collapse in']" id="usersManagement">
-						<li>
-							<a href="/#/users">Корисници</a>
-						</li>
-					</ul>
-				</li> -->
 				<li ng-class="{'active': collapseVar==2}">
-					<a href="#systemManagement" data-toggle="collapse" ng-click="check(2)"><i class="fa fa-users fa-fw"></i>Управување со параметри на системот<span class="fa arrow"></span></a>
+					<a href="#systemManagement" data-toggle="collapse" ng-click="check(2)">
+						<i class="fa fa-users fa-fw"></i>
+						<span>Администрација</span>
+						<span class="fa arrow"></span>
+					</a>
 					<ul class="nav nav-second-level" ng-class="[collapseVar!=2 ?'panel-collapse collapse':'panel-collapse collapse in']" id="systemManagement">
 						<li>
-							<a href="/#/users">Корисници</a>
+							<a href="/#/users">
+								<i class="fa fa-user" aria-hidden="true"></i>
+								<span>Корисници</span>
+							</a>
 						</li>
 						<li>
-							<a href="/#/costCenter">Трошковни места</a>
+							<a href="/#/costCenter">
+								<i class="fa fa-university" aria-hidden="true"></i>
+								<span>Трошковни места</span>
+							</a>
 						</li>
 						<li>
-							<a href="/#/dates">Датуми</a>
+							<a href="/#/dates">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+								<span>Датуми</span>
+							</a>
 						</li>
 					</ul>
 				</li>
 				<li ng-class="{ 'active': collapseVar==3}">
-					<a href="#menuManagement" data-toggle="collapse" ng-click="check(3)"><i class="fa fa-cutlery fa-fw"></i>Управување со менија<span class="fa arrow"></span></a>
+					<a href="#menuManagement" data-toggle="collapse" ng-click="check(3)">
+						<i class="fa fa-cutlery fa-fw"></i>
+						<span>Управување со менија</span>
+						<span class="fa arrow"></span>
+					</a>
 					<ul class="nav nav-second-level" ng-class="[collapseVar!=3 ?'panel-collapse collapse':'panel-collapse collapse in']" id="menuManagement" >
 						<li>
 							<a href="/#/meals">Оброци</a>
@@ -53,7 +75,11 @@
 					</ul>
 				</li>
 				<li ng-class="{'active': collapseVar==4}">
-					<a href="#menuForCategory" data-toggle="collapse" ng-click="check(4)"><i class="fa fa-cubes fa-fw"></i>Mени за категорија<span class="fa arrow"></span></a>
+					<a href="#menuForCategory" data-toggle="collapse" ng-click="check(4)">
+						<i class="fa fa-cubes fa-fw"></i>
+						<span>Mени за категорија</span>
+						<span class="fa arrow"></span>
+					</a>
 					<ul class="nav nav-second-level" ng-class="[collapseVar!=4 ?'panel-collapse collapse':'panel-collapse collapse in']" id="menuForCategory">
 						<li>
 							<a href="/#/menusPerCategory">Планирање оброци по категории</a>
@@ -64,8 +90,11 @@
 					</ul>
 				</li>
 				<li ng-class="{active: collapseVar==5}">
-					<a href="#reports" data-toggle="collapse" ng-click="check(5)"><i class="fa fa-table fa-fw"></i>Извештаи<span
-					class="fa arrow"></span></a>
+					<a href="#reports" data-toggle="collapse" ng-click="check(5)">
+						<i class="fa fa-table fa-fw"></i>
+						<span>Извештаи</span>
+						<span class="fa arrow"></span>
+					</a>
 					<ul class="nav nav-second-level" ng-class="[collapseVar!=5 ?'panel-collapse collapse':'panel-collapse collapse in']" id="reports">
 						<li>
 							<a href="">Дневен извештај</a>

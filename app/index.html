@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog.css" />
     <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog-theme-default.css" />
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
+    <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -28,11 +30,15 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <header></header>
-
-    <div class="container">
-      <div ng-view=""></div>
+    <div class="wrapper">   
+        <header></header>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div ng-view=""></div>
+            </div>
+        </div>
     </div>
+
 
     <!-- <div class="footer">
       <div class="container">
@@ -56,6 +62,8 @@
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
     <script src="bower_components/material-calendar/dist/angular-material-calendar.js"></script>
+    <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>
+    <script src="bower_components/ng-table/dist/ng-table.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
