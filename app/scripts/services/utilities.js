@@ -26,5 +26,28 @@
             return $http.get(APP_CONFIG.BASE_URL+"/api/mealtype").then(function(result) {
                 return result;
             });
-        };       
+        };  
+
+    this.compareArrays = function(arrayOne, arrayTwo) {
+        var result = true;
+        if(arrayOne.length == arrayTwo.length) {   
+            for (var i = 0; i < arrayOne.length; i++) {
+                var value1 = arrayOne[i];
+                var isDateFound = false;
+                for (var j = 0; j < arrayTwo.length; j++) {
+                    var  value2 = arrayTwo[j];
+                    if (value1.date === value2.date) {
+                        isDateFound = true;
+                        break;
+                    }
+                }
+                if(!isDateFound) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+        else result = false;
+        return result;
+    };  
  });

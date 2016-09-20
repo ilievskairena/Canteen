@@ -8,7 +8,7 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('DatesCtrl', function ($scope, $filter, $http, MaterialCalendarData, APP_CONFIG, ngTableParams) {
+  .controller('DatesCtrl', function ($scope, $filter, $http, MaterialCalendarData, APP_CONFIG, ngTableParams, toastr, utility) {
     var vm = this;
 
     //Keep the dates that were set as holidays
@@ -16,29 +16,27 @@ angular.module('canteenApp')
     //Keeps list of dates objest that are set as holidays
     vm.dateObjectList = [];
 
-    vm.selectedDate = [];
-    vm.firstDayOfWeek = 1;
+    //Original GET data
+    vm.originalData = [];
+    //Flag whether there were changes to the holiday list
+    vm.changes = false;
+    vm.watchArrays = false;
+    //Keeps the current year and the next
+    var today = new Date();
+    vm.selectedYear = today.getFullYear();
+    vm.availableYears = [today.getFullYear(), (today.getFullYear()+1)];
+
+
 
     vm.setDirection = function(direction) {
       vm.direction = direction;
     };
     	
     vm.dayClick = function(date) {
-      //vm.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
       if(vm.dates[date]==undefined)
       	vm.dates[date] = 0;
-      //console.log(date);
       vm.setOpen(date);
-      //console.log(vm.dates);
     };
-
-    vm.dates = [{
-
-    },{
-
-    },{
-
-    }]
 
     vm.setDayContent = function(date,content="") {
         //console.log(date.dayOfTheWeek);
@@ -48,8 +46,20 @@ angular.module('canteenApp')
     };
 	
     vm.setOpen = function(date) {
-        console.log(date);
-        console.log(vm.dates);
+        //Validate the selected year
+        var minDate = new Date();
+        minDate.setDate(1);
+        minDate.setMonth(0);
+        minDate.setFullYear(vm.selectedYear);
+        var maxDate = new Date();
+        maxDate.setDate(31);
+        maxDate.setMonth(11);
+        maxDate.setFullYear(vm.selectedYear);
+        if(minDate > date || maxDate < date) {
+            toastr.error("Не смеете да внесувате за оваа календарска година. Одберете календарска година од понудените!");
+            return;
+        }
+
     	//check if the date is already set as Holiday, if not add the date as holiday to the list
 	    if(vm.dates[date] == 0) {
 	    	vm.dates[date] = 1;
@@ -60,7 +70,7 @@ angular.module('canteenApp')
 			vm.dates[date] = 0;
 	      //remove the date that was set as Holiday from the list of dates
 	      	var tempObjectList = vm.dateObjectList.filter(function(el) {
-		      	if(el.date !== $filter("date")(date, "dd.MM.y"))
+		      	if(el.date !== $filter("date")(date, "yyyy-MM-dd HH:mm:ss.sss"))
 			    	return el;
 			});
 			vm.dateObjectList = tempObjectList;
@@ -71,38 +81,32 @@ angular.module('canteenApp')
 	      	    MaterialCalendarData.setDayContent(date, '<p></p>');
 	      	
 	    }
-        console.log(vm.dates);
-        //console.log(vm.dateObjectList);
+        vm.checkChanges();
 	};
 
 	vm.saveDates = function(){
-		vm.sortDates();
-		console.log(vm.dateObjectList);
-		$http({
-            method: 'POST',
-            data: vm.dateObjectList,
-            contentType:'application/json',
-            crossDomain: true,
-            url: APP_CONFIG.BASE_URL +"/api/dates"
-        }).
-        success(function(data) {
-            console.log("Success inserting dates");
-        }).
-        error(function(data, status, headers, config) {
-            console.log("Error inserting dates");
-        });
+        //If the intial request did not return any results
+        //then the action must be a POST
+		if(vm.originalData.length == 0) {
+            vm.createDates();
+        }
+        //If the initial request had results 
+        //then the action must be PUT
+        else {
+            vm.updateDates();
+        }
 	};
 
 	vm.getAllDates = function(){
 		$http({
             method: 'GET',
             crossDomain: true,
-            url: APP_CONFIG.BASE_URL +"/api/dates"
+            url: APP_CONFIG.BASE_URL +"/api/dates/GetDates?year=" + vm.selectedYear
         }).
         success(function(data) {
-            console.log("Success getting dates");
-            vm.dateObjectList = data;
             vm.dates = [];
+            vm.dateObjectList = [];
+            vm.originalData = [];
 
             for(var i in data) {
                 var dateObj = data[i];
@@ -112,13 +116,15 @@ angular.module('canteenApp')
                 date.setSeconds(0);
                 vm.dates[date] = 1;
                 MaterialCalendarData.setDayContent(date, '<p>Празник</p>');
+                vm.dateObjectList.push({date:$filter('date')(date, "yyyy-MM-dd HH:mm:ss.sss")});
+                vm.originalData.push({date:$filter('date')(date, "yyyy-MM-dd HH:mm:ss.sss")});
             }
 
             vm.datesTable = new ngTableParams({
                 page: 1,
                 count: 10
             }, {
-                total: vm.dates.length,
+                total: data.length,
                 //Hide the count div
                 counts: [],
                 getData: function($defer, params) {
@@ -131,7 +137,6 @@ angular.module('canteenApp')
                     $defer.resolve(data.slice((page - 1) * count, page * count));
                 }
             });
-            //need to set vm.dates list
         }).
         error(function(data, status, headers, config) {
             console.log("Error getting dates");
@@ -142,6 +147,57 @@ angular.module('canteenApp')
 		var tempList = $filter('orderBy')(vm.dateObjectList, "date");
 		vm.dateObjectList = tempList;
 	};
+
+
+    vm.setAvailableYears = function() {
+        var currentYear = (new Date()).getFullYear();
+        vm.availableYears.push(currentYear);
+        vm.availableYears.push(currentYear+1);
+        vm.selectedYear = vm.availableYears[0];
+    };
+
+    vm.checkChanges = function() {
+        vm.changes = !utility.compareArrays(vm.dateObjectList, vm.originalData);
+    };
+
+
+    vm.createDates = function() {
+        vm.sortDates();
+        console.log(vm.dateObjectList);
+        $http({
+            method: 'POST',
+            data: vm.dateObjectList,
+            contentType:'application/json',
+            crossDomain: true,
+            url: APP_CONFIG.BASE_URL +"/api/dates"
+        }).
+        success(function(data) {
+            toastr.success("Податоците се успешно внесени.");
+            vm.getAllDates();
+        }).
+        error(function(data, status, headers, config) {
+            console.log("Error inserting dates");
+        });
+    };
+
+    vm.updateDates = function() {
+        vm.sortDates();
+        console.log(vm.dateObjectList);
+        $http({
+            method: 'PUT',
+            data: vm.dateObjectList,
+            contentType:'application/json',
+            crossDomain: true,
+            url: APP_CONFIG.BASE_URL +"/api/dates"
+        }).
+        success(function(data) {
+            toastr.success("Празниците се успешно променети.")
+            vm.getAllDates();
+        }).
+        error(function(data, status, headers, config) {
+            console.log("Error inserting dates");
+        });
+    };
 
 	vm.getAllDates();
   });

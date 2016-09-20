@@ -20,7 +20,8 @@ angular
     'ngMessages',
     'ngMaterial', 
     'materialCalendar',
-    'ngTable'
+    'ngTable',
+    'toastr',
   ])
   .config(function ($routeProvider) {
     $routeProvider

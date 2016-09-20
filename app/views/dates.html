@@ -10,7 +10,8 @@
 		on-next-month="vm.nextMonth"
 		on-day-click="vm.dayClick"
 		title-format="'MMMM y'"
-		week-starts-on="vm.firstDayOfWeek"
+		week-starts-on="1"
+		ng-model="vm.selectedDate"
 		data-start-month="9"
 		data-start-year="2016"
 		tooltips="tooltips"
@@ -24,29 +25,33 @@
 		</calendar-md>
 	</div>
 	<div class="col-md-3">
+		<div class="form-group">
+			<label for="availableyears">Година за преглед</label>
+			<select  id="availableyears" 
+			class="form-control" 
+			ng-options="year for year in vm.availableYears" 
+			ng-change="vm.getAllDates()"
+			ng-model="vm.selectedYear">
+			</select>
+		</div>
 		<table ng-table="vm.datesTable"
 		class="table table-bordered table-striped table-condensed" class="col-md-6">
 			<tr>
-				<th class="col-md-3">Датум</th>
-				<th>Акции</th>
+				<th>Датум на празници</th>
 			</tr>
 			<tr ng-repeat="row in $data">
 				<td>{{row.Date | date:'dd.MM.yyyy'}}</td>
-				<td>
-			        <a href="" ng-click="vm.editMealType(row)">
-			          <span class="glyphicon glyphicon-edit"></span>
-			        </a>
-			        &nbsp;&nbsp;
-			        <a href="" ng-click="vm.openRemoveDialog(row)">
-			       		<span class="glyphicon glyphicon-remove"></span>
-			       	</a>	
-				</td>
 			</tr>
 		</table>
 	</div>
 </div>
-<div class="panel panel-default">
-	<div class="row" style="margin-top:50px">
-		<button class="btn btn-primary" ng-disabled="vm.currentYearCreated" ng-click="vm.saveDates()">Зачувај датуми</button>
-	</div>
+<div class="row">
+	<div class="col-md-3">
+		<button class="btn btn-success" 
+		ng-show="vm.changes"
+		 ng-click="vm.saveDates()">
+			 <i class="fa fa-save"></i>
+			 <span>Зачувај датуми</span>
+		 </button>
+	 </div>
 </div>
