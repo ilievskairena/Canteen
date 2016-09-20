@@ -23,6 +23,20 @@
 	                            </div>
 	                        </div>
 	                    </div>
+	                    <div class="panel panel-default">
+	                        <div class="panel-heading">
+	                            <h4 class="panel-title">
+	                                <a data-toggle="collapse" data-parent="#accordion" data-target="#thirdShift" aria-expanded="false" class="collapsed">Трета смена - Тип на мени: Сув оброк</a>
+	                            </h4>
+	                        </div>
+	                        <div id="thirdShift" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+	                            <div class="well" style="overflow:scroll; height:25rem;">
+	                            	<p ng-repeat="meals in vm.mealsPerType">
+										<input type="checkbox" data-checklist-model="vm.user.roles" data-checklist-value="meals"> {{meals.Description}}
+									</p>
+	                            </div>
+	                        </div>
+	                    </div>
 	                </div>
 	            </div>
 	            <!-- .panel-body -->
