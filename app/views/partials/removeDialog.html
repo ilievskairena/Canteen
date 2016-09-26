@@ -1,7 +1,19 @@
-<div class="panel panel-default">
+
+<div class="modal-content">
+	<div class="modal-header">
+		<h4 class="modal-title">Бришење тип</h4>
+	</div>
+	<div class="modal-body">
 	<p>Дали сте сигурни дека сакате да го избришете селектираниот податок?</p>
-        <div class="ngdialog-buttons">
-            <button type="button" class="btn btn-info" ng-click="vm.removeItem(ngDialogData.ID);closeThisDialog(0)">Да</button>
-            <button type="button" class="btn btn-secondary" ng-click="closeThisDialog(0)">Не</button>
-        </div>
-</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" ng-click="vm.removeItem(ngDialogData.ID);closeThisDialog(0)">
+			<i class="fa fa-check" aria-hidden="true"></i>
+			<span>Да</span>
+		</button>
+		<button type="button" class="btn btn-secondary" ng-click="closeThisDialog(0)">
+			<i class="fa fa-close" aria-hidden="true"></i>
+			<span>Не</span>
+		</button>
+	</div>
+</div><!-- /.modal-content -->

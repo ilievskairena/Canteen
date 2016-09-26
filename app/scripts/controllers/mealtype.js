@@ -8,28 +8,26 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('MealtypeCtrl', function ($scope,$http, ngDialog, APP_CONFIG,utility) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MealtypeCtrl', function ($scope,$http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr) {
 
     var vm = this;
+    vm.isEditing = false;
+    vm.editModel = null;
+    vm.editIndex = null;
 
-    vm.editMealType = function(data){
-    	var nestedConfirmDialog = ngDialog.openConfirm({
-            template: "../../views/partials/editMealsTypeDialog.html",
-            className:'ngdialog-theme-default',
-            scope: $scope,
-            data: data
-        });  
-        // NOTE: return the promise from openConfirm
-        return nestedConfirmDialog;   
+    vm.edit = function(row, index){
+      vm.editModel = angular.copy(row);
+      vm.isEditing = true;
+      vm.editIndex = index;
     };
 
+    vm.cancel = function() {
+      vm.isEditing = false;
+      vm.editModel = null;
+      vm.editIndex = null;
+    };
 
-    vm.addMealType = function(){
+    vm.insert = function(){
       var newMealType = {
         "Name": vm.MealTypeTitle
       };
@@ -41,39 +39,56 @@ angular.module('canteenApp')
           data: newMealType
       }).
       success(function(data) {
-          console.log("Success adding cost center");
+          toastr.success("Успешно додаден тип!");
           vm.getAllMealTypes();
           vm.MealTypeTitle = "";
       }).
       error(function(data, status, headers, config) {
-          console.log("Error adding cost center");
+          toastr.error("Грешка при додавање на тип! Ве молиме обидете се повторно.")
       });
     };
 
-    vm.saveMealType = function(data){
-        var editCCenter = {
-            "Name": data.Name,
-        };
-        $http({
-                method: 'PUT',
-                data: editCCenter,
-                contentType:'application/json',
-                crossDomain: true,
-                url: APP_CONFIG.BASE_URL +"/api/mealtype/" + data.ID
-            }).
-            success(function(data) {
-                console.log("Success editing meal type");
-                vm.getAllMealTypes();
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error editing meal type");
-            });
-
+    vm.update = function(){
+      var mealType = {
+          "Name": vm.editModel.Name,
+      };
+      $http({
+          method: 'PUT',
+          data: mealType,
+          contentType:'application/json',
+          crossDomain: true,
+          url: APP_CONFIG.BASE_URL +"/api/mealtype/" + vm.editModel.ID
+      }).
+      success(function(data) {
+          toastr.success("Успешно променет тип!");
+          vm.cancel();
+          vm.getAllMealTypes();
+      }).
+      error(function(data, status, headers, config) {
+          toastr.error("Грешка при промена на тип! Ве молиме обидете се повторно.")
+      });
     };
 
     vm.getAllMealTypes = function(user){
         utility.getMealTypes().then(function(result) {
             vm.allMealTypes = result.data;
+            vm.table = new ngTableParams({
+                page: 1,
+                count: 10
+              }, {
+                total: result.data.length,
+                //Hide the count div
+                counts: [],
+                getData: function($defer, params) {
+                    var filter = params.filter();
+                    var sorting = params.sorting();
+                    var count = params.count();
+                    var page = params.page();
+                    //var filteredData = filter ? $filter('filter')(vm.data, filter) : vm.data
+                
+                    $defer.resolve(result.data.slice((page - 1) * count, page * count));
+                }
+            });
         });
     };
 

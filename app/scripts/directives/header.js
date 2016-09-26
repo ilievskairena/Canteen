@@ -21,7 +21,10 @@ angular.module('canteenApp')
         $scope.check = function(x){
           
           if(x === $scope.collapseVar){
-            $scope.collapseVar = 0;
+            if(x > 9) {
+              $scope.collapseVar = x/10;
+            }
+            else $scope.collapseVar = 0;
           }
           else {
             $scope.collapseVar = x;

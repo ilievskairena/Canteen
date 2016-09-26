@@ -1,52 +1,262 @@
 <div class="row">
-	<frameset>
-		<legend>Креирај мени</legend>
-	    <div class="col-lg-12">
-	        <div class="panel panel-default">
-	            <div class="panel-heading">
-	                <h3>Датум {{vm.menuForDate() | date:"dd.MM.yyyy"}} ({{vm.dayOfWeek()}})</h3>
-	            </div>
-	            <!-- .panel-heading -->
-	            <div class="panel-body">
-	                <div class="panel-group" id="accordion">
-	                    <div class="panel panel-default" ng-repeat="mealType in vm.allMealTypes">
-	                        <div class="panel-heading">
-	                            <h4 class="panel-title">
-	                                <a data-toggle="collapse" ng-click="vm.getAllMealsPerType(mealType.ID)" data-parent="#accordion" data-target="#{{mealType.ID}}" aria-expanded="false" class="collapsed">Тип на мени: {{mealType.Name}}</a>
-	                            </h4>
-	                        </div>
-	                        <div id="{{mealType.ID}}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-	                            <div class="well" style="overflow:scroll; height:25rem;">
-	                            	<p ng-repeat="meals in vm.mealsPerType">
-										<input type="checkbox" data-checklist-model="vm.user.roles" data-checklist-value="meals"> {{meals.Description}}
-									</p>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <div class="panel panel-default">
-	                        <div class="panel-heading">
-	                            <h4 class="panel-title">
-	                                <a data-toggle="collapse" data-parent="#accordion" data-target="#thirdShift" aria-expanded="false" class="collapsed">Трета смена - Тип на мени: Сув оброк</a>
-	                            </h4>
-	                        </div>
-	                        <div id="thirdShift" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-	                            <div class="well" style="overflow:scroll; height:25rem;">
-	                            	<p ng-repeat="meals in vm.mealsPerType">
-										<input type="checkbox" data-checklist-model="vm.user.roles" data-checklist-value="meals"> {{meals.Description}}
-									</p>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	            <!-- .panel-body -->
-	        </div>
-	        <!-- /.panel -->
-	    </div>
-	    <!-- /.col-lg-12 -->
-	    <div class="row col-md-12">
-	    <button class="btn btn-success pull-center col-md-4" style="margin:10px;" ng-click="vm.saveAndCreateNext()">Зачувај</button>
-		<button class="btn btn-primary pull-right col-md-5" style="margin:10px;" ng-click="vm.saveAndCreateNext()">Зачувај и креирај мени за нареден ден</button>
+	<div class="col-md-12">
+		<h2 class="page-header">Планирање на дневно мени</h2>
 	</div>
-    </frameset>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<wizard on-finish="finishedWizard()"> 
+		    <wz-step wz-title="Датуми">
+		        <div class="panel panel-green">
+                    <div class="panel-heading">Датум</div>
+                    <div class="panel-body">
+                       <div class="row">
+                       	<div class="col-md-12">
+		        			<p>Одберете за кои датуми внесувата информации за менито</p>
+		        		</div>
+                       	<div class="col-md-6 col-md-offset-3">
+                       		<calendar-md flex layout layout-fill
+								on-day-click="vm.dayClick"
+								title-format="'MMMM y'"
+								week-starts-on="1"
+								ng-model="vm.summary.selectedDates"
+								data-start-month="9"
+								data-start-year="2016"
+								tooltips="tooltips"
+								day-format="dayFormat"
+								day-label-format="'EEE'"
+								day-label-tooltip-format="'EEEE'"
+								day-tooltip-format="'fullDate'"
+								day-content="vm.setDayContent"
+								disable-future-selection="false"
+								class="ng-pristine ng-untouched ng-valid layout-fill ng-isolate-scope layout-row flex">
+								</calendar-md>
+                       	</div>
+                       	<div class="col-md-12 margin-top-15">
+                       		<button wz-next 
+                       		ng-show="vm.summary.selectedDates.length > 0"
+                       		class="btn btn-success pull-right">
+								<span>Продолжи</span>
+								<i class="fa fa-angle-double-right" aria-hidden="true""></i>
+                       		</button>
+                       	</div>
+                       </div>
+                    </div>
+                </div>
+		    </wz-step>
+		    <wz-step wz-title="Прва смена">
+		        <div class="panel panel-green">
+                    <div class="panel-heading">Прва смена</div>
+                    <div class="panel-body">
+                       <div class="row">
+	                       	<div class="col-md-12">
+			        			<p>Одберете оброци за прва смена</p>
+			        		</div>
+	                       	<div class="col-md-12">
+	                       		<div class="col-md-{{12/vm.mealsPerType.length}}" ng-repeat="type in vm.mealsPerType">
+									<h5>{{type.Name}}</h5>
+									<ui-select ng-model="vm.summary.shiftOne[$index]"
+								             theme="bootstrap"
+								             style="width: 100%;"
+								             multiple>
+								    	<ui-select-match placeholder="Одберете оброци за {{type.Name | lowercase}}...">{{$item.Description}}</ui-select-match>
+								    <ui-select-choices repeat="meal in type.Meals">
+								      <div ng-bind-html="meal.Description | highlight: $select.search"></div>
+								    </ui-select-choices>
+								  </ui-select>
+	                       		</div>
+	                       	</div>
+	                       	<div class="col-md-12 margin-top-15">
+	                       		<button 
+								 wz-previous
+	                       		 class="btn btn-success pull-left">
+									<i class="fa fa-angle-double-left" aria-hidden="true""></i>
+									<span>Врати се</span>
+	                       		</button>
+	                       		<button 
+								 wz-next value="Continue"
+	                       		class="btn btn-success pull-right">
+									<span>Продолжи</span>
+									<i class="fa fa-angle-double-right" aria-hidden="true""></i>
+	                       		</button>
+	                       	</div>
+                       </div>
+                    </div>
+                </div>
+		    </wz-step>
+		    <wz-step wz-title="Втора смена">
+				<div class="panel panel-green">
+                    <div class="panel-heading">Втора смена</div>
+                    <div class="panel-body">
+                       <div class="row">
+	                       	<div class="col-md-12">
+			        			<p>Одберете оброци за втора смена</p>
+			        		</div>
+	                       	<div class="col-md-12">
+	                       		<div class="col-md-{{12/vm.mealsPerType.length}}" ng-repeat="type in vm.mealsPerType">
+									<h5>{{type.Name}}</h5>
+									<ui-select ng-model="vm.summary.shiftTwo[$index]"
+								             theme="bootstrap"
+								             style="width: 100%;"
+								             multiple>
+								    	<ui-select-match placeholder="Одберете оброци за {{type.Name | lowercase}}...">{{$item.Description}}</ui-select-match>
+								    <ui-select-choices repeat="meal in type.Meals">
+								      <div ng-bind-html="meal.Description | highlight: $select.search"></div>
+								    </ui-select-choices>
+								  </ui-select>
+	                       		</div>
+	                       	</div>
+	                       	<div class="col-md-12 margin-top-15">
+	                       		<button 
+								 wz-previous
+	                       		 class="btn btn-success pull-left">
+									<i class="fa fa-angle-double-left" aria-hidden="true""></i>
+									<span>Врати се</span>
+	                       		</button>
+	                       		<button 
+								 wz-next value="Continue"
+	                       		class="btn btn-success pull-right">
+									<span>Продолжи</span>
+									<i class="fa fa-angle-double-right" aria-hidden="true""></i>
+	                       		</button>
+	                       	</div>
+                       </div>
+                    </div>
+                </div>
+		    </wz-step>
+		    <wz-step wz-title="Трета смена">
+		    	<div class="panel panel-green">
+                    <div class="panel-heading">Трета смена</div>
+                    <div class="panel-body">
+                       <div class="row">
+	                       	<div class="col-md-12">
+			        			<p>Одберете оброци за трета смена</p>
+			        		</div>
+	                       	<div class="col-md-12">
+	                       		<div class="col-md-{{12/vm.mealsPerType.length}}" 
+	                       			ng-repeat="type in vm.mealsPerType"
+	                       			on-finish-render="ngRepeatFinished">
+									<h5>{{type.Name}}</h5>
+									<ui-select ng-model="vm.summary.shiftThree[$index]"
+								             theme="bootstrap"
+								             style="width: 100%;"
+								             multiple>
+								    	<ui-select-match placeholder="Одберете оброци за {{type.Name | lowercase}}...">{{$item.Description}}</ui-select-match>
+								    <ui-select-choices repeat="meal in type.Meals">
+								      <div ng-bind-html="meal.Description | highlight: $select.search"></div>
+								    </ui-select-choices>
+								  </ui-select>
+	                       		</div>
+	                       	</div>
+	                       	<div class="col-md-12 margin-top-15">
+	                       		<button 
+								 wz-previous
+	                       		 class="btn btn-success pull-left">
+									<i class="fa fa-angle-double-left" aria-hidden="true""></i>
+									<span>Врати се</span>
+	                       		</button>
+	                       		<button 
+								wz-next value="Continue"
+	                       		class="btn btn-success pull-right">
+									<span>Продолжи</span>
+									<i class="fa fa-angle-double-right" aria-hidden="true""></i>
+	                       		</button>
+	                       	</div>
+                       </div>
+                    </div>
+                </div>
+		    </wz-step>
+		    <wz-step wz-title="Потврда">
+		        <div class="panel panel-green">
+                    <div class="panel-heading">Датум</div>
+                    <div class="panel-body">
+                       <div class="row">
+	                       	<div class="col-md-12">
+			        			<p>Сумиран приказ</p>
+			        		</div>
+	                       	<div class="col-md-12">
+	                       		<div class="alert alert-success" role="alert">
+	                       			<p>
+										<strong>Одбрани датуми: </strong>
+										<ul class="list">
+											<li ng-repeat="date in vm.summary.selectedDates">{{date}}</li>
+										</ul>
+	                       			</p>
+	                       			<p>
+										<strong>Одбрани оброци за прва смена: </strong>
+										<table class="table table-stiped table-condensed table-bordered">
+											<tr class="text-center">
+												<th>Тип</th>
+												<th colspan="2">Оброк</th>
+											</tr>
+											<tr ng-repeat-start="type in vm.summary.shiftOne" ng-if="type.length>0">
+												<td rowspan="{{type.length + 1}}" class="text-center text-middle">{{vm.getByMealTypeId(type[0].TypeID);}}</td>
+											</tr>
+											<tr ng-repeat="meal in type">
+												<td>#{{$index + 1}}</td>
+												<td ><em>{{meal.Description}}</em></td>
+											</tr>
+											<tr ng-repeat-end></tr>
+										</table>
+										</ul>
+	                       			</p>
+	                       			<p>
+										<strong>Одбрани оброци за втора смена: </strong>
+										<table class="table table-stiped table-condensed table-bordered">
+											<tr class="text-center">
+												<th>Тип</th>
+												<th colspan="2">Оброк</th>
+											</tr>
+											<tr ng-repeat-start="type in vm.summary.shiftTwo" ng-if="type.length>0">
+												<td rowspan="{{type.length + 1}}" class="text-center text-middle">{{vm.getByMealTypeId(type[0].TypeID);}}</td>
+											</tr>
+											<tr ng-repeat="meal in type">
+												<td>#{{$index + 1}}</td>
+												<td ><em>{{meal.Description}}</em></td>
+											</tr>
+											<tr ng-repeat-end></tr>
+										</table>
+										</ul>
+	                       			</p>
+	                       			<p>
+										<strong>Одбрани оброци за трета смена: </strong>
+										<table class="table table-stiped table-condensed table-bordered">
+											<tr class="text-center">
+												<th>Тип</th>
+												<th colspan="2">Оброк</th>
+											</tr>
+											<tr ng-repeat-start="type in vm.summary.shiftThree" ng-if="type.length>0">
+												<td rowspan="{{type.length + 1}}" class="text-center text-middle">{{vm.getByMealTypeId(type[0].TypeID);}}</td>
+											</tr>
+											<tr ng-repeat="meal in type">
+												<td>#{{$index + 1}}</td>
+												<td ><em>{{meal.Description}}</em></td>
+											</tr>
+											<tr ng-repeat-end></tr>
+										</table>
+										</ul>
+	                       			</p>
+	                       		</div>
+	                       	</div>
+	                       	<div class="col-md-12 margin-top-15">
+	                       		<button 
+								 wz-previous
+	                       		 class="btn btn-success pull-left">
+									<i class="fa fa-angle-double-left" aria-hidden="true""></i>
+									<span>Врати се</span>
+	                       		</button>
+	                       		<button 
+								 wz-next value="Continue"
+								 ng-click="vm.submitMenu()"
+	                       		class="btn btn-success pull-right">
+									<i class="fa fa-save" aria-hidden="true""></i>
+									<span>Зачувај</span>
+	                       		</button>
+	                       	</div>
+                       </div>
+                    </div>
+                </div>
+		    </wz-step>
+		</wizard>
+	</div>
 </div>

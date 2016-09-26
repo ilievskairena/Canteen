@@ -8,87 +8,157 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('MenusCtrl', function ($http,$scope,utility, APP_CONFIG) {
+  .controller('MenusCtrl', function ($http, $scope, utility, APP_CONFIG, toastr, $filter, WizardHandler) {
 
     var vm = this;
+    vm.shiftOne = [];
+    vm.shiftTwo= [];
+    vm.shiftThree = [];
 
-   vm.getAllMealTypes = function(){
-        utility.getMealTypes().then(function(result) {
-            vm.allMealTypes = result.data;
-        });
-    }; 
+    vm.summary = {
+      selectedDates:[],
+      shiftOne: [],
+      shiftTwo: [],
+      shiftThree: []
+    };
 
-    vm.getAllMealsPerType = function(mealTypeID){
-      if(vm.mealTypeSelected == mealTypeID) return;
-        $http({
-          method: 'GET',
-          crossDomain: true,
-          url:  APP_CONFIG.BASE_URL +"/api/meals/MealsPerType/" + mealTypeID
+    vm.getMeals = function(){
+      $http({
+        method: 'GET',
+        crossDomain: true,
+        url:  APP_CONFIG.BASE_URL +"/api/meals/MealsPerType"
       }).
-      success(function(data) {/*
-          console.log("Success getting cost centers");*/
+      success(function(data) {
           vm.mealsPerType = data;
-          vm.mealTypeSelected = mealTypeID;
+          for(var i in data) {
+            vm.summary.shiftOne.push([]);
+            vm.summary.shiftTwo.push([]);
+            vm.summary.shiftThree.push([]);
+          }
       }).
       error(function(data, status, headers, config) {
-          console.log("Error getting meals");
+        toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
       });
     }; 
 
-  var weekday = new Array(7);
-	weekday[0]=  "Недела";
-	weekday[1] = "Понеделник";
-	weekday[2] = "Вторник";
-	weekday[3] = "Среда";
-	weekday[4] = "Четврток";
-	weekday[5] = "Петок";
-	weekday[6] = "Сабота";
-
-    var vm = this;
-    vm.menuForDate = function(){
-    	return new Date();
-    };
-    vm.dayOfWeek = function(){
-    	return weekday[new Date().getDay()];
+    vm.getByMealTypeId = function(id) {
+      for(var i in vm.mealsPerType) {
+        if(vm.mealsPerType[i].ID == id) {
+          return vm.mealsPerType[i].Name;
+        }
+      }
     };
 
-	vm.roles = [
-    {id: 1, text: 'guest'},
-    {id: 2, text: 'user'},
-    {id: 3, text: 'customer'},
-    {id: 4, text: 'admin'},
-    {id: 5, text: 'soup'},
-    {id: 6, text: 'nutela'},
-    {id: 7, text: 'tee'},
-    {id: 8, text: 'sth'},
-    {id: 9, text: 'guest'},
-    {id: 10, text: 'user'},
-    {id: 11, text: 'customer'},
-    {id: 12, text: 'admin'},
-    {id: 13, text: 'soup'},
-    {id: 14, text: 'nutela'},
-    {id: 15, text: 'tee'},
-    {id: 16, text: 'sth'}
-  ];
-  vm.user = {
-    roles: [vm.roles[1]]
-  };
-  vm.checkAll = function() {
-    vm.user.roles = angular.copy(vm.roles);
-  };
-  vm.uncheckAll = function() {
-    vm.user.roles = [];
-  };
-  vm.checkFirst = function() {
-    vm.user.roles = [];
-    vm.user.roles.push(vm.roles[0]);
-  };
-  vm.setToNull = function() {
-    vm.user.roles = null;
-  };
+    /**
+     * @ngdoc function
+     * @name canteenApp.controller:MenusCtrl.formatData
+     * @description It generated a POST data formated
+     */ 
+    vm.formatData = function() {
+        var result = {
+          dates: [],
+          shifts: [
+          ]
+        };
 
+        for(var i in vm.summary.selectedDates) {
+          var date = vm.summary.selectedDates[i];
+          var parsedDate = $filter("date")(date, "yyyy-MM-dd HH:mm:ss.sss");
+          result.dates.push(parsedDate);
+        }
 
-    //
-    vm.getAllMealTypes();
-    //vm.getAllMealsPerType();
+        var mealsId = [];
+        for(var i in vm.summary.shiftOne) {
+          var mealType = vm.summary.shiftOne[i];
+          for(var j in mealType) {
+            var meal = mealType[j];
+            if(meal.ID == undefined) continue;
+            mealsId.push(meal.ID);
+          }
+        }
+        result.shifts.push({
+          shift: 1,
+          meals: mealsId
+        });
+
+        mealsId = [];
+        for(var i in vm.summary.shiftTwo) {
+          var mealType = vm.summary.shiftTwo[i];
+          for(var j in mealType) {
+            var meal = mealType[j];
+            if(meal.ID == undefined) continue;
+            mealsId.push(meal.ID);
+          }
+        }
+        result.shifts.push({
+          shift: 2,
+          meals: mealsId
+        });
+
+        mealsId = [];
+        for(var i in vm.summary.shiftThree) {
+          var mealType = vm.summary.shiftThree[i];
+          for(var j in mealType) {
+            var meal = mealType[j];
+            if(meal.ID == undefined) continue;
+            mealsId.push(meal.ID);
+          }
+        }
+        result.shifts.push({
+          shift: 3,
+          meals: mealsId
+        });
+        console.log(result);
+        return result;
+    };
+
+    vm.getMealsPerDay = function(date) {
+      var formattedDate = $filter("date")(date, "yyyy-MM-dd HH:mm:ss.sss");
+      $http({
+          method: 'GET',
+          crossDomain: true,
+          url:  APP_CONFIG.BASE_URL +"/api/meals/MealByDate?date=" + formattedDate.toString()
+      }).
+      success(function(data) {
+          
+      }).
+      error(function(data, status, headers, config) {
+        toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
+      });
+    };
+
+    vm.submitMenu = function() {
+        $http({
+            method: 'POST',
+            data: vm.formatData(),
+            contentType:'application/json',
+            crossDomain: true,
+            url: APP_CONFIG.BASE_URL +"/api/meals/menu"
+        }).
+        success(function(data) {
+            toastr.success("Менијата се успешно запишани.");
+            WizardHandler.reset();
+            vm.summary = {
+              selectedDates:[],
+              shiftOne: [],
+              shiftTwo: [],
+              shiftThree: []
+            };
+            vm.getMeals();
+        }).
+        error(function(data, status, headers, config) {
+            toastr.error("Грешка при запишување на мениата. Ве молиме обидете се повторно!");
+        });
+    };
+
+    $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+        //you also get the actual event object
+        //do stuff, execute functions -- whatever...
+        var controls = $('input[type="search"].ui-select-search');
+        for(var i in controls) {
+          controls.width('100%');
+        }
+    });
+
+    vm.getMeals();
 });

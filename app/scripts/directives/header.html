@@ -56,13 +56,13 @@
 						</li>
 					</ul>
 				</li>
-				<li ng-class="{ 'active': collapseVar==3}">
+				<li ng-class="{ 'active': collapseVar==3 || collapseVar== 30 || collapseVar==31 || collapseVar==32 }">
 					<a href="#menuManagement" data-toggle="collapse" ng-click="check(3)">
 						<i class="fa fa-cutlery fa-fw"></i>
 						<span>Управување со менија</span>
 						<span class="fa arrow"></span>
 					</a>
-					<ul class="nav nav-second-level" ng-class="[collapseVar!=3 ?'panel-collapse collapse':'panel-collapse collapse in']" id="menuManagement" >
+					<ul class="nav nav-second-level" ng-class="[collapseVar!=3 && collapseVar!=31 && collapseVar!=32 && collapseVar!=30 ?'panel-collapse collapse':'panel-collapse collapse in']" id="menuManagement" >
 						<li>
 							<a href="/#/meals">
 								<i class="fa fa-list-alt" aria-hidden="true"></i>
@@ -75,11 +75,28 @@
 								<span>Тип на оброк</span>
 							</a>
 						</li>
-						<li>
-							<a href="/#/menus">
+						<li ng-class="{ 'active': collapseVar==30 || collapseVar==31 ||collapseVar==32}"  >
+							<a href="#menuPlaning" data-toggle="collapse" ng-click="check(30)">
 								<i class="fa fa-book" aria-hidden="true"></i>
 								<span>Менија</span>
+								<span class="fa arrow"></span>
 							</a>
+							<ul class="nav nav-third-level" 
+							ng-class="[collapseVar!=30 || collapseVar!=31 || collapseVar!=32?'panel-collapse collapse':'panel-collapse collapse in']" 
+							id="menuPlaning" >
+								<li ng-class="{ 'active': collapseVar==31}">
+									<a href="/#/menu/planning">
+										<i class="fa fa-book" aria-hidden="true"></i>
+										<span>Планирање</span>
+									</a>
+								</li>
+								<li ng-class="{ 'active': collapseVar==32}">
+									<a href="/#/menu/preview">
+										<i class="fa fa-list" aria-hidden="true"></i>
+										<span>Преглед</span>
+									</a>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</li>

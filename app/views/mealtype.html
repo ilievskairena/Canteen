@@ -1,47 +1,64 @@
-<form name="submitMealTypeForm" class="myForm" required ng-submit="vm.addMealType()">
-	<div class="panel panel-default">
-		<div class="row">
-		<br/>
-			<fieldset>
-				<legend>Додади тип на оброк</legend>
-					<div class="col-md-12">
-						<div class="col-md-3">
-							<label for="MealTypeTitle">Назив</label>
-						</div>
-						<div class="col-md-6">
-							<input class="form-control" required type="text" id="MealTypeTitle" name="MealTypeTitle" ng-model="vm.MealTypeTitle" placeholder="Внеси назив...">
-						</div>
-						<div ng-messages="submitMealTypeForm.MealTypeTitle.$error">
-						  <div ng-message="required">Задолжително поле</div>
-						</div>		
-					</div>
-			</fieldset>
-		</div>
-		<br/>
-		<div class="row">
-			<input type="submit" class="btn btn-info center-block" value="Додади тип на оброк"/>
-		</div>
-	</div>	
-</form>
-<br/>
-<br/>
-<div class="panel panel-default">
+<div class="row">
 	<div class="col-md-12">
-		<table class="table table-bordered table-striped table-condensed" id="mealTypeTable" class="col-md-12">
+		<h2 class="page-header">Типови на оброци</h2>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<form novalidate  name="form" class="myForm" required ng-submit="vm.insert()">
+			<div class="row">
+				<div class="col-md-3 col-md-offset-4">
+					<div class="form-group" ng-class="{'has-error' : form.type.$error.required && form.type.$touched }">						
+						<label for="MealTypeTitle">Назив</label>
+						<input class="form-control" required type="text" id="type" name="type" ng-model="vm.MealTypeTitle" placeholder="Внеси име на тип...">
+					</div>				
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 col-md-offset-4">
+					<button type="submit" 
+					ng-disabled="form.type.$error.required"
+					ng-click="vm.insert()" 
+					form="form" class="btn btn-success center-block">
+						<i class="fa fa-save"></i>
+						<span>Додади тип на оброк</span>
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="row margin-top-15">
+	<div class="col-md-8 col-md-offset-2">
+		<table ng-table="vm.table"
+		class="table table-bordered table-striped table-condensed">
+			<colgroup>
+				<col width="85%">
+				<col width="15%">
+			</colgroup>
 			<tr>
 				<th>Назив</th>
-				<th colspan="2">Акции</th>
+				<th>Акции</th>
 			</tr>
-			<tr ng-repeat="row in vm.allMealTypes">
-				<td>{{row.Name}}</td>
-				<td>
-			        <a href="" ng-click="vm.editMealType(row)">
-			          <span class="glyphicon glyphicon-edit"></span>
-			        </a>
-			        &nbsp;&nbsp;
-			        <a href="" ng-click="vm.openRemoveDialog(row)">
-			       		<span class="glyphicon glyphicon-remove"></span>
-			       	</a>	
+			<tr ng-repeat="row in $data">
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Name}}</td>
+				<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.Name" 
+	              	class="editable-input form-control input-sm" required />
+	            </td>
+				<td class="command">
+					<button class="btn btn-primary btn-sm" ng-click="vm.update()" ng-if="vm.isEditing && vm.editIndex == $index" ng-disabled="vm.editModel.Name == ''">
+						<span class="glyphicon glyphicon-ok"></span>
+					</button>
+					<button class="btn btn-default btn-sm" ng-click="vm.cancel(row, $index)" ng-if="vm.isEditing && vm.editIndex == $index">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+					<button class="btn btn-default btn-sm" ng-click="vm.edit(row, $index);" ng-if="!vm.isEditing || vm.editIndex != $index">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</button>
+					<button class="btn btn-danger btn-sm" ng-click="vm.openRemoveDialog(row)" ng-if="!vm.isEditing || vm.editIndex != $index">
+						<span class="glyphicon glyphicon-trash"></span>
+					</button>
 				</td>
 			</tr>
 		</table>

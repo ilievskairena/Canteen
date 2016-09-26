@@ -1,0 +1,84 @@
+<div class="row margin-top-15">
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">Датум од:</label>
+			<p class="input-group">
+				<input type="text" class="form-control"
+				uib-datepicker-popup="dd.MM.yyyy"
+				ng-model="vm.dateFrom.selected"
+				is-open="vm.dateFrom.open"
+				datepicker-options="vm.dateOptions"
+				ng-required="true"
+				placeholder="дд.мм.гггг"
+				readonly
+				close-text="Close" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="vm.openDateFrom()"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</p>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">Датум до:</label>
+			<p class="input-group">
+				<input type="text" class="form-control"
+				uib-datepicker-popup="dd.MM.yyyy"
+				ng-model="vm.dateTo.selected"
+				is-open="vm.dateTo.open"
+				datepicker-options="vm.dateOptions"
+				ng-required="true"
+				placeholder="дд.мм.гггг"
+				readonly
+				close-text="Close" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="vm.openDateTo()"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</p>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="form-group">
+			<label for="">&nbsp;&nbsp;&nbsp;</label><br/>
+			<button class="btn btn-success" ng-click="vm.showPreview()">
+				<i class="fa fa-eye"></i>
+				<span>Прикажи</span>
+			</button>
+		</div>
+	</div>
+</div>
+<div ng-show="vm.isLoading" class="row margin-top-15">
+	<div class="col-md-6 col-md-offset-3">
+		<p class="text-center">
+			<i class="fa fa-spinner fa-spin fa-5x" aria-hidden="true"></i>
+		</p>
+		<p class="text-center">
+			Ве молиме почекајте, се вчутаат податоците...
+		</p>
+	</div>
+</div>
+<div ng-hide="vm.isLoading" class="row">
+	<div class="col-md-12">
+		<table ng-table="vm.table" class="table table-condensed table-bordered table-striped table-hover">
+			<tr class="ng-table-group" ng-repeat-start="date in $data">
+				<td colspan="3">
+					<a href="" ng-click="date.$hideRows = !date.$hideRows">
+						<span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': date.$hideRows, 'glyphicon-chevron-down': !date.$hideRows }"></span>
+						<strong>{{ date.Date }}</strong>
+					</a>
+				</td>
+			</tr>
+			<tr ng-inig="date.$hideRows = true;" ng-hide="date.$hideRows" ng-repeat="meal in date.Meals" ng-repeat-end>
+				<td sortable="'Shift'" data-title="'Смена'" groupable="'Shift'" >
+					{{meal.Shift}}
+				</td>
+				<td sortable="'Type'" data-title="'Тип'" groupable="'Type'" >
+					{{meal.Type}}
+				</td>
+				<td sortable="'MealDescription'" data-title="'Оброк'" groupable="'MealDescription'">
+					{{meal.MealDescription}}
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

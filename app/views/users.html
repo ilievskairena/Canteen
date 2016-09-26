@@ -1,160 +1,100 @@
-<form name="submitUserForm" class="myForm" required ng-submit="vm.addNewUser()">
-	<div class="panel panel-default form-group">
-		<div class="row">
-		<br/>
-			<fieldset>
-				<legend>Додади нов корисник</legend>
-					<div class="col-md-12">
-						<div class="col-md-3">
-							<label for="Name">Име и презиме</label>
-						</div>
-						<div class="col-md-6">
-							<input class="form-control" required type="text" autofocus="true" name="Name" id="Name" ng-model="vm.Name" placeholder="Внеси име и презиме...">
-						</div>		
-						<div ng-messages="submitUserForm.Name.$error">
-						  <div ng-message="required">Задолжително поле</div>
-						</div>
+<div class="row">
+	<div class="col-md-12">
+		<h3 class="page-header">Управување со корисници</h3>
+	</div>
+	<div class="col-md-12">
+		<form novalidate name="form" required ng-submit="vm.addNewUser()">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="namesurname">Име и презиме</label>
+						<input class="form-control" required type="text" autofocus="true" name="name" id="name" ng-model="vm.name" placeholder="Внеси име и презиме..." />
 					</div>
-					<div class="col-md-12">
-						<br/>
-						<div class="col-md-3">
-							<label for="PersonNumber">ID број</label>
-						</div>
-						<div class="col-md-6">
-							<input type="text" class="form-control" id="PersonNumber" pattern="[0-9]{8}" required name="PersonNumber" ng-model="vm.PersonNumber" placeholder="Внеси број на вработен...">
-						</div>
-						<div ng-messages="submitUserForm.PersonNumber.$error">
-						  <div ng-message="required">Задолжително поле</div>
-						  <div ng-message="pattern">Полето треба да содржи 8 цифри</div>
-						</div>
+					<div class="form-group">
+						<label for="number">ID број</label>
+						<input type="text" class="form-control" id="number" pattern="[0-9]{8}" required name="number" ng-model="vm.personNumber" placeholder="Внеси број на вработен...">
 					</div>
-					<div class="col-md-12">
-						<br/>
-						<div class="col-md-3">
-							<label for="Username">Корисничко име</label>
-						</div>
-						<div class="col-md-6">
-							<input type="text" class="form-control" id="Username" pattern="MK[0-9]{4}" name="Username" ng-model="vm.Username" placeholder="Внеси корисничко име (MKxxxx)...">
-						</div>
-						<div ng-messages="submitUserForm.Username.$error">
-						  <div ng-message="pattern">Полето треба да содржи MK и 4 цифри</div>
-						</div>
-					</div>	
-					<div class="col-md-12">
-						<br/>
-						<div class="col-md-3">
-							<label for="CostCenter">Трошковно место</label>
-						</div>
-						<div class="col-md-6">
-							<select id="costCenterS" name="costCenterS" required class="form-control" ng-model="vm.CostCenterSelect">
-								<option selected disabled value="">Одбери трошковно место</option>
-								<option ng-repeat="costCenter in vm.allCostCenters" value="{{costCenter.ID}}">{{costCenter.Name}}</option>
-							</select>
-						</div>
-						<div ng-messages="submitUserForm.costCenterS.$error">
-						  <div ng-message="required">Задолжително поле</div>
-						</div>
+					<div class="form-group">
+						<label for="username">Корисничко име</label>
+						<input type="text" class="form-control" id="username" pattern="MK[0-9]{4}" name="username" ng-model="vm.username" placeholder="Внеси корисничко име (MKxxxx)...">
 					</div>
-					<div class="col-md-12">
-						<br/>
-						<div class="col-md-3">
-							<label for="CostCenter">Корисничка улога</label>
-						</div>
-						<div class="col-md-6">
-							<select id="userRole" name="userRole" required class="form-control" ng-model="vm.RoleModelSelect">
-								<option selected disabled value="">Одбери улога</option>
-								<option ng-repeat="role in vm.Roles" value="{{role.ID}}">{{role.RoleName}}</option>
-							</select>
-						</div>
-						<div ng-messages="submitUserForm.userRole.$error">
-						  <div ng-message="required">Задолжително поле</div>
-						</div>
-					</div>	
-					<div class="col-md-12">
-						<br/>
-						<div class="col-md-3">
-							<label for="isEmployee">Вработен во Пивара?</label>
-						</div>
-						<div class="col-md-6">
-							<input type="checkbox" id="isEmployee" ng-model="vm.isEmployee">
-						</div>
-					</div>
-			</fieldset>
-		</div>	
-		<br/>
-		<div class="row">
-			<fieldset>
-				<legend>SPICA Картичка</legend>
-				<div class="col-md-12">
-					<br/>
-					<div class="col-md-3">
-						<label for="CardNum">Број на картичка</label>
-					</div>
-					<div class="col-md-6">
-						<input type="text" name="CardNum" required class="form-control" pattern="[0-9]{11}" id="CardNum" ng-model="vm.CardNum" placeholder="Внеси картичка...">
-					</div>
-					<div ng-messages="submitUserForm.CardNum.$error">
-						<div ng-message="required">Задолжително поле</div>
-						<div ng-message="pattern">Полето треба да содржи 11 цифри</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="vm.isEmployee"> вработен во Пивара?
+						</label>
 					</div>
 				</div>
-				<div class="col-md-12">
-					<br/>
-					<div class="col-md-3">
-						<label for="CardType">Тип на картичка</label>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="costCenter">Трошковно место</label>
+						<select id="costCenter" name="costCenter" required class="form-control" ng-model="vm.costCenter">
+							<option selected disabled value="">Одбери трошковно место</option>
+							<option ng-repeat="costCenter in vm.allCostCenters" value="{{costCenter.ID}}">{{costCenter.Name}}</option>
+						</select>
 					</div>
-					<div class="col-md-6">
-						<input type="text" required name="CardType" class="form-control" id="CardType" ng-model="vm.CardType" placeholder="Внеси тип на картичка...">
+					<div class="form-group">
+						<label for="role">Улога</label>
+						<select id="role" name="role" required 
+						class="form-control" ng-model="vm.RoleModelSelect">
+							<option selected disabled value="">Одбери улога</option>
+							<option ng-repeat="role in vm.Roles" value="{{role.ID}}">{{role.RoleName}}</option>
+						</select>
 					</div>
-					<div ng-messages="submitUserForm.CardType.$error">
-						<div ng-message="required">Задолжително поле</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="cardNumber">Број на картичка</label>
+								<input type="text" name="cardNumber" required class="form-control" pattern="[0-9]{11}" id="cardNumber" ng-model="vm.cardNum" placeholder="Внеси картичка...">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="cardNumber">Тип на картичка</label>
+								<input type="text" required name="CardType" class="form-control" id="CardType" ng-model="vm.CardType" placeholder="Внеси тип на картичка...">
+							</div>
+						</div>
 					</div>
 				</div>
-				<!-- <div id="newCardDiv" style="display:hidden">
-					Place for inserting another card for the same user
+				<div class="col-md-4">
+					<button class="btn btn-success"
+					type="submit">
+						<i class="fa fa-save"></i>
+						<span>Додади нов корисник</span>
+					</button>
 				</div>
-				<div>
-					<button id="btnAddCard" class="btn btn-primary btn-circle pull-right" ng-click="vm.attachNewCard()">
-				       	<i class="fa fa-plus fa-3"></i>
-				    </button>
-				</div> -->
-			</fieldset>
-		</div>
-		<br/>
-		<div class="row">
-			<input class="btn btn-info center-block" type="submit" value="Додади корисник"/>
-		</div>
-	</div>	
-</form>
-<br/>
-<br/>
-<div class="panel panel-default">
-	<table class="table table-bordered table-striped table-condensed" id="usersTable" class="col-md-12">
-		<tr>
-			<th>ID на вработен</th>
-			<th>ID број</th>
-			<th>Име и презиме</th>
-			<th>Корисничко име</th> 
-			<th>Трошковно место</th>
-			<!--<th>Број на картичка</th> -->
-			<th colspan="2">Акции</th>
-		</tr>
-		<tr ng-repeat="row in vm.userTable">
-			<td>{{row.ID}}</td>
-			<td>{{row.PersonNumber}}</td>
-			<td>{{row.Name}}</td>
-			<td>{{row.UserName}}</td> 
-			<td>{{row.CostCenterID}}</td>
-		<!--	<td>{{row.CardCode}}</td> -->
-			<td>
-		        <a href="" ng-click="vm.getUser(row)">
-		          <span class="glyphicon glyphicon-edit"></span>
-		        </a>
-		        &nbsp;&nbsp;
-		        <a href="" ng-click="vm.openRemoveDialog(row)">
-		       		<span class="glyphicon glyphicon-remove"></span>
-		       	</a>	
-			</td>
-		</tr>
-	</table>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="row margin-top-15">
+	<div class="col-md-12">
+		<table class="table table-bordered table-striped">
+			<tr>
+				<th>ID на вработен</th>
+				<th>ID број</th>
+				<th>Име и презиме</th>
+				<th>Корисничко име</th> 
+				<th>Трошковно место</th>
+				<!--<th>Број на картичка</th> -->
+				<th colspan="2">Акции</th>
+			</tr>
+			<tr ng-repeat="row in vm.userTable">
+				<td>{{row.ID}}</td>
+				<td>{{row.PersonNumber}}</td>
+				<td>{{row.Name}}</td>
+				<td>{{row.UserName}}</td> 
+				<td>{{row.CostCenterID}}</td>
+			<!--	<td>{{row.CardCode}}</td> -->
+				<td>
+			        <a href="" ng-click="vm.getUser(row)">
+			          <span class="glyphicon glyphicon-edit"></span>
+			        </a>
+			        &nbsp;&nbsp;
+			        <a href="" ng-click="vm.openRemoveDialog(row)">
+			       		<span class="glyphicon glyphicon-remove"></span>
+			       	</a>	
+				</td>
+			</tr>
+		</table>
+	</div>
 </div>

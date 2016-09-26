@@ -8,25 +8,30 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('MealsCtrl', function ($scope,$http,ngDialog,APP_CONFIG,utility) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MealsCtrl', function ($scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr) {
 
     var vm = this;
+    vm.isEditing = false;
+    vm.editIndex = null;
+    vm.editModel = null;
 
-    vm.editMeals = function(data){
-		var nestedConfirmDialog = ngDialog.openConfirm({
-            template: "../../views/partials/editMealsDialog.html",
-            className:'ngdialog-theme-default',
-            scope: $scope,
-            data: data
-        });
+    vm.insert = function() {
+       console.log({
+        "Description": vm.MealDescription,
+        "TypeId": vm.MealType
+      })
+    };      
 
-        // NOTE: return the promise from openConfirm
-        return nestedConfirmDialog;  
+    vm.edit = function(row, index){
+		  vm.isEditing = true;
+      vm.editIndex = index;
+      vm.editModel = row;
+    };
+
+    vm.cancel = function() {
+      vm.isEditing = false;
+      vm.editIndex = null;
+      vm.editModel = null;
     };
 
     vm.addMeal = function(){
@@ -55,25 +60,27 @@ angular.module('canteenApp')
             vm.allMealTypes = result.data;
         });
     };
-    vm.saveMeal = function(data){
+
+    vm.update = function(){
         var editMeal = {
-          "Description": data.Description,
-          "TypeId": data.MealType
+          "Description": vm.editModel.MealDescription,
+          "TypeID": vm.editModel.TypeID
         };
         $http({
-                method: 'PUT',
-                data: editMeal,
-                contentType:'application/json',
-                crossDomain: true,
-                url: APP_CONFIG.BASE_URL +"/api/meals/" + data.ID
-            }).
-            success(function(data) {
-                console.log("Success editing meal");
-                vm.getAllMeals();
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error editing meal");
-            });
+            method: 'PUT',
+            data: editMeal,
+            contentType:'application/json',
+            crossDomain: true,
+            url: APP_CONFIG.BASE_URL + "/api/meals/" + vm.editModel.MealID
+        }).
+        success(function(data) {
+            toastr.success("Успешно променет оброк!")
+            vm.getAllMeals();
+            vm.cancel();
+        }).
+        error(function(data, status, headers, config) {
+            toastr.success("Грешка при промена на оброкот! Ве молиме обидете се повторно.")
+        });
     };
 
     vm.getAllMeals = function(){
@@ -85,6 +92,23 @@ angular.module('canteenApp')
       success(function(data) {/*
           console.log("Success getting cost centers");*/
           vm.allMeals = data;
+          vm.table = new ngTableParams({
+              page: 1,
+              count: 5
+            }, {
+              total: data.length,
+              //Hide the count div
+              counts: [],
+              getData: function($defer, params) {
+                  var filter = params.filter();
+                  var sorting = params.sorting();
+                  var count = params.count();
+                  var page = params.page();
+                  //var filteredData = filter ? $filter('filter')(vm.data, filter) : vm.data
+              
+                  $defer.resolve(data.slice((page - 1) * count, page * count));
+              }
+          });
       }).
       error(function(data, status, headers, config) {
           console.log("Error getting meals");

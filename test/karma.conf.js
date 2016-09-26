@@ -38,6 +38,9 @@ module.exports = function(config) {
       'bower_components/ngprogress/build/ngprogress.min.js',
       'bower_components/ng-table/dist/ng-table.min.js',
       'bower_components/angular-toastr/dist/angular-toastr.tpls.js',
+      'bower_components/angular-wizard/dist/angular-wizard.min.js',
+      'bower_components/angular-ui-select/dist/select.js',
+      'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

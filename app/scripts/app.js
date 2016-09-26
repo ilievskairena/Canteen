@@ -22,6 +22,9 @@ angular
     'materialCalendar',
     'ngTable',
     'toastr',
+    'mgo-angular-wizard',
+    'ui.select',
+    'ui.bootstrap',
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -60,7 +63,7 @@ angular
         controller: 'MealtypeCtrl',
         controllerAs: 'vm'
       })
-      .when('/menus', {
+      .when('/menu/planning', {
         templateUrl: 'views/menus.html',
         controller: 'MenusCtrl',
         controllerAs: 'vm'
@@ -74,6 +77,11 @@ angular
         templateUrl: 'views/dates.html',
         controller: 'DatesCtrl',
         controllerAs: 'vm' 
+      })
+      .when('/menu/preview', {
+        templateUrl: 'views/menupreview.html',
+        controller: 'MenupreviewCtrl',
+        controllerAs: 'vm'
       })
       .otherwise({
         redirectTo: '/'
