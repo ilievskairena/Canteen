@@ -50,4 +50,10 @@
         else result = false;
         return result;
     };  
+
+    this.getUsers = function() {
+        return $http.get(APP_CONFIG.BASE_URL+"/api/users").then(function(result) {
+            return result;
+        });
+    }
  });

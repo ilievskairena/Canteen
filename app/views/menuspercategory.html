@@ -1,117 +1,67 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
-        Мени за категории
-    </div>
-    <div class="navbar navbar-default">
-	<div class="panel-body">
-	<br/>
-	<!-- Nav tabs -->
-        <ul class="nav nav-pills">
-            <li class="active">
-            	<a data-target="#thirdShift-pills" data-toggle="tab" aria-expanded="true">Трета смена</a>
-            </li>
-            <li class=""><a data-target="#workers-pills" data-toggle="tab" aria-expanded="false">Ангажирани работници</a>
-            </li>
-        </ul>
-        <div class="tab-content">
+<div class="row">
+	<div class="col-md-12">
+    	<h3 class="page-header">Планирање по категорија</h3>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<ul class="nav nav-tabs">
+			<li role="presentation" class="active">
+			  	<a data-target="#thirdShift-pills"
+			   	data-toggle="tab" aria-expanded="true">Трета смена</a>
+			</li>
+			<li role="presentation">
+			  	<a data-target="#workers-pills"
+			   	data-toggle="tab" aria-expanded="true">Ангажирани работници</a>
+			</li>
+		</ul>
+		<div class="tab-content margin-top-15">
         	<div class="tab-pane fade active in" id="thirdShift-pills">
-        	<div class="panel panel-default">
-        		<div class="panel-heading">
-                        <h4 class="panel-title">
-                           Трета смена
-                        </h4>
-                    </div>
-                   <br/> 
-				<div>
-					<div class="col-md-12">
-						<div class="col-md-3">
-							<label for="Monday">Понеделник</label>
-						</div>
-						<div class="col-md-3">
+	        	<div class="row">
+	        		<div class="col-md-4 col-md-offset-2">
+	        			<div class="form-group">
+							<label>Понеделник</label>
 							<input class="form-control" type="number" id="Monday" ng-model="vm.Monday" placeholder="Внеси број...">
-						</div>		
-					</div>
-				</div>
-				<div>
-					<div class="col-md-12">
-					<br/>
-						<div class="col-md-3">
-							<label for="Thuesday">Вторник</label>
-						</div>
-						<div class="col-md-3">
-							<input type="number" class="form-control" id="Thuesday" ng-model="vm.Thuesday" placeholder="Внеси број...">
-						</div>
-					</div>	
-				</div>
-				<div>	
-					<div class="col-md-12">
-					<br/>
-						<div class="col-md-3">
-							<label for="Wednesday">Среда</label>
-						</div>
-						<div class="col-md-3">
-							<input type="number" class="form-control" id="Wednesday" ng-model="vm.Wednesday" placeholder="Внеси број...">
-						</div>
-					</div>	
-				</div>
-				<div>	
-					<div class="col-md-12">
-					<br/>
-						<div class="col-md-3">
-							<label for="Thursday">Четврток</label>
-						</div>
-						<div class="col-md-3">
-							<input type="number" class="form-control" id="Thursday" ng-model="vm.Thursday" placeholder="Внеси број...">
-						</div>
-					</div>	
-				</div>
-				<div>	
-					<div class="col-md-12">
-					<br/>
-						<div class="col-md-3">
-							<label for="Friday">Петок</label>
-						</div>
-						<div class="col-md-3">
-							<input type="number" class="form-control" id="Friday" ng-model="vm.Friday" placeholder="Внеси број...">
-						</div>
-					</div>	
-				</div>
-				<div>	
-					<div class="col-md-12">
-					<br/>
-						<div class="col-md-3">
-							<label for="Saturday">Сабота</label>
-						</div>
-						<div class="col-md-3">
-							<input type="number" class="form-control" id="Saturday" ng-model="vm.Saturday" placeholder="Внеси број...">
-						</div>
-					</div>	
-				</div>
-				<div>	
-					<div class="col-md-12">
-					<br/>
-						<div class="col-md-3">
-							<label for="Sunday">Недела</label>
-						</div>
-						<div class="col-md-3">
-							<input type="number" class="form-control" id="Sunday" ng-model="vm.Sunday" placeholder="Внеси број...">
-						</div>
-					</div>	
-				</div>
-        	</div>
-	        	<div class="row" style="margin-top:10px;">
-					<button class="btn btn-primary center col-md-3" ng-click="vm.saveThirdShift()">Зачувај</button>
-				</div>
-        	</div>
-
+	        			</div>
+	        			<div class="form-group">
+							<label>Вторник</label>
+							<input class="form-control" type="number" id="Thuesday" ng-model="vm.Thuesday" placeholder="Внеси број...">
+	        			</div>
+	        			<div class="form-group">
+							<label>Среда</label>
+							<input class="form-control" type="number" id="Wednesday" ng-model="vm.Wednesday" placeholder="Внеси број...">
+	        			</div>
+	        			<div class="form-group">
+							<label>Четврток</label>
+							<input class="form-control" type="number" id="Thursday" ng-model="vm.Thursday" placeholder="Внеси број...">
+	        			</div>
+	        		</div>
+	        		<div class="col-md-4">
+	        			<div class="form-group">
+							<label>Петок</label>
+							<input class="form-control" type="number" id="Friday" ng-model="vm.Friday" placeholder="Внеси број...">
+	        			</div>
+	        			<div class="form-group">
+							<label>Сабота</label>
+							<input class="form-control" type="number" id="Saturday" ng-model="vm.Saturday" placeholder="Внеси број...">
+	        			</div>
+	        			<div class="form-group">
+							<label>Недела</label>
+							<input class="form-control" type="number" id="Sunday" ng-model="vm.Sunday" placeholder="Внеси број...">
+	        			</div>
+	        			<div class="form-group">
+							<label>&nbsp;</label><br/>
+							<button class="btn btn-primary center col-md-3" ng-click="vm.saveThirdShift()">
+								<i class="fa fa-save"></i>
+								<span>Зачувај</span>
+							</button>
+	        			</div>
+	        		</div>
+	        	</div>
+			</div>
         	<!-- HiredHelp -->
         	<div class="tab-pane fade" id="workers-pills">
 				<div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                           Ангажирани работници
-                        </h4>
-                    </div>
                     <div class="col-md-12">
                     <br/>
                     	<div ng-repeat="day in vm.daysOfTheWeek()">
@@ -133,6 +83,5 @@
 				</div>
         	</div>
         </div>
-	</div>
 	</div>
 </div>

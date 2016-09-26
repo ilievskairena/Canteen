@@ -1,22 +1,95 @@
-<!-- <div class="jumbotron"><h1>'Allo, 'Allo!</h1>
-<p class="lead">
-  <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-  Always a pleasure scaffolding your apps.
-</p>
-<p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div> -->
-
-<!-- <div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
-</div> -->
+<div class="row">
+  <div class="col-md-12">
+    <h3 class="page-header">Администраторски панел</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-green">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-users fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge">{{vm.users}}</div>
+            <div>Корисници</div>
+          </div>
+        </div>
+      </div>
+      <a href="#/users">
+        <div class="panel-footer">
+          <span class="pull-left">Преглед</span>
+          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+          <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-comments fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge">{{vm.costCeters}}</div>
+            <div>Трошковни места</div>
+          </div>
+        </div>
+      </div>
+      <a href="#/costCenters">
+        <div class="panel-footer">
+          <span class="pull-left">Преглед</span>
+          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+          <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-yellow">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-shopping-cart fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge">{{vm.costCeters}}</div>
+            <div>Нарачки</div>
+          </div>
+        </div>
+      </div>
+      <a href="#/costCenters">
+        <div class="panel-footer">
+          <span class="pull-left">Преглед</span>
+          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+          <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-red">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-cutlery fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge">{{vm.costCeters}}</div>
+            <div>Оброци</div>
+          </div>
+        </div>
+      </div>
+      <a href="#/costCenters">
+        <div class="panel-footer">
+          <span class="pull-left">Преглед</span>
+          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+          <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

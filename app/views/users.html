@@ -2,21 +2,34 @@
 	<div class="col-md-12">
 		<h3 class="page-header">Управување со корисници</h3>
 	</div>
+	<div class="col-md-12" ng-hide="vm.isInserting" >
+		<div class="row">
+			<div class="col-md-3 pull-right">
+				<button class="btn btn-success"
+				ng-click="vm.isInserting=true">
+					<i class="fa fa-plus"></i>
+					<span>Додади нов корисник</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" ng-show="vm.isInserting">
 	<div class="col-md-12">
 		<form novalidate name="form" required ng-submit="vm.addNewUser()">
 			<div class="row">
 				<div class="col-md-4">
-					<div class="form-group">
+					<div class="form-group" ng-class="{ 'has-error' : form.name.$error.required && form.name.$touched }">
 						<label for="namesurname">Име и презиме</label>
-						<input class="form-control" required type="text" autofocus="true" name="name" id="name" ng-model="vm.name" placeholder="Внеси име и презиме..." />
+						<input class="form-control" required type="text" name="name" id="name" ng-model="vm.name" placeholder="Внеси име и презиме..." />
 					</div>
-					<div class="form-group">
+					<div class="form-group" ng-class="{ 'has-error' : form.number.$error.required && form.number.$touched }">
 						<label for="number">ID број</label>
 						<input type="text" class="form-control" id="number" pattern="[0-9]{8}" required name="number" ng-model="vm.personNumber" placeholder="Внеси број на вработен...">
 					</div>
-					<div class="form-group">
-						<label for="username">Корисничко име</label>
-						<input type="text" class="form-control" id="username" pattern="MK[0-9]{4}" name="username" ng-model="vm.username" placeholder="Внеси корисничко име (MKxxxx)...">
+					<div class="form-group" ng-class="{ 'has-error' : form.usrName.$error.required && form.usrName.$touched }">
+						<label for="usrName">Корисничко име</label>	
+						<input type="text" class="form-control" id="usrName" pattern="MK[0-9]{4}" name="usrName" ng-model="vm.username" placeholder="Внеси корисничко име (MKxxxx)..." required />
 					</div>
 					<div class="checkbox">
 						<label>
@@ -25,14 +38,14 @@
 					</div>
 				</div>
 				<div class="col-md-4">
-					<div class="form-group">
+					<div class="form-group" ng-class="{ 'has-error' : form.costCenter.$error.required && form.costCenter.$touched }">
 						<label for="costCenter">Трошковно место</label>
 						<select id="costCenter" name="costCenter" required class="form-control" ng-model="vm.costCenter">
 							<option selected disabled value="">Одбери трошковно место</option>
 							<option ng-repeat="costCenter in vm.allCostCenters" value="{{costCenter.ID}}">{{costCenter.Name}}</option>
 						</select>
 					</div>
-					<div class="form-group">
+					<div class="form-group" ng-class="{ 'has-error' : form.role.$error.required && form.role.$touched }">
 						<label for="role">Улога</label>
 						<select id="role" name="role" required 
 						class="form-control" ng-model="vm.RoleModelSelect">
@@ -42,25 +55,40 @@
 					</div>
 					<div class="row">
 						<div class="col-md-6">
-							<div class="form-group">
+							<div class="form-group" ng-class="{ 'has-error' : form.cardNumber.$error.required && form.cardNumber.$touched }">
 								<label for="cardNumber">Број на картичка</label>
 								<input type="text" name="cardNumber" required class="form-control" pattern="[0-9]{11}" id="cardNumber" ng-model="vm.cardNum" placeholder="Внеси картичка...">
 							</div>
 						</div>
 						<div class="col-md-6">
-							<div class="form-group">
-								<label for="cardNumber">Тип на картичка</label>
-								<input type="text" required name="CardType" class="form-control" id="CardType" ng-model="vm.CardType" placeholder="Внеси тип на картичка...">
+							<div class="form-group" ng-class="{ 'has-error' : form.cardType.$error.required && form.cardType.$touched }">
+								<label for="cardType">Тип на картичка</label>
+								<input type="text" required name="cardType" class="form-control" id="cardType" ng-model="vm.cardType" placeholder="Внеси тип на картичка...">
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
-					<button class="btn btn-success"
-					type="submit">
-						<i class="fa fa-save"></i>
-						<span>Додади нов корисник</span>
-					</button>
+					<div class="form-group">
+						<label>&nbsp;</label><br>
+
+						<button class="btn btn-success"
+						ng-disabled="(form.name.$error.required && form.name.$untouched) ||
+									(form.number.$error.required && form.number.$untouched) ||
+									(form.usrName.$error.required && form.usrName.$untouched) ||
+									(form.costCenter.$error.required && form.costCenter.$untouched) ||
+									(form.role.$error.required && form.role.$untouched) ||
+									(form.cardNumber.$error.required && form.cardNumber.$untouched) ||
+									(form.cardType.$error.required && form.cardType.$untouched)"
+						type="submit">
+							<i class="fa fa-save"></i>
+							<span>Зачувај</span>
+						</button>
+						<button class="btn btn-danger" ng-click="vm.isInserting = false;">
+							<i class="fa fa-close"></i>
+							<span>Откажи</span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</form>
@@ -68,31 +96,108 @@
 </div>
 <div class="row margin-top-15">
 	<div class="col-md-12">
-		<table class="table table-bordered table-striped">
-			<tr>
-				<th>ID на вработен</th>
+		<table ng-table="vm.table"
+		class="table table-bordered table-striped">
+			<!-- <tr>
 				<th>ID број</th>
-				<th>Име и презиме</th>
-				<th>Корисничко име</th> 
-				<th>Трошковно место</th>
-				<!--<th>Број на картичка</th> -->
-				<th colspan="2">Акции</th>
-			</tr>
-			<tr ng-repeat="row in vm.userTable">
-				<td>{{row.ID}}</td>
-				<td>{{row.PersonNumber}}</td>
-				<td>{{row.Name}}</td>
-				<td>{{row.UserName}}</td> 
-				<td>{{row.CostCenterID}}</td>
-			<!--	<td>{{row.CardCode}}</td> -->
-				<td>
-			        <a href="" ng-click="vm.getUser(row)">
-			          <span class="glyphicon glyphicon-edit"></span>
-			        </a>
-			        &nbsp;&nbsp;
-			        <a href="" ng-click="vm.openRemoveDialog(row)">
-			       		<span class="glyphicon glyphicon-remove"></span>
-			       	</a>	
+				<th></th>
+				<th></th> 
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th>Акции</th>
+			</tr> -->
+			<tr 
+			ng-class="{'danger': row.isActive == false }"
+			ng-repeat="row in $data">
+				<td data-title="'ID број'" sortable="'PersonNumber'" 
+				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.PersonNumber}}</td>
+				<td data-title="'Име и презиме'" sortable="'Name'" 
+				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Name}}</td>
+				<td data-title="'Корисничко име'" sortable="'Username'" 
+				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Username}}</td>
+				<td data-title="'Трош. место'" sortable="'CostCenterName'" 
+				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.CostCenterName}}</td>
+				<td data-title="'Улога'" sortable="'RoleName'" 
+				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.RoleName}}</td>
+				<td data-title="'Бр. картичка'" sortable="'CardNumber'" 
+				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.CardNumber}}</td>
+				<td data-title="'Тип на картичка'" sortable="'CardType'" 
+				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.CardType}}</td>
+				<td data-title="'Враб.?'" sortable="'IsEmployee'" 
+				ng-if="!vm.isEditing || vm.editIndex != $index">
+					<span ng-if="row.IsEmployee">Да</span>
+					<span ng-if="!row.IsEmployee">Не</span>
+				</td>
+				<td data-title="'Акт.?'" sortable="'IsActive'" 
+				ng-if="!vm.isEditing || vm.editIndex != $index">
+					<span ng-if="row.IsActive != false">Да</span>
+					<span ng-if="row.IsActive == false">Не</span>
+				</td>
+				<td  data-title="'ID број'" 
+				ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.PersonNumber" 
+	              	class="editable-input form-control input-sm" required />
+	            </td>
+	            <td data-title="'Име и презиме'" 
+	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.Name" 
+	              	class="editable-input form-control input-sm" required />
+	            </td>
+	            <td data-title="'Корисничко име'" 
+	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.Username" 
+	              	class="editable-input form-control input-sm" required />
+	            </td>
+				<td data-title="'Трош. место'"
+				ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+					<select class="form-control input-sm" name="MealType" ng-model="vm.editModel.CostCenterID"
+					 ng-options="center.ID as center.Name for center in vm.allCostCenters"
+					>
+					</select>
+	            </td>
+				<td data-title="'Улога'" 
+				ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+					<select class="form-control input-sm" name="MealType" ng-model="vm.editModel.RoleID"
+					 ng-options="role.ID as role.RoleName for role in vm.Roles"
+					>
+					</select>
+	            </td>
+	            <td data-title="'Бр.картичка'"
+	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.CardNumber" limit-to="11"
+	              	class="editable-input form-control input-sm" required />
+	            </td>
+	            <td data-title="'Тип картичка'"
+	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.CardType" 
+	              	class="editable-input form-control input-sm" required />
+	            </td>
+	            <td data-title="'Враб.?'"
+	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	              	<input ng-switch-default type="checkbox" name="" ng-model="vm.editModel.IsEmployee" required />
+	            </td>
+	            <td data-title="'Акт.?'" 
+	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	              	<input ng-switch-default type="checkbox" name="" ng-model="vm.editModel.IsActive" required />
+	            </td>
+				<td data-title="'Акции'" class="command">
+					<button class="btn btn-primary btn-sm" ng-click="vm.update()" ng-if="vm.isEditing && vm.editIndex == $index" 
+					ng-disabled="vm.editModel.PersonNumber == ''">
+						<span class="glyphicon glyphicon-ok"></span>
+					</button>
+					<button class="btn btn-default btn-sm" ng-click="vm.cancel(row, $index)" ng-if="vm.isEditing && vm.editIndex == $index">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+					<button class="btn btn-default btn-sm" ng-click="vm.edit(row, $index);" ng-if="!vm.isEditing || vm.editIndex != $index">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</button>
+					<button class="btn btn-danger btn-sm" ng-click="vm.openRemoveDialog(row)" ng-if="!vm.isEditing || vm.editIndex != $index">
+						<span class="glyphicon glyphicon-trash"></span>
+					</button>
 				</td>
 			</tr>
 		</table>

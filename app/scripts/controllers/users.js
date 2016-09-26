@@ -8,19 +8,26 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('UsersCtrl', function ($scope,$http,ngDialog,APP_CONFIG,utility) {
+  .controller('UsersCtrl', function ($scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr, $filter) {
 
     var vm = this;
+    vm.isEditing = false;
+    vm.isLoading = false;
+    vm.isInserting = false;
+    vm.editModel = null;
+    vm.editIndex = null;
     vm.returnedUser = {};
 
-    vm.attachNewCard = function(){
-    	var newCardHtml = '<br/><div style="margin-top:10px;"><h4>Прикачи уште една картичка</h4><div><div class="col-md-12"><br/><div class="col-md-3"><label for="CardNum1">Број на картичка</label></div><div class="col-md-6"><input type="text" class="form-control" id="CardNum1" ng-model="vm.CardNum1" placeholder="Внеси картичка..."></div></div></div><div><div class="col-md-12"><br/><div class="col-md-3"><label for="CardType1">Тип на картичка</label></div><div class="col-md-6"><input type="text" class="form-control" id="CardType1" ng-model="vm.CardType1" placeholder="Внеси тип на картичка..."></div></div></div></div>';
-   		var divElement = document.getElementById("newCardDiv");
-   		divElement.style.display = "block";
-   		divElement.style.marginTop = "120px";
-   		divElement.innerHTML = newCardHtml;
-   		var btnElement = document.getElementById("btnAddCard");
-   		btnElement.disabled = true;
+    vm.edit = function(row, index){
+      vm.editModel = angular.copy(row);
+      vm.isEditing = true;
+      vm.editIndex = index;      
+    };
+
+    vm.cancel = function() {
+      vm.isEditing = false;
+      vm.editModel = null;
+      vm.editIndex = null;
     };
 
     vm.getRoles = function(){
@@ -70,32 +77,33 @@ angular.module('canteenApp')
 
     };
 
-    vm.saveUser = function(data){
+    vm.update = function(){
         var editUser = {
-            Username:data.Username ==null || data.Username ==undefined ? "": data.Username,
-            Name:data.Name,
-            CostCenterID:data.CostCenterID,
-            PersonNumber:data.PersonNumber,
-            isEmployee: data.isEmployee,
-            CardNumber: data.UserCards[0].Cards.CardNum,
-            CardType: data.UserCards[0].Cards.CardType,
-            CardID: data.UserCards[0].CardID
+            Username: vm.editModel.Username,
+            Name:vm.editModel.Name,
+            CostCenterID:vm.editModel.CostCenterID,
+            RoleID: vm.editModel.RoleID,
+            PersonNumber:vm.editModel.PersonNumber,
+            isEmployee: vm.editModel.isEmployee,
+            CardNumber: vm.editModel.CardNumber,
+            CardType: vm.editModel.CardType,
+            CardID: vm.editModel.CardID
         };
         $http({
-                method: 'PUT',
-                data: editUser,
-                contentType:'application/json',
-                crossDomain: true,
-                url: APP_CONFIG.BASE_URL +"/api/users/" + data.ID
-            }).
-            success(function(data) {
-                console.log("Success editing user");
-                vm.getUsers();
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error editing user");
-            });
-
+            method: 'PUT',
+            data: editUser,
+            contentType:'application/json',
+            crossDomain: true,
+            url: APP_CONFIG.BASE_URL +"/api/users/" + vm.editModel.ID
+        }).
+        success(function(data) {
+            toastr.success("Успешно променет корисник!");
+            vm.getUsers();
+            vm.cancel();
+        }).
+        error(function(data, status, headers, config) {
+            toastr.error("Грешка при промена на корисник. Ве молиме обидете се повторно!");
+        });
     };
     
     vm.getUsers = function() {
@@ -107,6 +115,23 @@ angular.module('canteenApp')
         success(function(data) {
             //console.log("Success getting users");
             vm.userTable = data;
+            vm.table = new ngTableParams({
+              page: 1,
+              count: 5
+            }, {
+              total: vm.userTable.length,
+              //Hide the count div
+              counts: [],
+              getData: function($defer, params) {
+                var filter = params.filter();
+                var sorting = params.sorting();
+                var count = params.count();
+                var page = params.page();
+                  //var filteredData = filter ? $filter('filter')(vm.data, filter) : vm.data
+                var data = $filter('orderBy')(vm.userTable, Object.keys(sorting)[0]);
+                $defer.resolve(data.slice((page - 1) * count, page * count));
+              }
+          });
         }).
         error(function(data, status, headers, config) {
         	console.log("Error getting users");
@@ -127,18 +152,6 @@ angular.module('canteenApp')
             template: "../../views/partials/removeDialog.html",
             scope: $scope,
             data: data
-        });
-
-        // NOTE: return the promise from openConfirm
-        return nestedConfirmDialog;   
-    };
-
-    vm.openEditDialog = function(){
-        var nestedConfirmDialog = ngDialog.openConfirm({
-            template: "../../views/partials/editUserDialog.html",
-            className:'ngdialog-theme-default',
-            scope: $scope,
-            data: vm.returnedUser
         });
 
         // NOTE: return the promise from openConfirm
@@ -167,10 +180,7 @@ angular.module('canteenApp')
     };
 
 
-        vm.getUsers();
-        vm.getRoles();
-        vm.getCostCenters();
-        
-
-
+    vm.getUsers();
+    vm.getRoles();
+    vm.getCostCenters();
   });
