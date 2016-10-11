@@ -1,23 +1,23 @@
 'use strict';
 
-describe('Controller: MenuspercategoryCtrl', function () {
+describe('Controller: UnplannedorderCtrl', function () {
 
   // load the controller's module
   beforeEach(module('canteenApp'));
 
-  var MenuspercategoryCtrl,
+  var UnplannedorderCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MenuspercategoryCtrl = $controller('MenuspercategoryCtrl', {
+    UnplannedorderCtrl = $controller('UnplannedorderCtrl', {
       $scope: scope
       // place here mocked dependencies
     });
   }));
 
   it('should attach a list of awesomeThings to the scope', function () {
-    expect(MenuspercategoryCtrl.awesomeThings.length).toBe(3);
+    expect(UnplannedorderCtrl.awesomeThings.length).toBe(3);
   });
 });

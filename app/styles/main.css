@@ -59,6 +59,10 @@ body {
   margin-top: 28px;
 }
 
+.date-control[readonly] {
+  background-color: white !important;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
@@ -166,4 +170,30 @@ body > .select2-container.open {
 .ngdialog.ngdialog-theme-default .ngdialog-content {
   background: white;
   padding: 0px;
+}
+
+.ui-select-container input[type="search"].form-control {
+  height: auto !important;
+  width: 91% !important;
+}
+
+.meal-option:hover {
+  cursor: pointer;
+  border-color: #337ab7;
+}
+
+.meal-option:hover > .panel-heading {
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+
+.meal-active {
+  cursor: pointer;
+  border-color: #337ab7 !important;
+  box-shadow: 0px 0px 25px #ccc;
+}
+
+.meal-active > .panel-heading {
+  background-color: #337ab7 !important;
+  border-color: #337ab7 !important;
 }

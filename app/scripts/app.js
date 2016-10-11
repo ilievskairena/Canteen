@@ -25,6 +25,7 @@ angular
     'mgo-angular-wizard',
     'ui.select',
     'ui.bootstrap',
+    'ngProgress',
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -68,11 +69,6 @@ angular
         controller: 'MenusCtrl',
         controllerAs: 'vm'
       })
-      .when('/menusPerCategory', {
-        templateUrl: 'views/menuspercategory.html',
-        controller: 'MenuspercategoryCtrl',
-        controllerAs: 'vm'
-      })
       .when('/dates', {
         templateUrl: 'views/dates.html',
         controller: 'DatesCtrl',
@@ -81,6 +77,16 @@ angular
       .when('/menu/preview', {
         templateUrl: 'views/menupreview.html',
         controller: 'MenupreviewCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/planning/thirdshift', {
+        templateUrl: 'views/thirdshiftplan.html',
+        controller: 'ThirdShiftPlanCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/planning/unplanned', {
+        templateUrl: 'views/unplannedorder.html',
+        controller: 'UnplannedorderCtrl',
         controllerAs: 'vm'
       })
       .otherwise({

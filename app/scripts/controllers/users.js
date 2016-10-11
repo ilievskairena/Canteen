@@ -8,15 +8,21 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('UsersCtrl', function ($scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr, $filter) {
+  .controller('UsersCtrl', function ($scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr, $filter, ngProgressFactory) {
 
     var vm = this;
+    vm.progressBar = ngProgressFactory.createInstance();
     vm.isEditing = false;
     vm.isLoading = false;
     vm.isInserting = false;
     vm.editModel = null;
     vm.editIndex = null;
     vm.returnedUser = {};
+    vm.regex = {
+        number: "[0-9]{8}",
+        username: "MK[0-9]{4}",
+        card: "[0-9]{11}"
+    };
 
     vm.edit = function(row, index){
       vm.editModel = angular.copy(row);
@@ -30,61 +36,82 @@ angular.module('canteenApp')
       vm.editIndex = null;
     };
 
+    vm.reset = function() {
+        vm.username = "";
+        vm.name = "";
+        vm.costCenter = null;
+        vm.personNumber = "";
+        vm.role = null;
+        vm.isEmployee = true;
+        vm.cardNumber = "";
+        vm.cardType = "";
+        vm.form.$setPristine();
+    };
+
     vm.getRoles = function(){
         $http({
-                method: 'GET',
-                crossDomain: true,
-                url:  APP_CONFIG.BASE_URL +"/api/roles"
-            }).
-            success(function(data) {
-                //console.log("Success getting roles");
-                vm.Roles = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error getting roles");
-            });
+            method: 'GET',
+            crossDomain: true,
+            url:  APP_CONFIG.BASE_URL +"/api/roles"
+        }).
+        success(function(data) {
+            vm.Roles = data;
+        }).
+        error(function(data, status, headers, config) {
+            console.log("Error getting roles");
+        });
     };
 
 
     vm.addNewUser = function(){
+        vm.progressBar.setColor('#8dc63f');
+        vm.progressBar.start();
     	var newUser = {
-    		Username:vm.Username,
-    		Name:vm.Name,
-    		CostCenterID: vm.CostCenterSelect,
-    		PersonNumber:vm.PersonNumber,
+    		Username:vm.username,
+    		Name:vm.name,
+    		CostCenterID: vm.costCenter,
+            CostCenterName: "", //Because the model can't be null
+    		PersonNumber: vm.personNumber,
+            RoleID: vm.role,
+            RoleName: "", //Because the model can't be null
             isEmployee: vm.isEmployee,
-            CardNumber: vm.CardNum,
-            CardType: vm.CardType,
+            CardNumber: vm.cardNumber,
+            CardType: vm.cardType,
             CardID: null
     	};
         console.log(newUser);
     	$http({
-                method: 'POST',
-                data: newUser,
-                contentType:'application/json',
-                crossDomain: true,
-                url: APP_CONFIG.BASE_URL +"/api/users"
-            }).
-            success(function(data) {
-                //console.log("Success inserting user");
-                vm.getUsers();
-                vm.Name=vm.PersonNumber=vm.Username=vm.CostCenter=vm.CardNum=vm.CardType="";
+            method: 'POST',
+            data: newUser,
+            contentType:'application/json',
+            crossDomain: true,
+            url: APP_CONFIG.BASE_URL +"/api/users"
+        }).
+        success(function(data) {
+            vm.progressBar.complete();
+            vm.getUsers();
+            vm.complete();
+            toastr.success("Успешно внесен корисник!");
 
-            }).
-            error(function(data, status, headers, config) {
-            	console.log("Error inserting user");
-            });
-
+        }).
+        error(function(data, status, headers, config) {
+            vm.progressBar.setColor('red');
+            vm.progressBar.reset();
+            toastr.error("Грешка при додавање на корисник. Ве молиме обидете се повторно!");
+        });
     };
 
     vm.update = function(){
+        vm.progressBar.setColor('#8dc63f');
+        vm.progressBar.start();
         var editUser = {
             Username: vm.editModel.Username,
             Name:vm.editModel.Name,
             CostCenterID:vm.editModel.CostCenterID,
             RoleID: vm.editModel.RoleID,
             PersonNumber:vm.editModel.PersonNumber,
-            isEmployee: vm.editModel.isEmployee,
+            IsEmployee: vm.editModel.IsEmployee,
+            IsActive: vm.editModel.IsActive,
             CardNumber: vm.editModel.CardNumber,
             CardType: vm.editModel.CardType,
             CardID: vm.editModel.CardID
@@ -98,10 +125,13 @@ angular.module('canteenApp')
         }).
         success(function(data) {
             toastr.success("Успешно променет корисник!");
+            vm.progressBar.complete();
             vm.getUsers();
             vm.cancel();
         }).
         error(function(data, status, headers, config) {
+            vm.progressBar.setColor('red');
+            vm.progressBar.reset();
             toastr.error("Грешка при промена на корисник. Ве молиме обидете се повторно!");
         });
     };
@@ -159,7 +189,6 @@ angular.module('canteenApp')
     };
 
     vm.removeItem = function(userId){
-        console.log(userId);
         $http({
             method:"DELETE",
             url: APP_CONFIG.BASE_URL +"/api/users/"+ userId,

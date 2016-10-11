@@ -23,13 +23,14 @@
 						<label for="namesurname">Име и презиме</label>
 						<input class="form-control" required type="text" name="name" id="name" ng-model="vm.name" placeholder="Внеси име и презиме..." />
 					</div>
-					<div class="form-group" ng-class="{ 'has-error' : form.number.$error.required && form.number.$touched }">
+					<div class="form-group" ng-class="{ 'has-error' : (form.number.$error.required && form.number.$touched) || (form.number.$error.pattern && form.number.$touched) }">
 						<label for="number">ID број</label>
-						<input type="text" class="form-control" id="number" pattern="[0-9]{8}" required name="number" ng-model="vm.personNumber" placeholder="Внеси број на вработен...">
+						<input type="text" class="form-control" id="number" ng-pattern="vm.regex.number" limit-to="8" required name="number" 
+						ng-model="vm.personNumber" placeholder="Внеси број на вработен..."/>
 					</div>
-					<div class="form-group" ng-class="{ 'has-error' : form.usrName.$error.required && form.usrName.$touched }">
+					<div class="form-group" ng-class="{ 'has-error' : (form.usrName.$error.required && form.usrName.$touched) ||  (form.usrName.$error.pattern && form.usrName.$touched)}">
 						<label for="usrName">Корисничко име</label>	
-						<input type="text" class="form-control" id="usrName" pattern="MK[0-9]{4}" name="usrName" ng-model="vm.username" placeholder="Внеси корисничко име (MKxxxx)..." required />
+						<input type="text" class="form-control" id="usrName" ng-pattern="vm.regex.username" limit-to="6" name="usrName" ng-model="vm.username" placeholder="Внеси корисничко име (MKxxxx)..." required />
 					</div>
 					<div class="checkbox">
 						<label>
@@ -48,16 +49,20 @@
 					<div class="form-group" ng-class="{ 'has-error' : form.role.$error.required && form.role.$touched }">
 						<label for="role">Улога</label>
 						<select id="role" name="role" required 
-						class="form-control" ng-model="vm.RoleModelSelect">
+						class="form-control" ng-model="vm.role">
 							<option selected disabled value="">Одбери улога</option>
 							<option ng-repeat="role in vm.Roles" value="{{role.ID}}">{{role.RoleName}}</option>
 						</select>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
-							<div class="form-group" ng-class="{ 'has-error' : form.cardNumber.$error.required && form.cardNumber.$touched }">
+							<div class="form-group" ng-class="{ 'has-error' : (form.cardNumber.$error.required && form.cardNumber.$touched)  ||  (form.cardNumber.$error.pattern && form.cardNumber.$touched)}">
 								<label for="cardNumber">Број на картичка</label>
-								<input type="text" name="cardNumber" required class="form-control" pattern="[0-9]{11}" id="cardNumber" ng-model="vm.cardNum" placeholder="Внеси картичка...">
+								<input type="text" 
+								ng-model="vm.cardNumber"
+								limit-to="11"
+								name="cardNumber" required class="form-control" 
+								ng-pattern="vm.regex.card" id="cardNumber"  placeholder="Внеси картичка...">
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -75,10 +80,16 @@
 						<button class="btn btn-success"
 						ng-disabled="(form.name.$error.required && form.name.$untouched) ||
 									(form.number.$error.required && form.number.$untouched) ||
+									(form.number.$error.required && form.number.$touched) ||
+									(form.number.$error.pattern && form.number.$touched) ||
 									(form.usrName.$error.required && form.usrName.$untouched) ||
+									(form.usrName.$error.required && form.usrName.$touched) ||
+									(form.usrName.$error.pattern && form.usrName.$touched) ||
 									(form.costCenter.$error.required && form.costCenter.$untouched) ||
 									(form.role.$error.required && form.role.$untouched) ||
 									(form.cardNumber.$error.required && form.cardNumber.$untouched) ||
+									(form.cardNumber.$error.required && form.cardNumber.$touched) ||
+									(form.cardNumber.$error.pattern && form.cardNumber.$touched) ||
 									(form.cardType.$error.required && form.cardType.$untouched)"
 						type="submit">
 							<i class="fa fa-save"></i>
@@ -98,20 +109,8 @@
 	<div class="col-md-12">
 		<table ng-table="vm.table"
 		class="table table-bordered table-striped">
-			<!-- <tr>
-				<th>ID број</th>
-				<th></th>
-				<th></th> 
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th>Акции</th>
-			</tr> -->
 			<tr 
-			ng-class="{'danger': row.isActive == false }"
+			ng-class="{'danger': !row.IsActive }"
 			ng-repeat="row in $data">
 				<td data-title="'ID број'" sortable="'PersonNumber'" 
 				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.PersonNumber}}</td>
@@ -137,8 +136,8 @@
 					<span ng-if="row.IsActive != false">Да</span>
 					<span ng-if="row.IsActive == false">Не</span>
 				</td>
-				<td  data-title="'ID број'" 
-				ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+				<td data-title="'ID број'"
+	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.PersonNumber" 
 	              	class="editable-input form-control input-sm" required />
 	            </td>
@@ -152,7 +151,7 @@
 	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.Username" 
 	              	class="editable-input form-control input-sm" required />
 	            </td>
-				<td data-title="'Трош. место'"
+				<td data-title="'Трош место'"
 				ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 					<select class="form-control input-sm" name="MealType" ng-model="vm.editModel.CostCenterID"
 					 ng-options="center.ID as center.Name for center in vm.allCostCenters"

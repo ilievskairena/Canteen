@@ -102,15 +102,21 @@
 				<li ng-class="{'active': collapseVar==4}">
 					<a data-target="#menuForCategory" data-toggle="collapse" ng-click="check(4)">
 						<i class="fa fa-cubes fa-fw"></i>
-						<span>Mени за категорија</span>
+						<span>Планирање</span>
 						<span class="fa arrow"></span>
 					</a>
 					<ul class="nav nav-second-level" ng-class="[collapseVar!=4 ?'panel-collapse collapse':'panel-collapse collapse in']" id="menuForCategory">
 						<li>
-							<a href="/#/menusPerCategory">Планирање оброци по категории</a>
+							<a href="/#/planning/thirdshift">
+								<i class="fa fa-clock-o" aria-hidden="true"></i>
+								<span>Трета смена</span>
+							</a>
 						</li>
 						<li>
-							<a href="">Реализирани оброци</a>
+							<a href="/#/planning/unplanned">
+								<i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+								<span>Непланирано</span>
+							</a>
 						</li>
 					</ul>
 				</li>
