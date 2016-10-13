@@ -16,7 +16,7 @@
 </div>
 <div class="row" ng-show="vm.isInserting">
 	<div class="col-md-12">
-		<form novalidate name="form" required ng-submit="vm.addNewUser()">
+		<form novalidate name="form" required>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group" ng-class="{ 'has-error' : form.name.$error.required && form.name.$touched }">
@@ -91,7 +91,8 @@
 									(form.cardNumber.$error.required && form.cardNumber.$touched) ||
 									(form.cardNumber.$error.pattern && form.cardNumber.$touched) ||
 									(form.cardType.$error.required && form.cardType.$untouched)"
-						type="submit">
+						type="submit"
+						ng-click="vm.save();">
 							<i class="fa fa-save"></i>
 							<span>Зачувај</span>
 						</button>

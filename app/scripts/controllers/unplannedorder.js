@@ -8,22 +8,29 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('UnplannedorderCtrl', function ($scope, $filter, utility, ngDialog, $http, APP_CONFIG, ngTableParams, toastr, ngProgressFactory) {
+  .controller('UnplannedorderCtrl', function ($rootScope, roleService, $location, $scope, $filter, utility, ngDialog, $http, APP_CONFIG, ngTableParams, toastr, ngProgressFactory) {
     
-    var vm = this;
+  var vm = this;
+  $rootScope.isLogin = false;
+  if(!utility.isAuthenticated()) {
+      $location.path('/login');
+  }
+    vm.loggedInUser = utility.getLoggedInUser();
+    var path = $location.path();
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
 
-    vm.progressBar = ngProgressFactory.createInstance();
-    vm.users = null;
+  vm.progressBar = ngProgressFactory.createInstance();
+  vm.users = null;
     /*
 	0 - Choose date
 	1 - Choose person
 	2 - Choose shift
 	3 - Choose meal
     */
-    vm.step = 0;
-    vm.meals = null;
-    vm.shift = null;
-    vm.selectedMeal = null;
+  vm.step = 0;
+  vm.meals = null;
+  vm.shift = null;
+  vm.selectedMeal = null;
 	vm.numberWorker = null;
 	vm.isInsert = true;
 
@@ -83,7 +90,7 @@ angular.module('canteenApp')
     	$http({
           method: 'GET',
           crossDomain: true,
-          url:  APP_CONFIG.BASE_URL + APP_CONFIG.mealsByDate + "?dateFrom=" +  date + "&dateTo=" + date
+          url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_by_date + "?dateFrom=" +  date + "&dateTo=" + date
 	    }).
 	    success(function(data) {
 	        vm.step = 1;

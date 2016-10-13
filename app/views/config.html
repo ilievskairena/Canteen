@@ -1,0 +1,46 @@
+<div class="row">
+	<div class="col-md-12">
+		<h3 class="page-header">Конфигурација на системот</h3>
+	</div>
+</div>
+<div class="row">
+	<div class="form-horizontal">
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label time-label">Почеток на прва смена</label>
+			<div class="col-sm-10">
+				<div uib-timepicker
+				ng-model="vm.config.firstShift"
+				hour-step="1" minute-step="1"
+				show-meridian="false"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label time-label">Почеток на прва смена</label>
+			<div class="col-sm-10">
+				<div uib-timepicker
+				ng-model="vm.config.secondShift"
+				hour-step="1" minute-step="1"
+				show-meridian="false"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label time-label">Почеток на прва смена</label>
+			<div class="col-sm-10">
+				<div uib-timepicker
+				ng-model="vm.config.thirdShift"
+				hour-step="1" minute-step="1"
+				show-meridian="false"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-2 pull-right">
+		<button class="btn btn-success"
+		ng-disabled="vm.config.firstShift == null || vm.config.secondShift == null || vm.config.thirdShift == null"
+		ng-click="vm.save();">
+			<i class="fa fa-save"></i>
+			<span>Зачувај</span>
+		</button>
+	</div>
+</div>

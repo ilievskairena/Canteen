@@ -10,6 +10,7 @@
     "angular-route": "^1.4.0",
     "angular-sanitize": "^1.4.0",
     "angular-touch": "^1.4.0",
+    "angular-local-storage": "^0.2.5",
     "font-awesome": "fontawesome#^4.6.3",
     "ng-dialog": "^0.6.4",
     "checklist-model": "^0.10.0",

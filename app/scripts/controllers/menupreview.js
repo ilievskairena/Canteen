@@ -7,8 +7,17 @@
  * # MenupreviewCtrl
  * Controller of the canteenApp
  */
-angular.module('canteenApp').controller('MenupreviewCtrl', function (APP_CONFIG, $scope, $http, toastr, $filter, ngTableParams) {
+angular.module('canteenApp').controller('MenupreviewCtrl', function ($rootScope, roleService, $location, utility, APP_CONFIG, $scope, $http, toastr, $filter, ngTableParams) {
     var vm = this;
+
+    $rootScope.isLogin = false;
+    if(!utility.isAuthenticated()) {
+        $location.path('/login');
+    }
+
+    vm.loggedInUser = utility.getLoggedInUser();
+    var path = $location.path();
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
 
  	vm.dateOptions = {
 	    formatYear: 'yyyy',
@@ -45,7 +54,7 @@ angular.module('canteenApp').controller('MenupreviewCtrl', function (APP_CONFIG,
     	$http({
 	        method: 'GET',
 	        crossDomain: true,
-	        url:  APP_CONFIG.BASE_URL +"/api/meals/MealByDate?dateFrom=" + from.toString() + "&dateTo=" + to.toString()
+	        url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_by_date +"?dateFrom=" + from.toString() + "&dateTo=" + to.toString()
 	      }).
 	      success(function(data) {
 	          vm.meals = data;

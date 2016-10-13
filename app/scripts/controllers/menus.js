@@ -8,9 +8,18 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('MenusCtrl', function ($http, $scope, utility, APP_CONFIG, toastr, $filter, WizardHandler) {
+  .controller('MenusCtrl', function ($rootScope, roleService, $location, $http, $scope, utility, APP_CONFIG, toastr, $filter, WizardHandler) {
 
     var vm = this;
+
+    $rootScope.isLogin = false;
+    if(!utility.isAuthenticated()) {
+        $location.path('/login');
+    }
+    vm.loggedInUser = utility.getLoggedInUser();
+    var path = $location.path();
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+
     vm.shiftOne = [];
     vm.shiftTwo= [];
     vm.shiftThree = [];
@@ -26,7 +35,7 @@ angular.module('canteenApp')
       $http({
         method: 'GET',
         crossDomain: true,
-        url:  APP_CONFIG.BASE_URL +"/api/meals/MealsPerType"
+        url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_per_type
       }).
       success(function(data) {
           vm.mealsPerType = data;
@@ -117,7 +126,7 @@ angular.module('canteenApp')
       $http({
           method: 'GET',
           crossDomain: true,
-          url:  APP_CONFIG.BASE_URL +"/api/meals/MealByDate?date=" + formattedDate.toString()
+          url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_by_date + "?date=" + formattedDate.toString()
       }).
       success(function(data) {
           
@@ -133,7 +142,7 @@ angular.module('canteenApp')
             data: vm.formatData(),
             contentType:'application/json',
             crossDomain: true,
-            url: APP_CONFIG.BASE_URL +"/api/meals/menu"
+            url: APP_CONFIG.BASE_URL + APP_CONFIG.menu
         }).
         success(function(data) {
             toastr.success("Менијата се успешно запишани.");

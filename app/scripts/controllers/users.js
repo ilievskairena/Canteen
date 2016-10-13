@@ -8,9 +8,18 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('UsersCtrl', function ($scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr, $filter, ngProgressFactory) {
+  .controller('UsersCtrl', function ($rootScope, $location, roleService, $scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr, $filter, ngProgressFactory) {
 
     var vm = this;
+
+    $rootScope.isLogin = false;
+    if(!utility.isAuthenticated()) {
+      $location.path('/login');
+    }
+    vm.loggedInUser = utility.getLoggedInUser();
+    var path = $location.path();
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+
     vm.progressBar = ngProgressFactory.createInstance();
     vm.isEditing = false;
     vm.isLoading = false;
@@ -63,7 +72,7 @@ angular.module('canteenApp')
     };
 
 
-    vm.addNewUser = function(){
+    vm.save = function(){
         vm.progressBar.setColor('#8dc63f');
         vm.progressBar.start();
     	var newUser = {
@@ -85,12 +94,12 @@ angular.module('canteenApp')
             data: newUser,
             contentType:'application/json',
             crossDomain: true,
-            url: APP_CONFIG.BASE_URL +"/api/users"
+            url: APP_CONFIG.BASE_URL + APP_CONFIG.users_insert
         }).
         success(function(data) {
             vm.progressBar.complete();
             vm.getUsers();
-            vm.complete();
+            vm.progressBar.complete();
             toastr.success("Успешно внесен корисник!");
 
         }).
@@ -207,7 +216,6 @@ angular.module('canteenApp')
             vm.allCostCenters = result.data;
         });
     };
-
 
     vm.getUsers();
     vm.getRoles();

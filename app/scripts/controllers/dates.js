@@ -8,8 +8,17 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('DatesCtrl', function ($scope, $filter, $http, MaterialCalendarData, APP_CONFIG, ngTableParams, toastr, utility) {
+  .controller('DatesCtrl', function ($rootScope, roleService, $location, $scope, $filter, $http, MaterialCalendarData, APP_CONFIG, ngTableParams, toastr, utility) {
     var vm = this;
+
+    $rootScope.isLogin = false;
+    if(!utility.isAuthenticated()) {
+        $location.path('/login');
+    }
+
+    vm.loggedInUser = utility.getLoggedInUser();
+    var path = $location.path();
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
 
     //Keep the dates that were set as holidays
     vm.dates = [];
@@ -102,7 +111,7 @@ angular.module('canteenApp')
 		$http({
             method: 'GET',
             crossDomain: true,
-            url: APP_CONFIG.BASE_URL +"/api/dates/GetDates?year=" + vm.selectedYear
+            url: APP_CONFIG.BASE_URL + APP_CONFIG.dates_by_year + "?year=" + vm.selectedYear
         }).
         success(function(data) {
             vm.dates = [];
@@ -170,7 +179,7 @@ angular.module('canteenApp')
             data: vm.dateObjectList,
             contentType:'application/json',
             crossDomain: true,
-            url: APP_CONFIG.BASE_URL +"/api/dates"
+            url: APP_CONFIG.BASE_URL + APP_CONFIG.dates_insert
         }).
         success(function(data) {
             toastr.success("Податоците се успешно внесени.");
@@ -189,7 +198,7 @@ angular.module('canteenApp')
             data: vm.dateObjectList,
             contentType:'application/json',
             crossDomain: true,
-            url: APP_CONFIG.BASE_URL +"/api/dates"
+            url: APP_CONFIG.BASE_URL + APP_CONFIG.dates_update
         }).
         success(function(data) {
             toastr.success("Празниците се успешно променети.")

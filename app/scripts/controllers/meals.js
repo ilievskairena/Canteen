@@ -8,9 +8,17 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('MealsCtrl', function ($scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr) {
-
+  .controller('MealsCtrl', function ($rootScope, $location, roleService, $scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr) {
     var vm = this;
+
+    $rootScope.isLogin = false;
+    if(!utility.isAuthenticated()) {
+        $location.path('/login');
+    }
+    vm.loggedInUser = utility.getLoggedInUser();
+    var path = $location.path();
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+
     vm.isEditing = false;
     vm.editIndex = null;
     vm.editModel = null;
@@ -43,7 +51,7 @@ angular.module('canteenApp')
           method: 'POST',
           contentType:'application/json',
           crossDomain: true,
-          url:  APP_CONFIG.BASE_URL +"/api/meals",
+          url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_insert,
           data: newMeal
       }).
       success(function(data) {
@@ -71,7 +79,7 @@ angular.module('canteenApp')
             data: editMeal,
             contentType:'application/json',
             crossDomain: true,
-            url: APP_CONFIG.BASE_URL + "/api/meals/" + vm.editModel.MealID
+            url: APP_CONFIG.BASE_URL + APP_CONFIG.meals + "/" + vm.editModel.MealID
         }).
         success(function(data) {
             toastr.success("Успешно променет оброк!")
@@ -87,7 +95,7 @@ angular.module('canteenApp')
       $http({
           method: 'GET',
           crossDomain: true,
-          url:  APP_CONFIG.BASE_URL +"/api/meals"
+          url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals
       }).
       success(function(data) {/*
           console.log("Success getting cost centers");*/
@@ -130,7 +138,7 @@ angular.module('canteenApp')
     vm.removeItem = function(mealId){
         $http({
             method:"DELETE",
-            url: APP_CONFIG.BASE_URL +"/api/meals/"+ mealId,
+            url: APP_CONFIG.BASE_URL + APP_CONFIG.meals + "/"+ mealId,
             crossDomain: true
             
         }).success(function(data){

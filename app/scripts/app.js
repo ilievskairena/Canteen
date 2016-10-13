@@ -26,17 +26,13 @@ angular
     'ui.select',
     'ui.bootstrap',
     'ngProgress',
+    'LocalStorageModule',
   ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
-        controllerAs: 'vm'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
         controllerAs: 'vm'
       })
       .when('/users', {
@@ -47,11 +43,6 @@ angular
       .when('/costCenter', {
         templateUrl: 'views/costcenter.html',
         controller: 'CostcenterCtrl',
-        controllerAs: 'vm'
-      })
-      .when('/cards', {
-        templateUrl: 'views/cards.html',
-        controller: 'CardsCtrl',
         controllerAs: 'vm'
       })
       .when('/meals', {
@@ -89,7 +80,25 @@ angular
         controller: 'UnplannedorderCtrl',
         controllerAs: 'vm'
       })
+      .when('/employeesPerShift', {
+        templateUrl: 'views/employeespershift.html',
+        controller: 'EmployeespershiftCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/config', {
+        templateUrl: 'views/config.html',
+        controller: 'ConfigCtrl',
+        controllerAs: 'vm'
+      })
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .config(function($httpProvider) {
+      $httpProvider.interceptors.push('authInterceptorService');
   });

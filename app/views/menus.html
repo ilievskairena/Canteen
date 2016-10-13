@@ -53,7 +53,8 @@
 			        			<p>Одберете оброци за прва смена</p>
 			        		</div>
 	                       	<div class="col-md-12">
-	                       		<div class="col-md-{{12/vm.mealsPerType.length}}" ng-repeat="type in vm.mealsPerType">
+	                       		<div class="col-md-{{12/vm.mealsPerType.length}}" 
+	                       		ng-repeat="type in vm.mealsPerType">
 									<h5>{{type.Name}}</h5>
 									<ui-select ng-model="vm.summary.shiftOne[$index]"
 								             theme="bootstrap"

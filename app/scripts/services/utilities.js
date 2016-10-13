@@ -8,25 +8,25 @@
  * Service in the canteenApp.
  */
 
- angular.module('canteenApp').service('utility', function ($http, APP_CONFIG) {
+ angular.module('canteenApp').service('utility', function ($http, APP_CONFIG, localStorageService, $location, $rootScope) {
 
  	this.getAllCostCenters = function() {
-            return $http.get(APP_CONFIG.BASE_URL+"/api/costcenter").then(function(result) {
-                return result;
-            });
-        };
+        return $http.get(APP_CONFIG.BASE_URL+"/api/costcenter").then(function(result) {
+            return result;
+        });
+    };
 
     this.getUserPerID = function(userID) {
-            return $http.get(APP_CONFIG.BASE_URL+"/api/users/"+userID).then(function(result) {
-                return result;
-            });
-        }; 
+        return $http.get(APP_CONFIG.BASE_URL+APP_CONFIG.users+"/"+userID).then(function(result) {
+            return result;
+        });
+    }; 
 
     this.getMealTypes = function() {
-            return $http.get(APP_CONFIG.BASE_URL+"/api/mealtype").then(function(result) {
-                return result;
-            });
-        };  
+        return $http.get(APP_CONFIG.BASE_URL+"/api/mealtype").then(function(result) {
+            return result;
+        });
+    };  
 
     this.compareArrays = function(arrayOne, arrayTwo) {
         var result = true;
@@ -71,4 +71,41 @@
         // Return array of year and week number
         return [d.getFullYear(), weekNo];
     };
+
+    this.getAvailableDates = function() {
+        return $http.get(APP_CONFIG.BASE_URL+APP_CONFIG.dates_allowed).then(function(result) {
+            return result;
+        });
+    };
+
+    this.getConfig = function() {
+        return $http.get(APP_CONFIG.BASE_URL+APP_CONFIG.config).then(function(result) {
+            return result;
+        });
+    }; 
+
+    this.isAuthenticated = function() {
+        var user = localStorageService.get('user');
+        if(user == null || user == undefined) {
+            return false;
+        }
+        else {
+            $rootScope.userName = user.Name;
+            $rootScope.roleName = user.RoleName;
+            $rootScope.roleId = user.RoleID;
+            return true;
+        }
+    };
+
+    this.getLoggedInUser = function() {
+        var user = localStorageService.get('user');
+        if(user == null || user == undefined) {
+            $location.path('/login');
+            return null;
+        }
+        else {
+            $rootScope.isLogin = false;
+            return user;
+        }
+    }
  });

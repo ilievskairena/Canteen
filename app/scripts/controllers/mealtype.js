@@ -8,9 +8,17 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('MealtypeCtrl', function ($scope,$http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr) {
-
+  .controller('MealtypeCtrl', function ($rootScope, $location, roleService, $scope,$http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr) {
     var vm = this;
+    
+    $rootScope.isLogin = false;
+    if(!utility.isAuthenticated()) {
+        $location.path('/login');
+    }
+    vm.loggedInUser = utility.getLoggedInUser();
+    var path = $location.path();
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+
     vm.isEditing = false;
     vm.editModel = null;
     vm.editIndex = null;
@@ -35,7 +43,7 @@ angular.module('canteenApp')
           method: 'POST',
           contentType:'application/json',
           crossDomain: true,
-          url:  APP_CONFIG.BASE_URL +"/api/mealtype",
+          url:  APP_CONFIG.BASE_URL + APP_CONFIG.mealtype_insert,
           data: newMealType
       }).
       success(function(data) {
@@ -57,7 +65,7 @@ angular.module('canteenApp')
           data: mealType,
           contentType:'application/json',
           crossDomain: true,
-          url: APP_CONFIG.BASE_URL +"/api/mealtype/" + vm.editModel.ID
+          url: APP_CONFIG.BASE_URL + APP_CONFIG.BASE_URL +  "/" + vm.editModel.ID
       }).
       success(function(data) {
           toastr.success("Успешно променет тип!");
@@ -107,7 +115,7 @@ angular.module('canteenApp')
     vm.removeItem = function(mealTypeId){
         $http({
             method:"DELETE",
-            url: APP_CONFIG.BASE_URL +"/api/mealtype/"+ mealTypeId,
+            url: APP_CONFIG.BASE_URL + APP_CONFIG.mealtype +"/"+ mealTypeId,
             crossDomain: true
         }).success(function(data){
             console.log("Successfully deleted meal type");

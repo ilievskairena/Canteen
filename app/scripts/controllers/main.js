@@ -8,9 +8,16 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('MainCtrl', function ($http, utility) {
+  .controller('MainCtrl', function ($http, utility, $rootScope, $location, roleService) {
     var vm = this;
 
+    $rootScope.isLogin = false;
+    if(!utility.isAuthenticated()) {
+        $location.path('/login');
+    }
+    vm.loggedInUser = utility.getLoggedInUser();
+    var path = $location.path();
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
 
     vm.getCostCenters = function(){
         utility.getAllCostCenters().then(function(result) {

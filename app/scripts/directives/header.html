@@ -16,11 +16,17 @@
 
 	<ul class="nav navbar-nav navbar-right pull-right">
 		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-			Корисник <span class="caret"></span>
+			<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+			<i class="fa fa-user"></i>
+			{{$root.userName}} <small>({{$root.roleName}})</small><span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a href="#">Одјави се</a></li>
+				<li>
+					<a ng-click="logout();">
+						<span class="glyphicon glyphicon-log-out"></span>
+						<span>Одјави се</span>
+					</a>
+				</li>
 			</ul>
 		</li>
 	</ul>
@@ -28,53 +34,65 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav in" id="side-menu">
-				<li ng-class="{'active': collapseVar==2}">
+				<li 
+				ng-if="hasPermission('administration');"
+				ng-class="{'active': collapseVar==2}">
 					<a data-target="#systemManagement" data-toggle="collapse" ng-click="check(2)">
 						<i class="fa fa-users fa-fw"></i>
 						<span>Администрација</span>
 						<span class="fa arrow"></span>
 					</a>
 					<ul class="nav nav-second-level" ng-class="[collapseVar!=2 ?'panel-collapse collapse':'panel-collapse collapse in']" id="systemManagement">
-						<li>
+						<li ng-if="hasPermission('administration');">
 							<a href="/#/users">
 								<i class="fa fa-user" aria-hidden="true"></i>
 								<span>Корисници</span>
 							</a>
 						</li>
-						<li>
+						<li ng-if="hasPermission('/costCenter');">
 							<a href="/#/costCenter">
 								<i class="fa fa-university" aria-hidden="true"></i>
 								<span>Трошковни места</span>
 							</a>
 						</li>
-						<li>
+						<li ng-if="hasPermission('/dates');">
 							<a href="/#/dates">
 								<i class="fa fa-calendar" aria-hidden="true"></i>
 								<span>Датуми</span>
 							</a>
 						</li>
+						<li ng-if="hasPermission('/config');">
+							<a href="/#/config">
+								<i class="fa fa-cogs" aria-hidden="true"></i>
+								<span>Кофигурација</span>
+							</a>
+						</li>
 					</ul>
 				</li>
-				<li ng-class="{ 'active': collapseVar==3 || collapseVar== 30 || collapseVar==31 || collapseVar==32 }">
+				<li 
+				ng-if="hasPermission('menus');"
+				ng-class="{ 'active': collapseVar==3 || collapseVar== 30 || collapseVar==31 || collapseVar==32 }">
 					<a data-target="#menuManagement" data-toggle="collapse" ng-click="check(3)">
 						<i class="fa fa-cutlery fa-fw"></i>
 						<span>Управување со менија</span>
 						<span class="fa arrow"></span>
 					</a>
 					<ul class="nav nav-second-level" ng-class="[collapseVar!=3 && collapseVar!=31 && collapseVar!=32 && collapseVar!=30 ?'panel-collapse collapse':'panel-collapse collapse in']" id="menuManagement" >
-						<li>
+						<li ng-if="hasPermission('/meals');">
 							<a href="/#/meals">
 								<i class="fa fa-list-alt" aria-hidden="true"></i>
 								<span>Оброци</span>
 							</a>
 						</li>
-						<li>
+						<li ng-if="hasPermission('/mealType');">
 							<a href="/#/mealType">
 								<i class="fa fa-list" aria-hidden="true"></i>
 								<span>Тип на оброк</span>
 							</a>
 						</li>
-						<li ng-class="{ 'active': collapseVar==30 || collapseVar==31 ||collapseVar==32}"  >
+						<li 
+						ng-if="hasPermission('menus-plan-preview');"
+						ng-class="{ 'active': collapseVar==30 || collapseVar==31 ||collapseVar==32}"  >
 							<a data-target="#menuPlaning" data-toggle="collapse" ng-click="check(30)">
 								<i class="fa fa-book" aria-hidden="true"></i>
 								<span>Менија</span>
@@ -83,13 +101,15 @@
 							<ul class="nav nav-third-level" 
 							ng-class="[collapseVar!=30 || collapseVar!=31 || collapseVar!=32?'panel-collapse collapse':'panel-collapse collapse in']" 
 							id="menuPlaning" >
-								<li ng-class="{ 'active': collapseVar==31}">
+								<li ng-if="hasPermission('/menu/planning');"
+								ng-class="{ 'active': collapseVar==31}">
 									<a href="/#/menu/planning">
 										<i class="fa fa-book" aria-hidden="true"></i>
 										<span>Планирање</span>
 									</a>
 								</li>
-								<li ng-class="{ 'active': collapseVar==32}">
+								<li  ng-if="hasPermission('/menu/preview');"
+								ng-class="{ 'active': collapseVar==32}">
 									<a href="/#/menu/preview">
 										<i class="fa fa-list" aria-hidden="true"></i>
 										<span>Преглед</span>
@@ -99,20 +119,22 @@
 						</li>
 					</ul>
 				</li>
-				<li ng-class="{'active': collapseVar==4}">
+				<li 
+				ng-if="hasPermission('planning');"
+				ng-class="{'active': collapseVar==4}">
 					<a data-target="#menuForCategory" data-toggle="collapse" ng-click="check(4)">
 						<i class="fa fa-cubes fa-fw"></i>
 						<span>Планирање</span>
 						<span class="fa arrow"></span>
 					</a>
 					<ul class="nav nav-second-level" ng-class="[collapseVar!=4 ?'panel-collapse collapse':'panel-collapse collapse in']" id="menuForCategory">
-						<li>
+						<li ng-if="hasPermission('/planning/thirdshift');">
 							<a href="/#/planning/thirdshift">
 								<i class="fa fa-clock-o" aria-hidden="true"></i>
 								<span>Трета смена</span>
 							</a>
 						</li>
-						<li>
+						<li ng-if="hasPermission('/planning/unplanned');">
 							<a href="/#/planning/unplanned">
 								<i class="fa fa-lightbulb-o" aria-hidden="true"></i>
 								<span>Непланирано</span>
@@ -120,7 +142,9 @@
 						</li>
 					</ul>
 				</li>
-				<li ng-class="{active: collapseVar==5}">
+				<li 
+				ng-if="hasPermission('reports');"
+				ng-class="{active: collapseVar==5}">
 					<a data-target="#reports" data-toggle="collapse" ng-click="check(5)">
 						<i class="fa fa-table fa-fw"></i>
 						<span>Извештаи</span>
@@ -128,18 +152,38 @@
 					</a>
 					<ul class="nav nav-second-level" ng-class="[collapseVar!=5 ?'panel-collapse collapse':'panel-collapse collapse in']" id="reports">
 						<li>
-							<a href="">Дневен извештај</a>
+							<a href="">
+								<i class="fa fa-tachometer" aria-hidden="true"></i>
+								<span>Дневен извештај</span>
+							</a>
 						</li>
 						<li>
-							<a href="">Неделен извештај</a>
+							<a href="">
+								<i class="fa fa-tachometer" aria-hidden="true"></i>
+								<span>Неделен извештај</span>
+							</a>
 						</li>
 						<li>
-							<a href="">Извештај за гости/надворешни соработници/ангажирани работници</a>
+							<a href="">
+								<i class="fa fa-tachometer" aria-hidden="true"></i>
+								<span>Извештај за гости/надворешни соработници/ангажирани работници</span>
+							</a>
 						</li>
 						<li>
-							<a href="">Извештај за реализирани/нереализирани оброци</a>
+							<a href="">
+								<i class="fa fa-tachometer" aria-hidden="true"></i>
+								<span>Извештај за реализирани/нереализирани оброци</span>
+							</a>
 						</li>
 					</ul>
+				</li>
+				<li 
+				ng-if="hasPermission('/employeesPerShift');"
+				ng-class="{active: collapseVar==6}">
+					<a href="#/employeesPerShift" ng-click="check(6)">
+						<i class="fa fa-balance-scale fa-fw"></i>
+						<span>Распоред на вработени</span>
+					</a>
 				</li>
 			</ul>
 		</div>

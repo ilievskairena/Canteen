@@ -1,0 +1,40 @@
+<div class="row">
+	<div id="logo-login" class="col-md-5 col-md-offset-2 col-lg-3 col-lg-offset-3">
+		<img class="text-center" ng-src="../images/logo.png" height="64" />
+		<h2 class="text-center uppercase"><em>Кантина</em></h2>
+	</div>
+</div>
+<div class="login-panel col-md-5 col-md-offset-2 col-lg-3 col-lg-offset-3">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Најава</h3>
+		</div>
+		<div class="panel-body">
+			<form name="vm.form" role="form">
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control" id="username"
+					ng-model="vm.user.username" required 
+					name="username" placeholder="Внесете корисничко име..." 
+					aria-describedby="username">
+					<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+					<span id="username" class="sr-only">(Корисничко име)</span>
+				</div>
+				<div class="form-group has-feedback">
+					<input type="password" class="form-control" id="password"
+					ng-model="vm.user.password" required 
+					name="password" placeholder="Внесете лозинка..." 
+					aria-describedby="password">
+					<span class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
+					<span id="password" class="sr-only">(Лозинка)</span>
+				</div>
+				<!-- Change this to a button or input when using this as a form -->
+				<button 
+				ng-disabled="vm.form.$invalid"
+				class="btn btn-success btn-block"
+				ng-click="vm.login()">
+					<span>Најави се</span>
+				</button>
+			</form>
+		</div>
+	</div>
+</div>

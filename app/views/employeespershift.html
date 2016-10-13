@@ -1,0 +1,121 @@
+<div class="row">
+	<div class="col-md-12">
+		<h3 class="page-header">Распоред на вработени по смени</h3>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">Датум од</label>
+			<p class="input-group">
+				<input type="text" class="form-control date-control"
+				uib-datepicker-popup="dd.MM.yyyy"
+				ng-model="vm.dateFrom.selected"
+				is-open="vm.dateFrom.open"
+				datepicker-options="vm.dateOptions"
+				ng-required="true"
+				placeholder="дд.мм.гггг"
+				readonly
+				close-text="Close"
+				ng-click="vm.openDateFrom()" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="vm.openDateFrom()"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</p>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">Датум до</label>
+			<p class="input-group">
+				<input type="text" class="form-control date-control"
+				uib-datepicker-popup="dd.MM.yyyy"
+				ng-model="vm.dateTo.selected"
+				is-open="vm.dateTo.open"
+				datepicker-options="vm.dateOptions"
+				ng-required="true"
+				placeholder="дд.мм.гггг"
+				readonly
+				close-text="Close"
+				 ng-click="vm.openDateTo()" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="vm.openDateTo()"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</p>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">Трошковно место</label>
+			<select class="form-control" ng-model="vm.model.costCenter"
+			ng-options="center.ID as center.Name for center in vm.costCenters">
+				<option value="null" disabled>Одберете трошковно место...</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">&nbsp;</label><br>
+			<button class="btn btn-success"
+			ng-click="vm.getEmployeesPerShift();">
+				<i class="fa fa-eye-slash"></i>
+				<span>Прикажи</span>
+			</button>
+		</div>
+	</div>
+</div>
+<div class="row"
+ ng-show="vm.showAlert()">
+	<div class="alert alert-warning alert-dismissible fade in" role="alert"> 
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">×</span>
+		</button> 
+		<strong>Holy guacamole!</strong> Best check yo self, you're not looking too good. </div>
+	</div>
+<div class="row" ng-if="vm.employeesPerShift.length > 0">
+	<div class="col-md-12">
+		<form name="vm.shiftForm" novalidate>
+			<table class="table table-bordered table-hover">
+				<tr>
+					<th></th>
+					<th>I смена</th>
+					<th>II смена</th>
+					<th>III смена</th>
+				</tr>
+				<tr 
+				ng-class="{'warning' : date.isHoliday }"
+				ng-repeat="date in vm.employeesPerShift">
+					<td>
+						{{vm.toShortDate(date.Date)}} - <strong>{{vm.getWeekDay(date.Date)}}</strong>
+					</td>
+					<td>
+						<input type="number" name="firstShift"
+						required ng-model="vm.employeesPerShift[$index].firstShift"
+						class="form-control input-sm" />
+					</td>
+					<td>
+						<input type="number" name="secondShift"
+						required ng-model="vm.employeesPerShift[$index].secondShift"
+						class="form-control input-sm" />
+					</td>
+					<td>
+						<input type="number" name="thirdShift"
+						required ng-model="vm.employeesPerShift[$index].thirdShift"
+						class="form-control input-sm" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div class="row" ng-if="vm.employeesPerShift.length > 0">
+	<div class="col-md-10"></div>
+	<div class="col-md-2 rull-right">
+		<button class="btn btn-success"
+		ng-disabled="!vm.shiftForm.$valid"
+		ng-click="vm.confirmSave();">
+			<i class="fa fa-save"></i>
+			<span>Зачувај</span>
+		</button>
+	</div>
+</div>

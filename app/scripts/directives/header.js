@@ -14,10 +14,14 @@ angular.module('canteenApp')
       replace: true,
       scope: {
       },
-      controller:function($scope){
+      controller:function($scope, localStorageService, roleService, AuthenticationService, $location, $rootScope){
         $scope.selectedMenu = 'dashboard';
         $scope.collapseVar = 1;
         
+        $scope.userName = $rootScope.userName;
+        $scope.role = $rootScope.roleName
+        $scope.roleId = $rootScope.roleId;
+
         $scope.check = function(x){
           
           if(x === $scope.collapseVar){
@@ -29,6 +33,14 @@ angular.module('canteenApp')
           else {
             $scope.collapseVar = x;
           }
+        };
+
+        $scope.logout = function() {
+          AuthenticationService.logOut();
+        };
+
+        $scope.hasPermission = function(route) {
+          return roleService.hasPermission(route, $rootScope.roleId);
         };
       }
     };

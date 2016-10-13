@@ -197,3 +197,18 @@ body > .select2-container.open {
   background-color: #337ab7 !important;
   border-color: #337ab7 !important;
 }
+
+.login {
+  background-color: white !important;
+}
+.login > #page-wrapper {
+  border-left: none !important;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.time-label {
+  padding-top: 40px !important;
+}

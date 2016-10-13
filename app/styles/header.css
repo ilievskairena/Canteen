@@ -209,7 +209,20 @@ body {
 }
 
 .login-panel {
-    margin-top: 25%;
+    margin-top: 0px !important;
+}
+
+.login-panel > .panel {
+    box-shadow: 0px 0px 10px #ccc;
+}
+
+#logo-login {
+    margin-top: 5%;
+}
+
+#logo-login > img {
+    display: inherit;
+    margin: auto;
 }
 
 .flot-chart {
