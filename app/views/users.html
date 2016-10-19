@@ -4,12 +4,55 @@
 	</div>
 	<div class="col-md-12" ng-hide="vm.isInserting" >
 		<div class="row">
+			<div class="col-md-3 pull-left">
+				<button class="btn btn-info pull-left"
+				ng-click="vm.showFilters=!vm.showFilters">
+					<i class="fa fa-filter"></i>
+					<span ng-if="!vm.showFilters">Прикажи филтри</span>
+					<span ng-if="vm.showFilters">Исклучи филтри</span>
+				</button>
+			</div>
 			<div class="col-md-3 pull-right">
-				<button class="btn btn-success"
+				<button class="btn btn-success pull-right"
 				ng-click="vm.isInserting=true">
 					<i class="fa fa-plus"></i>
 					<span>Додади нов корисник</span>
 				</button>
+			</div>
+		</div>
+	</div>
+	<div ng-if="vm.showFilters" id="filters" class="col-md-12 margin-top-15 animate-show">
+		<h4>Филтри</h4>
+		<div class="col-md-1">
+			<div class="form-group">
+				<label for="">ID</label>
+				<input type="text" class="form-control input-sm" 
+				placeholder="Внесете ID..." 
+				ng-model="vm.filters.PersonNumber" />
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="form-group">
+				<label for="">Име и презиме</label>
+				<input type="text" class="form-control input-sm" 
+				placeholder="Внесете име..." 
+				ng-model="vm.filters.Name" />
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="form-group">
+				<label for="">Корисничко име</label>
+				<input type="text" class="form-control input-sm" 
+				placeholder="Внесете корисничко име..." 
+				ng-model="vm.filters.Username" />
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="form-group">
+				<label for="">Број на картичка</label>
+				<input type="text" class="form-control input-sm" 
+				placeholder="Внесете број на картичка..." 
+				ng-model="vm.filters.CardNumber" />
 			</div>
 		</div>
 	</div>
@@ -110,81 +153,87 @@
 	<div class="col-md-12">
 		<table ng-table="vm.table"
 		class="table table-bordered table-striped">
+			<colgroup>
+				<col width="10%">
+				<col width="15%">
+				<col width="10%">
+				<col width="8%">
+				<col width="15%">
+				<col width="15%">
+				<col width="10%">
+				<col width="5%">
+				<col width="5%">
+				<col width="12%">
+			</colgroup>
+			<tr>
+				<th>ID број</th>
+				<th>Име и презиме</th>
+				<th>Корисничко име</th>
+				<th>Трош. место</th>
+				<th>Улога</th>
+				<th>Бр. картичка</th>
+				<th>Тип на картичка</th>
+				<th>Враб.?</th>
+				<th>Акт.?</th>
+				<th>Акции</th>
+			</tr>
 			<tr 
 			ng-class="{'danger': !row.IsActive }"
-			ng-repeat="row in $data">
-				<td data-title="'ID број'" sortable="'PersonNumber'" 
-				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.PersonNumber}}</td>
-				<td data-title="'Име и презиме'" sortable="'Name'" 
-				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Name}}</td>
-				<td data-title="'Корисничко име'" sortable="'Username'" 
-				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Username}}</td>
-				<td data-title="'Трош. место'" sortable="'CostCenterName'" 
-				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.CostCenterName}}</td>
-				<td data-title="'Улога'" sortable="'RoleName'" 
-				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.RoleName}}</td>
-				<td data-title="'Бр. картичка'" sortable="'CardNumber'" 
-				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.CardNumber}}</td>
-				<td data-title="'Тип на картичка'" sortable="'CardType'" 
-				ng-if="!vm.isEditing || vm.editIndex != $index">{{row.CardType}}</td>
-				<td data-title="'Враб.?'" sortable="'IsEmployee'" 
-				ng-if="!vm.isEditing || vm.editIndex != $index">
+			ng-repeat="row in $data | filter: vm.filters">
+				<td	ng-if="!vm.isEditing || vm.editIndex != $index">{{row.PersonNumber}}</td>
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Name}}</td>
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Username}}</td>
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.CostCenterName}}</td>
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.RoleName}}</td>
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.CardNumber}}</td>
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.CardType}}</td>
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">
 					<span ng-if="row.IsEmployee">Да</span>
 					<span ng-if="!row.IsEmployee">Не</span>
 				</td>
-				<td data-title="'Акт.?'" sortable="'IsActive'" 
-				ng-if="!vm.isEditing || vm.editIndex != $index">
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">
 					<span ng-if="row.IsActive != false">Да</span>
 					<span ng-if="row.IsActive == false">Не</span>
 				</td>
-				<td data-title="'ID број'"
-	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+				<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.PersonNumber" 
 	              	class="editable-input form-control input-sm" required />
 	            </td>
-	            <td data-title="'Име и презиме'" 
-	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	            <td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.Name" 
 	              	class="editable-input form-control input-sm" required />
 	            </td>
-	            <td data-title="'Корисничко име'" 
-	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	            <td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.Username" 
 	              	class="editable-input form-control input-sm" required />
 	            </td>
-				<td data-title="'Трош место'"
-				ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+				<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 					<select class="form-control input-sm" name="MealType" ng-model="vm.editModel.CostCenterID"
 					 ng-options="center.ID as center.Name for center in vm.allCostCenters"
 					>
 					</select>
 	            </td>
-				<td data-title="'Улога'" 
-				ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+				<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 					<select class="form-control input-sm" name="MealType" ng-model="vm.editModel.RoleID"
 					 ng-options="role.ID as role.RoleName for role in vm.Roles"
 					>
 					</select>
 	            </td>
-	            <td data-title="'Бр.картичка'"
-	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	            <td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.CardNumber" limit-to="11"
 	              	class="editable-input form-control input-sm" required />
 	            </td>
-	            <td data-title="'Тип картичка'"
-	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	            <td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.CardType" 
 	              	class="editable-input form-control input-sm" required />
 	            </td>
-	            <td data-title="'Враб.?'"
-	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	            <td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="checkbox" name="" ng-model="vm.editModel.IsEmployee" required />
 	            </td>
-	            <td data-title="'Акт.?'" 
-	            ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	            <td  ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="checkbox" name="" ng-model="vm.editModel.IsActive" required />
 	            </td>
-				<td data-title="'Акции'" class="command">
+				<td class="command">
 					<button class="btn btn-primary btn-sm" ng-click="vm.update()" ng-if="vm.isEditing && vm.editIndex == $index" 
 					ng-disabled="vm.editModel.PersonNumber == ''">
 						<span class="glyphicon glyphicon-ok"></span>

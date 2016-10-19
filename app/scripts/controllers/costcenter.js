@@ -8,7 +8,7 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('CostcenterCtrl', function ($scope, roleService, ngDialog, $http, APP_CONFIG, ngTableParams, toastr, ngProgressFactory) {
+  .controller('CostcenterCtrl', function ($scope, roleService, ngDialog, $http, utility, $location, APP_CONFIG, ngTableParams, toastr, ngProgressFactory) {
     
     var vm = this;
 

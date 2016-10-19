@@ -212,3 +212,18 @@ body > .select2-container.open {
 .time-label {
   padding-top: 40px !important;
 }
+
+.animate-show {
+  line-height: 20px;
+  opacity: 1;
+}
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+  transition: all linear 0.3s;
+}
+
+.animate-show.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}

@@ -16,6 +16,7 @@ angular.module('canteenApp')
     if(!utility.isAuthenticated()) {
       $location.path('/login');
     }
+    
     vm.loggedInUser = utility.getLoggedInUser();
     var path = $location.path();
     if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
@@ -26,6 +27,7 @@ angular.module('canteenApp')
     vm.isInserting = false;
     vm.editModel = null;
     vm.editIndex = null;
+    vm.showFilters = false;
     vm.returnedUser = {};
     vm.regex = {
         number: "[0-9]{8}",

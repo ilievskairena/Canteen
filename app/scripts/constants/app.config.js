@@ -23,8 +23,6 @@
  	employeespershift: "/api/employeespershift/save",
  	employees_per_shift_existing: "/api/employeespershift/existing",
  	login: "/api/account/login",
- 	users: "/api/users",
- 	user_properties: "/api/account/properties",
  	meals: "/api/meals",
  	meals_insert: "/api/meals/insert",
  	meals_by_date: "/api/meals/MealByDate",
@@ -33,11 +31,13 @@
  	mealtype_insert: "/api/mealtype/insert",
  	menu: "/api/meals/menu",
  	orders: "/api/orders",
+ 	orders_existing: "/api/orders/existing",
  	orders_delete: "/api/orders/delete/",
  	orders_thidshift: "/api/orders/thirdshift",
  	thirdShiftPlan: "/api/orders/thirdShiftPlanning",
  	orders_realized: "/api/orders/realized",
  	unplanedMeal: "/api/orders/unplaned",
  	users: "/api/users",
- 	users_insert: "/api/users/insert"
+ 	users_insert: "/api/users/insert",
+ 	user_properties: "/api/account/properties"
  });

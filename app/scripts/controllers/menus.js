@@ -8,7 +8,7 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('MenusCtrl', function ($rootScope, roleService, $location, $http, $scope, utility, APP_CONFIG, toastr, $filter, WizardHandler) {
+  .controller('MenusCtrl', function ($rootScope, $route, roleService, $location, $http, $scope, utility, APP_CONFIG, toastr, $filter, WizardHandler) {
 
     var vm = this;
 
@@ -146,7 +146,7 @@ angular.module('canteenApp')
         }).
         success(function(data) {
             toastr.success("Менијата се успешно запишани.");
-            WizardHandler.reset();
+            $route.reload();
             vm.summary = {
               selectedDates:[],
               shiftOne: [],

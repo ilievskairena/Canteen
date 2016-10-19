@@ -114,7 +114,7 @@ angular.module('canteenApp')
     	vm.showMealChoices = null;
       	vm.progressBar.setColor('#8dc63f');
       	vm.progressBar.start();
-      	var url = APP_CONFIG.BASE_URL + APP_CONFIG.orders;
+      	var url = APP_CONFIG.BASE_URL + APP_CONFIG.orders_existing;
       	url += "?dateId=" + vm.meals.DateId;
       	if(vm.person.ID != 0) url += "&userId=" + vm.person.ID;
     	$http({
@@ -124,7 +124,7 @@ angular.module('canteenApp')
 	    }).
 	    success(function(data) {
 	    	vm.order = data;
-	        vm.progressBar.complete();
+	      vm.progressBar.complete();
 	    	vm.step = 4;
 	    	if(vm.person.ID == 0) {
 	    		vm.numberWorker = data.length;
