@@ -1,9 +1,9 @@
-<div class="row">
+<div class="row" ng-if="vm.loggedInUser.RoleID == 1">
   <div class="col-md-12">
     <h3 class="page-header">Администраторски панел</h3>
   </div>
 </div>
-<div class="row">
+<div class="row" ng-if="vm.loggedInUser.RoleID == 1">
   <div class="col-lg-3 col-md-6">
     <div class="panel panel-green">
       <div class="panel-heading">
@@ -90,6 +90,50 @@
           <div class="clearfix"></div>
         </div>
       </a>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6" ng-if="vm.loggedInUser.RoleID == 1">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Број на нарачки по трошковни места</h3>
+      </div>
+      <div class="panel-body">
+        <canvas class="chart chart-pie"
+          chart-data="vm.chartOrder.data" 
+          chart-labels="vm.chartOrder.label" 
+          chart-options="vm.chartOrder.options">
+        </canvas> 
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default" ng-if="vm.loggedInUser.RoleID == 1 || vm.loggedInUser.RoleID == 6">
+      <div class="panel-heading">
+        <h3 class="panel-title">Однос на реализирани/нереализирани нарачки по ден</h3>
+      </div>
+      <div class="panel-body">
+        <canvas class="chart chart-line"
+          chart-data="vm.chartRatio.data" 
+          chart-labels="vm.chartRatio.label" 
+          chart-series="vm.chartRatio.series">
+        </canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6" ng-if="vm.loggedInUser.RoleID == 1 || vm.loggedInUser.RoleID == 6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Однос на реализирани/нереализирани нарачки по трошковно место</h3>
+      </div>
+      <div class="panel-body">
+        <canvas class="chart chart-bar"
+          chart-data="vm.chartCCRatio.data" 
+          chart-labels="vm.chartCCRatio.label" 
+          chart-series="vm.chartCCRatio.series">
+        </canvas>
+      </div>
     </div>
   </div>
 </div>

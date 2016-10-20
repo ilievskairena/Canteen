@@ -27,7 +27,11 @@ angular
     'ui.bootstrap',
     'ngProgress',
     'LocalStorageModule',
+    'chart.js',
   ])
+  .config(function (ChartJsProvider) {
+  ChartJsProvider.setOptions({ colors : [ '#a8b4bd', '#7a92a3', '#2677b5', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+  }) 
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

@@ -42,6 +42,8 @@ module.exports = function(config) {
       'bower_components/angular-wizard/dist/angular-wizard.min.js',
       'bower_components/angular-ui-select/dist/select.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'bower_components/chart.js/dist/Chart.js',
+      'bower_components/angular-chart.js/dist/angular-chart.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
