@@ -17,6 +17,8 @@
  	charts_order_cost_centers: "/api/reports/ordersCenter",
  	charts_realization_ratio: "/api/reports/realizationRatio",
  	charts_realization_by_cost_center: "/api/reports/realizationCostCenter",
+ 	reports_orders_period : "/api/reports/ordersPeriod",
+ 	reports_orders_cost_center: "/api/reports/ordersPerCostCenter",
  	dates:"/api/dates",
  	dates_by_year: "/api/dates/GetDates",
  	dates_range: "/api/dates/range",

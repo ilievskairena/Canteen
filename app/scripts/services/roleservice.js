@@ -28,6 +28,8 @@ angular.module('canteenApp')
     	"/users": [1],
     	"/users": [1],
     	"/users": [1],
+        "/reports/orders" : [1,2,4,5,6],
+        "/reports/ordersPerCostCenter" : [1,2,4,5,6],
     	//Menu root folder
     	"administration": [1],
     	"menus": [1,6],

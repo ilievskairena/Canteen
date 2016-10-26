@@ -111,6 +111,7 @@ angular.module('canteenApp')
 	      	vm.progressBar.complete();
 	    }).
 	    error(function(data, status, headers, config) {
+	    	vm.progressBar.reset();
 		    if(status == 404) {
 		        vm.getDates();
 		    }

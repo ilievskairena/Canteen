@@ -1,0 +1,88 @@
+<div class="row">
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">Датум од</label>
+			<p class="input-group">
+				<input type="text" class="form-control date-control"
+				uib-datepicker-popup="dd.MM.yyyy"
+				ng-model="vm.dateFrom.selected"
+				is-open="vm.dateFrom.open"
+				datepicker-options="vm.dateOptions"
+				ng-required="true"
+				placeholder="дд.мм.гггг"
+				readonly
+				close-text="Close"
+				ng-click="vm.openDateFrom()" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="vm.openDateFrom()"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</p>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">Датум до</label>
+			<p class="input-group">
+				<input type="text" class="form-control date-control"
+				uib-datepicker-popup="dd.MM.yyyy"
+				ng-model="vm.dateTo.selected"
+				is-open="vm.dateTo.open"
+				datepicker-options="vm.dateOptions"
+				ng-required="true"
+				placeholder="дд.мм.гггг"
+				readonly
+				close-text="Close"
+				 ng-click="vm.openDateTo()" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="vm.openDateTo()"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</p>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">Трошковно место</label>
+			<select class="form-control" name="CostCenter" ng-model="vm.CostCenter">
+				<option selected disabled value="">Одбери трошковно место</option>
+				<option ng-repeat="costCenter in vm.costCenters" 
+				value="{{costCenter.ID}}">{{costCenter.Name}}</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">&nbsp;</label><br>
+			<button class="btn btn-success"
+			ng-click="vm.GetOrdersPerCostCenter(vm.dateFrom.selected, vm.dateTo.selected);">
+				<i class="fa fa-eye-slash"></i>
+				<span>Прикажи</span>
+			</button>
+		</div>
+	</div>
+</div>
+<div class="row margin-top-15">
+	<div class="col-md-12">
+		<table ng-table="vm.table"
+		class="table table-bordered table-hover">
+			<colgroup>
+				<col width="5%">
+				<col width="10%">
+				<col width="5%">
+				<col width="10%">
+				<col width="10%">
+			</colgroup>
+			<tr>
+				<th>Датум</th>
+				<th>Трошковно место</th>
+				<th>Смена</th>
+				<th>Мени</th>
+			</tr>
+			<tr ng-repeat="order in $data">
+				<td>{{order.Date | shortdate}}</td>
+				<td>{{order.CostCenter}}</td>
+				<td>{{order.Shift}}</td>
+				<td>{{order.Menu}}</td>
+			</tr>
+		</table>
+	</div>
+</div>

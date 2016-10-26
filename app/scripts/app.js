@@ -99,6 +99,16 @@ angular
         controller: 'ConfigCtrl',
         controllerAs: 'vm'
       })
+      .when('/reports/orders', {
+        templateUrl: 'views/reports_orders.html',
+        controller: 'ReportsOrdersCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/reports/ordersPerCostCenter', {
+        templateUrl: 'views/reports_orders_cost_center.html',
+        controller: 'ReportsOrdersCostCenterCtrl',
+        controllerAs: 'vm'
+      })
       .otherwise({
         redirectTo: '/'
       });
