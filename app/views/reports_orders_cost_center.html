@@ -1,4 +1,9 @@
 <div class="row">
+	<div class="col-md-12">
+		<h3 class="page-header">Нарачки по тршковно место</h3>
+	</div>
+</div>
+<div class="row">
 	<div class="col-md-3">
 		<div class="form-group">
 			<label for="">Датум од</label>
@@ -42,7 +47,7 @@
 	<div class="col-md-3">
 		<div class="form-group">
 			<label for="">Трошковно место</label>
-			<select class="form-control" name="CostCenter" ng-model="vm.CostCenter">
+			<select class="form-control" name="CostCenter" ng-model="vm.costCenter">
 				<option selected disabled value="">Одбери трошковно место</option>
 				<option ng-repeat="costCenter in vm.costCenters" 
 				value="{{costCenter.ID}}">{{costCenter.Name}}</option>
@@ -76,13 +81,31 @@
 				<th>Трошковно место</th>
 				<th>Смена</th>
 				<th>Мени</th>
+				<th>Нарачки</th>
 			</tr>
-			<tr ng-repeat="order in $data">
-				<td>{{order.Date | shortdate}}</td>
-				<td>{{order.CostCenter}}</td>
-				<td>{{order.Shift}}</td>
-				<td>{{order.Menu}}</td>
+			<tr ng-repeat-start="order in $data">
+				<td rowspan="{{order.span + 3*order.CostCenters.length}}">{{order.Date | shortdate}}</td>
 			</tr>
+			<tr	ng-repeat-start="center in order.CostCenters"
+			ng-if="center.ShiftOne.length > 0 || center.ShiftTwo.length > 0 || center.ShifThree.length > 0">
+				<td rowspan="{{center.ShiftOne.length + center.ShiftTwo.length + center.ShiftThree.length + 3}}">{{center.Name}}</td>
+			</tr>
+			<tr	ng-repeat-start="meal in center.ShiftOne" ng-if="center.ShiftOne.length > 0 && $index == 0">
+				<td rowspan="{{center.ShiftOne.length + 2}}">1 - Прва</td>
+			</tr>
+			<tr ng-repeat-end ng-if="center.ShiftOne.length > 0">
+				<td>{{meal.TypeName}}</td>
+				<td>{{meal.Count}}</td>
+			</tr>
+			<tr	ng-repeat-start="meal in center.ShiftTwo" ng-if="center.ShiftTwo.length > 0 && $index == 0">
+				<td rowspan="{{center.ShiftTwo.length + 2}}">2 - Втора</td>
+			</tr>
+			<tr ng-repeat-end ng-if="center.ShiftTwo.length > 0">
+				<td>{{meal.TypeName}}</td>
+				<td>{{meal.Count}}</td>
+			</tr>
+			<tr ng-repeat-end></tr>
+			<tr ng-repeat-end></tr>
 		</table>
 	</div>
 </div>

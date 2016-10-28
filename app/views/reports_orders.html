@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row margin-top-15">
 	<div class="col-md-3">
 		<div class="form-group">
 			<label for="">Датум од</label>
@@ -79,7 +79,10 @@
 				<td>{{order.Shift}}</td>
 				<td>{{order.Menu}}</td>
 				<td>{{order.Guests}}</td>
-				<td>{{order.IsRealized}}</td>
+				<td>
+					<span ng-if="order.IsRealized == true">Да</span>
+					<span ng-if="order.IsRealized == false">Не</span>
+				</td>
 			</tr>
 		</table>
 	</div>
