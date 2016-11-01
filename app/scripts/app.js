@@ -109,6 +109,26 @@ angular
         controller: 'ReportsOrdersCostCenterCtrl',
         controllerAs: 'vm'
       })
+      .when('/reports/nextWeek', {
+        templateUrl: 'views/reports_next_week.html',
+        controller: 'ReportsNextWeekCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/reports/realizedUnrealized', {
+        templateUrl: 'views/reports_realized_requested.html',
+        controller: 'ReportsRealizedRequestedCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/reports/workersGuests', {
+        templateUrl: 'views/reports_workers_guests.html',
+        controller: 'ReportsWorkersGuestsCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/reports/plannedUnplanned', {
+        templateUrl: 'views/reports_planned_unplanned.html',
+        controller: 'ReportsPlannedUnplannedCtrl',
+        controllerAs: 'vm'
+      })
       .otherwise({
         redirectTo: '/'
       });

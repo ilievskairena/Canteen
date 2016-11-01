@@ -2,14 +2,13 @@
 
 /**
  * @ngdoc function
- * @name canteenApp.controller:ReportsOrdersCostCenterCtrl
+ * @name canteenApp.controller:ReportsRealizedRequestedCtrl
  * @description
- * # ReportsOrdersCostCenterCtrl
+ * # ReportsRealizedRequestedCtrl
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('ReportsOrdersCostCenterCtrl', function ($rootScope,$filter, roleService, $location, $scope, $http, APP_CONFIG,toastr, utility,ngProgressFactory,ngTableParams) {
-    
+  .controller('ReportsRealizedRequestedCtrl', function ($rootScope,$filter, roleService, $location, $scope, $http, APP_CONFIG,toastr, utility,ngProgressFactory,ngTableParams) {
     var vm = this;
 
     $rootScope.isLogin = false;
@@ -24,7 +23,6 @@ angular.module('canteenApp')
     
     vm.Orders = [];
     vm.availableDates = [];
-    vm.costCenters =[];
 
     //for dates form
     vm.dateOptions = {
@@ -45,44 +43,26 @@ angular.module('canteenApp')
         open: false
     };
 
-	vm.GetOrdersPerCostCenter = function(){
+	vm.GetOrdersRatio = function(){
 		vm.progressBar.setColor('#8dc63f');
 	    vm.progressBar.start();
     	var dateF = $filter('date')(vm.dateFrom.selected, "yyyy-MM-dd HH:mm:ss.sss");
     	var dateT = $filter('date')(vm.dateTo.selected, "yyyy-MM-dd HH:mm:ss.sss");
-
     	var params = {
         	dateFrom : dateF,
         	dateTo: dateT,
-            costCenterID: vm.costCenter,
     	};
-
-    	if(vm.costCenter != null && vm.costCenter != undefined && vm.costCenter != "")
-    		params.costCenterID = vm.costCenter;
 
 		$http({
             method: 'GET',
             crossDomain: true,
-            url: APP_CONFIG.BASE_URL + APP_CONFIG.reports_orders_cost_center,
+            url: APP_CONFIG.BASE_URL + APP_CONFIG.reports_realized_ratio,
             params: params
         }).
         success(function(data) {
         	vm.progressBar.complete();
             vm.orders = data;
-
-            for(var i in data) {
-            	var date = data[i];
-            	var total = 0;
-            	for(var j in date.CostCenters) {
-            		var center = date.CostCenters[j];
-
-            		var centerSpan = center.ShiftOne.length + center.ShiftTwo.length + center.ShiftTwo.length;
-            		center.span = centerSpan;
-            		total += centerSpan;
-            	}
-                date.span = total;
-            }
-
+            console.log(data);
             vm.table = new ngTableParams({
               page: 1,
               count: 5
@@ -137,20 +117,4 @@ angular.module('canteenApp')
 	    });
     };
 
-    vm.getCostCenters = function(){
-    	$http({
-	          method: 'GET',
-	          crossDomain: true,
-	          url:  APP_CONFIG.BASE_URL + APP_CONFIG.costcenter
-	    }).
-	    success(function(data) {/*
-	        console.log("Success getting cost centers");*/
-	        vm.costCenters = data;
-	    }).
-	    error(function(data, status, headers, config) {
-	        console.log("Error getting cost centers");
-	    });
-    };
-	
-	vm.getCostCenters();
   });

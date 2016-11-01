@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
-		<h3 class="page-header">Нарачки по трошковно место</h3>
+		<h3 class="page-header">Реализирани/Нереализирани оброци по трошковно место</h3>
 	</div>
 </div>
 <div class="row">
@@ -46,19 +46,9 @@
 	</div>
 	<div class="col-md-3">
 		<div class="form-group">
-			<label for="">Трошковно место</label>
-			<select class="form-control" name="CostCenter" ng-model="vm.costCenter">
-				<option selected disabled value="">Одбери трошковно место</option>
-				<option ng-repeat="costCenter in vm.costCenters" 
-				value="{{costCenter.ID}}">{{costCenter.Name}}</option>
-			</select>
-		</div>
-	</div>
-	<div class="col-md-3">
-		<div class="form-group">
 			<label for="">&nbsp;</label><br>
 			<button class="btn btn-success"
-			ng-click="vm.GetOrdersPerCostCenter(vm.dateFrom.selected, vm.dateTo.selected);">
+			ng-click="vm.GetOrdersRatio();">
 				<i class="fa fa-eye-slash"></i>
 				<span>Прикажи</span>
 			</button>
@@ -79,32 +69,18 @@
 			<tr>
 				<th>Датум</th>
 				<th>Трошковно место</th>
-				<th>Смена</th>
-				<th>Мени</th>
-				<th>Нарачки</th>
+				<th>Реализирани</th>
+				<th>Нереализирани</th>
 			</tr>
-			<tr ng-repeat-start="order in $data">
-				<td rowspan="{{order.span + 3*order.CostCenters.length}}">{{order.Date | shortdate}}</td>
+			<tr ng-repeat-start="order in $data" ng-if="order.CostCenters.length !=0">
+				<td rowspan="{{order.CostCenters.length*2}}">{{order.Date | shortdate}}</td>
 			</tr>
-			<tr	ng-repeat-start="center in order.CostCenters"
-			ng-if="center.ShiftOne.length > 0 || center.ShiftTwo.length > 0 || center.ShifThree.length > 0">
-				<td rowspan="{{center.ShiftOne.length + center.ShiftTwo.length + center.ShiftThree.length + 3}}">{{center.Name}}</td>
+			<tr	ng-repeat-start="center in order.CostCenters">
+				<td rowspan="2">{{center.Name}}</td>
+				<td>{{center.Planned}}</td>
+				<td>{{center.Unplanned}}</td>
 			</tr>
-			<tr	ng-repeat-start="meal in center.ShiftOne" ng-if="center.ShiftOne.length > 0 && $index == 0">
-				<td rowspan="{{center.ShiftOne.length + 2}}">1-Прва</td>
-			</tr>
-			<tr ng-repeat-end ng-if="center.ShiftOne.length > 0">
-				<td>{{meal.TypeName}}</td>
-				<td>{{meal.Count}}</td>
-			</tr>
-			<tr	ng-repeat-start="meal in center.ShiftTwo" ng-if="center.ShiftTwo.length > 0 && $index == 0">
-				<td rowspan="{{center.ShiftTwo.length + 2}}">2-Втора</td>
-			</tr>
-			<tr ng-repeat-end ng-if="center.ShiftTwo.length > 0">
-				<td>{{meal.TypeName}}</td>
-				<td>{{meal.Count}}</td>
-			</tr>
-			<tr ng-repeat-end></tr>
+			<tr	ng-repeat-end></tr>
 			<tr ng-repeat-end></tr>
 		</table>
 	</div>
