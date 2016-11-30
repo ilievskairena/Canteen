@@ -35,6 +35,11 @@ angular.module('canteenApp')
         card: "[0-9]{11}"
     };
 
+    vm.clearForm = function(){
+       // vm.username = vm.name = vm.costCenter = vm.personNumber = vm.role = vm.isEmployee = vm.cardNumber = vm.cardType = null;
+       vm.isInserting = false;
+    };
+
     vm.edit = function(row, index){
       vm.editModel = angular.copy(row);
       vm.isEditing = true;
@@ -90,7 +95,7 @@ angular.module('canteenApp')
             CardType: vm.cardType,
             CardID: null
     	};
-        console.log(newUser);
+        //console.log(newUser);
     	$http({
             method: 'POST',
             data: newUser,
@@ -101,6 +106,7 @@ angular.module('canteenApp')
         success(function(data) {
             vm.progressBar.complete();
             vm.getUsers();
+            vm.clearForm();
             vm.progressBar.complete();
             toastr.success("Успешно внесен корисник!");
 

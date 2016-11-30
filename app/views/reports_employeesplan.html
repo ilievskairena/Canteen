@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
-		<h3 class="page-header">Планирани/Непланирани оброци по трошковно место</h3>
+		<h3 class="page-header">Распоред на вработени</h3>
 	</div>
 </div>
 <div class="row">
@@ -48,7 +48,7 @@
 		<div class="form-group">
 			<label for="">&nbsp;</label><br>
 			<button class="btn btn-success"
-			ng-click="vm.GetOrdersRatio();">
+			ng-click="vm.GetEmployeesPlan();">
 				<i class="fa fa-eye-slash"></i>
 				<span>Прикажи</span>
 			</button>
@@ -69,16 +69,18 @@
 			<tr>
 				<th>Датум</th>
 				<th>Трошковно место</th>
-				<th>Реализирани</th>
-				<th>Нереализирани</th>
+				<th>Смена 1</th>
+				<th>Смена 2</th>
+				<th>Смена 3</th>
 			</tr>
-			<tr ng-repeat-start="order in $data" ng-if="order.CostCenters.length !=0">
-				<td rowspan="{{order.CostCenters.length*2}}">{{order.Date | shortdate}}</td>
+			<tr ng-repeat-start="item in $data" ng-if="item.CostCenters.length !=0">
+				<td rowspan="{{item.CostCenters.length*2}}">{{item.Date | shortdate}}</td>
 			</tr>
-			<tr	ng-repeat-start="center in order.CostCenters">
+			<tr	ng-repeat-start="center in item.CostCenters">
 				<td rowspan="2">{{center.Name}}</td>
-				<td>{{center.Planned}}</td>
-				<td>{{center.Unplanned}}</td>
+				<td>{{center.Employees[0]}}</td>
+				<td>{{center.Employees[1]}}</td>
+				<td>{{center.Employees[2]}}</td>
 			</tr>
 			<tr	ng-repeat-end></tr>
 			<tr ng-repeat-end></tr>

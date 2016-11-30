@@ -34,6 +34,7 @@ angular.module('canteenApp')
         '/reports/realizedUnrealized':[1,2,4,5,6],
         '/reports/workersGuests' : [1,2,4,5,6],
         '/reports/plannedUnplanned' : [1,2,4,5,6],
+        '/reports/employeesPlan' : [1,2,4,5,6],
     	//Menu root folder
     	"administration": [1],
     	"menus": [1,6],

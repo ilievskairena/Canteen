@@ -65,7 +65,7 @@ angular.module('canteenApp')
           data: mealType,
           contentType:'application/json',
           crossDomain: true,
-          url: APP_CONFIG.BASE_URL + APP_CONFIG.BASE_URL +  "/" + vm.editModel.ID
+          url: APP_CONFIG.BASE_URL + APP_CONFIG.mealtype +  "/" + vm.editModel.ID
       }).
       success(function(data) {
           toastr.success("Успешно променет тип!");

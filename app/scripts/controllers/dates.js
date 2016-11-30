@@ -60,12 +60,13 @@ angular.module('canteenApp')
         minDate.setDate(1);
         minDate.setMonth(0);
         minDate.setFullYear(vm.selectedYear);
+        minDate.setHours(0,0,0);
         var maxDate = new Date();
         maxDate.setDate(31);
         maxDate.setMonth(12);
         maxDate.setFullYear(vm.selectedYear+1);
-        console.log(maxDate);
-        if(minDate > date || maxDate < date) {
+        maxDate.setHours(0,0,0);
+        if((minDate > date || maxDate < date) && minDate.toString() != date.toString()) {
             toastr.error("Не смеете да внесувате за оваа календарска година. Одберете календарска година од понудените!");
             return;
         }

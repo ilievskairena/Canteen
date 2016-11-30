@@ -84,11 +84,11 @@ angular.module('canteenApp')
 			vm.dateTo.selected.setHours(0,0,0,0);
 			dateFrom.setHours(0,0,0,0);
 			dateTo.setHours(0,0,0,0);
-			console.log(dateFrom);
-			console.log(vm.dateFrom.selected);
-			console.log(dateTo);
-			console.log(vm.dateTo.selected);
-			console.log(vm.dateFrom.selected != dateFrom || vm.dateTo.selected != dateTo);
+			//console.log(dateFrom);
+			//console.log(vm.dateFrom.selected);
+			//console.log(dateTo);
+			//console.log(vm.dateTo.selected);
+			//console.log(vm.dateFrom.selected != dateFrom || vm.dateTo.selected != dateTo);
 			return vm.dateFrom.selected != dateFrom 
 			|| vm.dateTo.selected != dateTo;
 		}
@@ -171,6 +171,7 @@ angular.module('canteenApp')
 
     vm.save = function() {
     	var data = vm.formatModel();
+    	console.log(data);
     	$http({
 	        method: 'POST',
 	        contentType:'application/json',
@@ -179,12 +180,12 @@ angular.module('canteenApp')
 	        data: data
 	    }).
 	    success(function(data) {
-	        toastr.success("Успешно креирани нарачки за трета смена!")
+	        toastr.success("Успешно краиран распоред!")
 	        vm.progressBar.complete();
 	        vm.getEmployeesPerShift();
 	    }).
 	    error(function(data, status, headers, config) {
-	        toastr.error("Грешка при креирање на нарачки за трета смена. Ве молиме обидете се повторно!");
+	        toastr.error("Грешка при креирање на распоредот. Ве молиме обидете се повторно!");
 	        vm.progressBar.reset();
 	    });
     };

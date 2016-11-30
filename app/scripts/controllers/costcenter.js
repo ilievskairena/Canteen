@@ -45,7 +45,7 @@ angular.module('canteenApp')
           method: 'POST',
           contentType:'application/json',
           crossDomain: true,
-          url:  APP_CONFIG.BASE_URL + APP_CONFIG.costcenter,
+          url:  APP_CONFIG.BASE_URL + APP_CONFIG.costcenter_insert,
           data: newCostCenter
       }).
       success(function(data) {
@@ -73,7 +73,7 @@ angular.module('canteenApp')
           data: editCCenter,
           contentType:'application/json',
           crossDomain: true,
-          url: APP_CONFIG.BASE_URL + APP_CONFIG.costcenter + vm.editModel.ID
+          url: APP_CONFIG.BASE_URL + APP_CONFIG.costcenter +"/" + vm.editModel.ID
       }).
       success(function(data) {
           toastr.success("Успешно променето трошковно место!");

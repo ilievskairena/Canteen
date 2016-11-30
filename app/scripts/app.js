@@ -129,6 +129,11 @@ angular
         controller: 'ReportsPlannedUnplannedCtrl',
         controllerAs: 'vm'
       })
+      .when('/reports/employeesPlan', {
+        templateUrl: 'views/reports_employeesplan.html',
+        controller: 'ReportsEmployeesplanCtrl',
+        controllerAs: 'vm'
+      })
       .otherwise({
         redirectTo: '/'
       });
