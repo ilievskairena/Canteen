@@ -115,4 +115,9 @@ angular.module('canteenApp')
 		    else toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");
 	    });
     };
+
+    vm.exportToExcel = function(){
+        var ord = vm.orders;
+        return utility.downloadStatistics(ord, 'Employees_Plan');
+    };
   });

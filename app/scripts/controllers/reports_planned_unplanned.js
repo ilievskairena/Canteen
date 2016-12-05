@@ -8,7 +8,7 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('ReportsPlannedUnplannedCtrl', function ($rootScope,$filter, roleService, $location, $scope, $http, APP_CONFIG,toastr, utility,ngProgressFactory,ngTableParams) {
+  .controller('ReportsPlannedUnplannedCtrl', function ($rootScope,$filter, roleService, $location, $scope, $http, APP_CONFIG,toastr, utility,ngProgressFactory,ngTableParams,tableService) {
     var vm = this;
 
     $rootScope.isLogin = false;
@@ -115,6 +115,11 @@ angular.module('canteenApp')
 		    }
 		    else toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");
 	    });
+    };
+
+    vm.exportToExcel = function(){
+        var ord = vm.orders;
+        return utility.downloadStatistics(ord, 'Planned_Unplanned_Orders');
     };
 
   });

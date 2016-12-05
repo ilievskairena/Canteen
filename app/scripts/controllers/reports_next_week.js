@@ -127,5 +127,9 @@ angular.module('canteenApp')
 	    });
     };
 
+    vm.exportToExcel = function(){
+        var ord = vm.orders;
+        return utility.downloadStatistics(ord, 'Plan_Next_Week');
+    };
 	
   });

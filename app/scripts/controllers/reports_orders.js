@@ -8,7 +8,7 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('ReportsOrdersCtrl', function ($rootScope,$filter, roleService, $location, $scope, $http, APP_CONFIG,toastr, utility,ngProgressFactory,ngTableParams) {
+  .controller('ReportsOrdersCtrl', function ($rootScope,$filter, roleService, $location, $scope, $http, APP_CONFIG,toastr, utility,ngProgressFactory,ngTableParams,$timeout,Excel,tableService) {
     
     var vm = this;
 
@@ -117,5 +117,15 @@ angular.module('canteenApp')
 		    else toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");
 	    });
     };
+
+    //vm.exportToExcel=function(tableId){ // ex: '#my-table'
+   //         var exportHref=Excel.tableToExcel(tableId,'WireWorkbenchDataExport');
+    //        $timeout(function(){location.href=exportHref;},100); // trigger download
+    //    }
+
+    vm.exportToExcel = function(){
+        var ord = vm.orders;
+        return utility.downloadStatistics(ord, 'All_Orders');
+    };   
 
 });

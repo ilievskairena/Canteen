@@ -151,6 +151,11 @@ angular.module('canteenApp')
 	        console.log("Error getting cost centers");
 	    });
     };
+
+    vm.exportToExcel = function(){
+        var ord = vm.orders;
+        return utility.downloadStatistics(ord, 'Orders_Per_Cost_Center');
+    };
 	
 	vm.getCostCenters();
   });

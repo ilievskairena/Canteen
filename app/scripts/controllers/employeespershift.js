@@ -23,9 +23,8 @@ angular.module('canteenApp')
 	vm.employeesPerShift = [];
 	vm.costCenters = [];
 	vm.availableDates = [];
-
 	vm.model = {
-		costCenter: null
+		costCenter: vm.loggedInUser.CostCenterID
 	}
 
     vm.dateOptions = {
