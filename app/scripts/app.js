@@ -134,6 +134,11 @@ angular
         controller: 'ReportsEmployeesplanCtrl',
         controllerAs: 'vm'
       })
+      .when('/makeOrdersNextWeek', {
+        templateUrl: 'views/makeordersnextweek.html',
+        controller: 'MakeordersnextweekCtrl',
+        controllerAs: 'vm'
+      })
       .otherwise({
         redirectTo: '/'
       });

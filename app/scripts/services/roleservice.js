@@ -23,6 +23,7 @@ angular.module('canteenApp')
     	"/planning/thirdshift": [1,2],
     	"/planning/unplanned": [1,2],
     	"/employeesPerShift": [1,2],
+        "/makeOrdersNextWeek": [1,2,4,5,6],
     	"/config": [1],
     	"/users": [1],
     	"/users": [1],

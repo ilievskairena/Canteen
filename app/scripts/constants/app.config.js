@@ -10,6 +10,7 @@
  angular.module('canteenApp').constant('APP_CONFIG', {
  	BASE_URL: "http://localhost:59700",
  	token: "/token",
+ 	client_orders: "/api/client/orders",
  	config: "/api/config",
  	config_save: "/api/config/save",
  	costcenter: "/api/costcenter",

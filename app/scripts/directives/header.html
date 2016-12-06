@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 	<div class="navbar-header">
 	    <a class="navbar-brand" href="#/">
-	        <img alt="Brand" src="../images/logo.png" height="25px">
+	        <img alt="Brand" src="../images/PIVARA_SKOPJE.jpg" height="25px">
 	    </a>
 	    <a class="navbar-brand" href="#/">
 	        Кантина
@@ -201,6 +201,14 @@
 					<a href="#/employeesPerShift" ng-click="check(6)">
 						<i class="fa fa-balance-scale fa-fw"></i>
 						<span>Распоред на вработени</span>
+					</a>
+				</li>
+				<li 
+				ng-if="hasPermission('/makeOrdersNextWeek');"
+				ng-class="{active: collapseVar==6}">
+					<a href="#/makeOrdersNextWeek" ng-click="check(6)">
+						<i class="fa fa-cutlery fa-fw"></i>
+						<span>Одбери оброци за наредна недела</span>
 					</a>
 				</li>
 			</ul>

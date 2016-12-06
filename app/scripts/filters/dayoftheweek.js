@@ -9,7 +9,7 @@
  * Filter in the canteenApp.
  */
 angular.module('canteenApp')
-  .filter('dayoftheweek', function () {
+  .filter('dayoftheweek', function ($filter) {
     return function (input) {
     	var days = {
 	      1: "Понеделник",
