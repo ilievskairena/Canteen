@@ -43,43 +43,8 @@ angular.module('canteenApp')
         }
     };
 
-    vm.validateButton = function() {
-        var result = true;
-        for(var i = vm.items.startIndex; (i < vm.items.endIndex) && (i < vm.options.length); i++) {
-            var date = vm.options[i];
-            if(date.OrderID == null) {
-                if(date.selectedMeal == null) {
-                    result = false;
-                    break;
-                }
-            }
-        }
-        vm.flags.showOtherDays = (vm.items.endIndex < vm.options.length);
-        return result;
-    };
-
-    vm.switchButtons = function(){
-      if(vm.items.endIndex < vm.options.length) 
-        return true;
-      else return false;
-    };
-
-    vm.isAlreadyOrdered = function() {
-        for(var i = 0; i < vm.options.length; i++) {
-            var date = vm.options[i];
-            if(date.OrderID == null) return false;
-        }
-        return true;
-    };
-
-    vm.removeGuest = function(date) {
-      if(date.Guests == 0 || date.OrderID != null) return;
-      date.Guests--;
-    };
-
-    vm.addGuest = function(date) {
-      if(date.OrderID != null) return;
-      date.Guests++;
+    vm.isAlreadyOrdered = function(date) {
+        return date.OrderID != null? true: false;
     };
 
     vm.selectShift = function(date, shift) {
@@ -92,6 +57,15 @@ angular.module('canteenApp')
       if(date.MealPerDateID != null) return;
       date.selectedMeal = meal.MealID
     };
+
+    vm.getMeal = function(date){
+      for(var i in date.MealChoices) {
+        var meal = date.MealChoices[i];
+          if(meal.MealID == date.selectedMeal)
+           return meal.MealDescription;   
+      }
+
+    }
 
     vm.formatData = function() {
       var result = [];
@@ -126,29 +100,8 @@ angular.module('canteenApp')
       return result;
     };
 
-    /*vm.formatPreviewData = function() {
-        var result = [];
-        for(var i in vm.options) {
-            var date = vm.options[i];
-            for(var j in date.MealChoices) {
-                var meal = date.MealChoices[j];
-                if(meal.MealID == date.selectedMeal) {
-                    result.push({
-                        date : date.Date,
-                        meal : meal.MealDescription,
-                        type : meal.Type,
-                        shift : meal.shift
-                    });
-                    break;
-                }
-            }
-        }
-        return result;
-    };*/
-
     vm.formatPreviewData = function() {
         var result = [];
-        console.log(vm.options);
         for(var i in vm.options) {
             var date = vm.options[i];
             if(date.OrderID != null) continue;
@@ -159,7 +112,8 @@ angular.module('canteenApp')
                         date : date.Date,
                         meal : meal.MealDescription,
                         type : meal.Type,
-                        shift : meal.shift
+                        shift : meal.Shift,
+                        guests: date.Guests
                     });
                     break;
                 }
@@ -196,6 +150,7 @@ angular.module('canteenApp')
 
     vm.insert = function() {
       var data = vm.formatData();
+      console.log(data);
       if(data == null) {
         $timeout(function() {
             AuthenticationService.logOut();

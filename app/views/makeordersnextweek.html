@@ -1,105 +1,63 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4">
-         <button ng-click="vm.logout()"
-        class="btn btn-warning btn-lg log-off-button pull-left">
-          <i class="fa fa-sign-out fa-3x"></i>
-          <span>Одјава</span>
-        </button>
-      </div>
-      <div class="col-md-4">
-        <h3 class="text-center"><em>{{vm.loggedInUser.Name}}</em></h3>
-      </div>
-      <div class="col-md-4">
-        <button 
-        ng-if="vm.switchButtons()"<!-- vm.flags.showOtherDays && vm.validateButton()
-        ng-click="vm.nextWeek()"
-        class="btn btn-success btn-lg save-button pull-right no-animate">
-          <span>Следни денови</span>
-          <i class="fa fa-arrow-right fa-3x" aria-hidden="true"></i>
-        </button>
-        <button  
-        ng-if="!vm.switchButtons()" <!--vm.flags.showOtherDays && vm.validateButton()  && !vm.isAlreadyOrdered()
-        ng-click="vm.confirm();"
-        class="btn btn-success btn-lg save-button pull-right no-animate">
-          <i class="fa fa-floppy-o fa-3x"></i>
-          <span>Зачувај</span>
-        </button>
-      </div>
+<div class="row">
+  <h3 class="page-header">Оброци за {{vm.loggedInUser.Name}}</h3>
+</div>
+<div class="row header" style="width:auto;">
+  <div class="col-md-3 form-group">
+    <h4>Ден</h4>
+  </div>
+  <div class="col-md-1">
+    <h4>Смена</h4>
+  </div>
+  <div class="col-md-3">
+    <h4>Оброк</h4>
+  </div>
+  <div class="col-md-2">
+    <h4>Гости</h4>
+  </div>
+</div>
+<div class="row form-group" ng-repeat="date in vm.options">
+  <div class="col-md-2" ng-init="date.shift = date.ChosenShift;date.selectedMeal = date.MealID;">
+    <div class="col-md-6">
+      <h4><strong>{{date.Date | dayoftheweek}}</strong></h4>
+    </div>
+    <div class="col-md-6">
+      <h4><em>({{date.Date | shortdate}})</em></h4>
     </div>
   </div>
-</nav>
-<div id="main-content" class="row">
-  <!-- <div layout="row" layout-align="space-around center"> -->
-  <div class="col-md-20 animate-repeat"
-    ng-if="$index >= vm.items.startIndex && $index < vm.items.endIndex"
-    ng-repeat="date in vm.options">
-    <div class="panel"
-    ng-init="date.shift = date.ChosenShift;date.selectedMeal = date.MealID;"
-    ng-class="{'panel-primary' : $even, 'panel-success' : $odd }">
-      <!-- Title -->
-      <div class="panel-heading">
-        <h1 class="panel-title">
-          <strong>{{date.Date | dayoftheweek}}</strong>
-          <small><em>{{date.Date | shortdate}}</em></small>
-        </h1>
-      </div>
-      <!-- Body -->
-      <div class="panel-body">
-        <div class="row shift">
-          <div class="col-md-4">
-            <h4 class="page-heading meal-headings">СМЕНА</h4>
-          </div>
-          <div class="col-md-4">
-            <a class="btn btn-shift"
-            ng-click="vm.selectShift(date, 1);"
-            ng-class="{'btn-success': (date.shift == 1 && $odd), 
-            'btn-primary' : (date.shift == 1 && $even), 
-            'btn-default': date.shift != 1}">
-              <span class="btn-text-first">I</span>
-            </a>
-          </div>
-          <div class="col-md-4">
-            <a class="btn btn-default btn-shift"
-             ng-click="vm.selectShift(date, 2);"
-             ng-class="{'btn-success': (date.shift == 2 && $odd), 'btn-primary' : (date.shift == 2 && $even), 'btn-default': date.shift != 2}">
-              <span class="btn-text-second">II</span>
-            </a>
-          </div>
-        </div>
-        <div class="row">
-          <div class="list-group">
-            <a class="list-group-item no-animate"
-            ng-class="{'active' : (date.selectedMeal == meal.MealID &&  $parent.$parent.$even ), 'active-success' :  (date.selectedMeal == meal.MealID &&  $parent.$parent.$odd)}"
-            ng-if="date.shift == meal.Shift"
-            ng-click="vm.selectMeal(date, meal)"
-            ng-repeat="meal in date.MealChoices">
-              <h4 class="list-group-item-heading">{{meal.Type}}</h4>
-              <p class="list-group-item-text"><em>{{meal.MealDescription}}</em></p>
-            </a>
-          </div>
-        </div>
-        <div class="row" ng-if="date.shift != null"
-        ng-init="date.guests=0">
-          <div class="col-md-4">
-            <h4 class="page-heading meal-headings">ГОСТИ</h4>
-          </div>
-          <div class="col-md-8">
-            <a class="btn btn-default btn-shift"
-            ng-disabled="date.Guests == 0 || date.OrderID != null"
-            ng-click="vm.removeGuest(date)">
-              <span class="btn-text-minus">-</span>
-            </a>
-            <h3 class="control-guest">{{date.Guests}}</h3>
-            <a class="btn btn-default btn-shift"
-            ng-disabled="date.OrderID != null"
-             ng-click="vm.addGuest(date)">
-              <span class="btn-text-plus">+</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="col-md-2" ng-if="!vm.isAlreadyOrdered(date)">
+    <select class="form-control" ng-model="date.shift" ng-change="date.selectedMeal = null;">
+      <option value="" disabled selected>Одбери смена...</option>
+      <option value="1" id="1">Прва смена</option>
+      <option value="2" id="2">Втора смена</option>
+    </select>
   </div>
+  <div class="col-md-2" ng-if="vm.isAlreadyOrdered(date)">
+    <input type="text" class="form-control" value="{{date.shift == 1? 'Прва смена': 'Втора смена'}}" readonly="true"/>
+  </div>
+  <div class="col-md-3" ng-if="!vm.isAlreadyOrdered(date)">
+    <select class="form-control" ng-model="date.selectedMeal">
+      <option value="" disabled selected>Одбери оброк...</option>
+      <optgroup ng-repeat="meal in date.MealChoices" ng-if="date.shift == meal.Shift" label="{{meal.Type}}">
+        <option value="{{meal.MealID}}">
+          <p>{{meal.MealDescription}}</p>
+        </option>
+      </optgroup>
+    </select>
+  </div>
+  <div class="col-md-3" ng-if="vm.isAlreadyOrdered(date)">
+    <input type="text" class="form-control" value="{{vm.getMeal(date)}}" readonly="true"/>
+  </div>
+  <div class="col-md-2"  ng-if="!vm.isAlreadyOrdered(date)">
+    <input type="number" class="form-control" placeholder="Внесете број на гости" ng-model="date.Guests" />
+  </div>
+  <div class="col-md-2"  ng-if="vm.isAlreadyOrdered(date)">
+    <input type="number" class="form-control" placeholder="Внесете број на гости" ng-model="date.Guests" readonly="true" />
+  </div>
+</div>
+
+<div class="row col-md-9">
+  <button ng-click="vm.confirm();" class="btn btn-success save-button pull-right">
+    <!--<i class="fa fa-floppy-o fa-3x"></i>-->
+    <span>Зачувај</span>
+  </button>
 </div>

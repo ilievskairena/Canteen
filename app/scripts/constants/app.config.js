@@ -16,6 +16,7 @@
  	costcenter: "/api/costcenter",
  	costcenter_update: "/api/costcenter/update",
  	costcenter_insert: "/api/costcenter/update",
+ 	client_orders_save: "/api/client/save",
  	charts_order_cost_centers: "/api/reports/ordersCenter",
  	charts_realization_ratio: "/api/reports/realizationRatio",
  	charts_realization_by_cost_center: "/api/reports/realizationCostCenter",
