@@ -21,7 +21,7 @@
       <h4><strong>{{date.Date | dayoftheweek}}</strong></h4>
     </div>
     <div class="col-md-6">
-      <h4><em>({{date.Date | shortdate}})</em></h4>
+      <h5><em>({{date.Date | shortdate}})</em></h5>
     </div>
   </div>
   <div class="col-md-2" ng-if="!vm.isAlreadyOrdered(date)">
@@ -57,7 +57,7 @@
 
 <div class="row col-md-9">
   <button ng-click="vm.confirm();" class="btn btn-success save-button pull-right">
-    <!--<i class="fa fa-floppy-o fa-3x"></i>-->
+    <i class="fa fa-save"></i>
     <span>Зачувај</span>
   </button>
 </div>

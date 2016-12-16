@@ -103,7 +103,6 @@
 								<label for="cardNumber">Број на картичка</label>
 								<input type="text" 
 								ng-model="vm.cardNumber"
-								limit-to="11"
 								name="cardNumber" required class="form-control" 
 								ng-pattern="vm.regex.card" id="cardNumber"  placeholder="Внеси картичка...">
 							</div>
@@ -111,7 +110,12 @@
 						<div class="col-md-6">
 							<div class="form-group" ng-class="{ 'has-error' : form.cardType.$error.required && form.cardType.$touched }">
 								<label for="cardType">Тип на картичка</label>
-								<input type="text" required name="cardType" class="form-control" id="cardType" ng-model="vm.cardType" placeholder="Внеси тип на картичка...">
+								<select class="form-control" id="cardType" ng-model="vm.cardType">
+									<option value="" disabled>Одбери тип на картичка...</option>
+									<option value="Персонална">Персонална</option>
+									<option value="Дополнителна">Дополнителна</option>
+								</select>
+								<!-- <input type="text" required name="cardType" class="form-control" id="cardType" ng-model="vm.cardType" placeholder="Внеси тип на картичка..."> -->
 							</div>
 						</div>
 					</div>
@@ -224,8 +228,14 @@
 	              	class="editable-input form-control input-sm" required />
 	            </td>
 	            <td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
-	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.CardType" 
-	              	class="editable-input form-control input-sm" required />
+	              	<!-- <input ng-switch-default type="text" name="" ng-model="vm.editModel.CardType" 
+	              	class="editable-input form-control input-sm" required /> -->
+	              	<select ng-switch-default class="form-control" id="cardType" ng-model="vm.editModel.CardType"
+	              	class="editable-input form-control input-sm" required >
+						<option value="" disabled>Одбери тип на картичка...</option>
+						<option value="Персонална">Персонална</option>
+						<option value="Дополнителна">Дополнителна</option>
+					</select>
 	            </td>
 	            <td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="checkbox" name="" ng-model="vm.editModel.IsEmployee" required />
