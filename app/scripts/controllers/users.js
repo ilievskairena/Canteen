@@ -107,6 +107,7 @@ angular.module('canteenApp')
             vm.progressBar.complete();
             vm.getUsers();
             vm.clearForm();
+            vm.reset();
             vm.progressBar.complete();
             toastr.success("Успешно внесен корисник!");
 

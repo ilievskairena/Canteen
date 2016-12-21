@@ -118,7 +118,21 @@ angular.module('canteenApp')
     };
 
     vm.exportToExcel = function(){
-        var ord = vm.orders;
-        return utility.downloadStatistics(ord, 'Workers_Guests_Orders');
+        var dateFrom = $filter('date')(vm.dateFrom.selected, "yyyy-MM-dd HH:mm:ss.sss");
+        var dateTo = $filter('date')(vm.dateTo.selected, "yyyy-MM-dd HH:mm:ss.sss");
+        $http({
+            method: 'GET',
+            crossDomain: true,
+            url:  APP_CONFIG.BASE_URL + APP_CONFIG.reports_workers_guests_full + "?dateFrom=" + dateFrom + "&dateTo=" + dateTo
+        }).
+        success(function(data) {
+            //utility.downloadStatistics(data, 'Workers_Guests_Orders');
+            console.log(data);
+            vm.progressBar.complete();
+        }).
+        error(function(data, status, headers, config) {
+            vm.progressBar.reset();
+            toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");
+        });
     };
   });
