@@ -15,9 +15,9 @@ angular.module('canteenApp')
   if(!utility.isAuthenticated()) {
       $location.path('/login');
   }
-    vm.loggedInUser = utility.getLoggedInUser();
-    var path = $location.path();
-    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+  vm.loggedInUser = utility.getLoggedInUser();
+  var path = $location.path();
+  if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
 
   vm.progressBar = ngProgressFactory.createInstance();
   vm.users = null;
@@ -67,6 +67,7 @@ angular.module('canteenApp')
     	vm.getOrder();
     };
 
+    //OnShiftChange Event
     $scope.$watch('vm.shift', function(oldValue, newValue) {
     	if(oldValue != newValue) {
 	    	vm.selectedMeal = null;
@@ -84,9 +85,9 @@ angular.module('canteenApp')
 
     vm.getMealsForDay = function() {
     	vm.showMealChoices = null;
-      	vm.progressBar.setColor('#8dc63f');
-      	vm.progressBar.start();
-      	var date = $filter("date")(vm.date.selected, "yyyy-MM-dd HH:mm:ss.sss");
+      vm.progressBar.setColor('#8dc63f');
+      vm.progressBar.start();
+      var date = $filter("date")(vm.date.selected, "yyyy-MM-dd HH:mm:ss.sss");
     	$http({
           method: 'GET',
           crossDomain: true,
@@ -112,11 +113,12 @@ angular.module('canteenApp')
 
     vm.getOrder = function() {
     	vm.showMealChoices = null;
-      	vm.progressBar.setColor('#8dc63f');
-      	vm.progressBar.start();
-      	var url = APP_CONFIG.BASE_URL + APP_CONFIG.orders_existing;
-      	url += "?dateId=" + vm.meals.DateId;
-      	if(vm.person.ID != 0) url += "&userId=" + vm.person.ID;
+      vm.progressBar.setColor('#8dc63f');
+      vm.progressBar.start();
+      
+      var url = APP_CONFIG.BASE_URL + APP_CONFIG.orders_existing;
+      url += "?dateId=" + vm.meals.DateId;
+      if(vm.person.ID != 0) url += "&userId=" + vm.person.ID;
     	$http({
           method: 'GET',
           crossDomain: true,
@@ -132,19 +134,19 @@ angular.module('canteenApp')
 	    	vm.shift = data[0].Shift;
 	    	vm.isInsert = false;
       	}).
-      	error(function(data, status, headers, config) {
-      		if(status != 500) {
+      error(function(data, status, headers, config) {
+      	if(status != 500) {
 	    		vm.step = 3;
 	    		vm.isInsert = true;
-       		}
-      		else toastr.error("Грешка при преземање на податоци за нарачка. Ве молиме обратете се кај администраторот!");
-          	vm.progressBar.reset();
-      	});
+       	}
+      	else toastr.error("Грешка при преземање на податоци за нарачка. Ве молиме обратете се кај администраторот!");
+        vm.progressBar.reset();
+      });
     };
 
     vm.insert = function() {
-      	vm.progressBar.setColor('#8dc63f');
-      	vm.progressBar.start();
+      vm.progressBar.setColor('#8dc63f');
+      vm.progressBar.start();
     	var data = {
     		IsWorker: vm.person.ID == 0,
     		UserID: vm.person.ID,
@@ -172,8 +174,8 @@ angular.module('canteenApp')
     };
 
     vm.update = function() {
-		vm.progressBar.setColor('#8dc63f');
-      	vm.progressBar.start();
+		  vm.progressBar.setColor('#8dc63f');
+      vm.progressBar.start();
     	var data = {
     		OrderID: vm.order[0].OrderID,
     		IsWorker: vm.person.ID == 0,
@@ -242,11 +244,11 @@ angular.module('canteenApp')
 
     vm.removeItem = function() {
     	console.log(vm.order);
-		vm.progressBar.setColor('#8dc63f');
-      	vm.progressBar.start();
+		  vm.progressBar.setColor('#8dc63f');
+      vm.progressBar.start();
     	
-		vm.deleteCount = vm.order.length - 1;
-		vm.delete(vm.order[vm.deleteCount].OrderID);
+		  vm.deleteCount = vm.order.length - 1;
+		  vm.delete(vm.order[vm.deleteCount].OrderID);
     };
 
     vm.confirmDelete = function() {
@@ -271,21 +273,21 @@ angular.module('canteenApp')
 
     utility.getUsers().then(function(result) {
         vm.users = result.data;
-        vm.users.splice(0, 0, {
+        /*vm.users.splice(0, 0, {
         	ID: 0,
-			Name: "Ангажиран работник",
-			Username: "",
-			CostCenterID: 0,
-			CostCenterName: "",
-			PersonNumber: "",
-			IsEmployee: null,
-			RoleID: null,
-			RoleName: "",
-			CardNumber: "",
-			CardType: "",
-			CardID: null,
-			IsActive: null
-        })
+    			Name: "Ангажиран работник",
+    			Username: "",
+    			CostCenterID: 0,
+    			CostCenterName: "",
+    			PersonNumber: "",
+    			IsEmployee: null,
+    			RoleID: null,
+    			RoleName: "",
+    			CardNumber: "",
+    			CardType: "",
+    			CardID: null,
+    			IsActive: null
+        });*/
     });
 
   });

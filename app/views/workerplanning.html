@@ -1,0 +1,73 @@
+<div class="row">
+	<div class="col-md-12">
+		<h3 class="page-header">Внес на оброк за ангажирани работници</h3>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-3">
+		<div class="form-group">
+			<label for="">Датум</label>
+			<p class="input-group">
+				<input type="text" class="form-control date-control"
+				ng-click="vm.openDate()"
+				ng-change="vm.getMealsForDay()"
+				uib-datepicker-popup="dd.MM.yyyy"
+				ng-model="vm.date.selected"
+				is-open="vm.date.open"
+				datepicker-options="vm.dateOptions"
+				ng-required="true"
+				placeholder="дд.мм.гггг"
+				readonly
+				close-text="Close" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="vm.openDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="row">
+			<div class="col-md-4">
+				<label>Прва смена</label>
+			</div>
+			<div class="col-md-4"></div>
+			<div class="col-md-4"></div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="row">
+			<div class="col-md-4">
+				<label>Втора смена</label>
+			</div>
+			<div class="col-md-4"></div>
+			<div class="col-md-4"></div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="row">
+			<div class="col-md-4">
+				<label>Трета смена</label>
+			</div>
+			<div class="col-md-4"></div>
+			<div class="col-md-4"></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-3" 
+	ng-if="meal.Shift == vm.shift"
+	ng-repeat="meal in vm.meals.Meals">
+		<div class="panel panel-green meal-option"
+		ng-class="{'meal-active' : vm.selectedMeal == meal }"
+		ng-click="vm.selectMeal(meal);">
+		  	<div class="panel-heading">
+		    	<h3 class="panel-title">{{meal.Type}}</h3>
+		  	</div>
+		  	<div class="panel-body">
+		    {{meal.MealDescription}}
+			</div>
+		</div>
+	</div>
+</div>

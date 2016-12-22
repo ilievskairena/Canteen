@@ -140,6 +140,12 @@
 								<span>Непланирано</span>
 							</a>
 						</li>
+						<li ng-if="hasPermission('/planning/workers');">
+							<a href="/#/planning/workers">
+								<i class="fa fa-users" aria-hidden="true"></i>
+								<span>Ангажирани работници</span>
+							</a>
+						</li>
 					</ul>
 				</li>
 				<li 

@@ -84,6 +84,11 @@ angular
         controller: 'UnplannedorderCtrl',
         controllerAs: 'vm'
       })
+      .when('/planning/workers', {
+        templateUrl: 'views/workerplanning.html',
+        controller: 'WorkerplanningCtrl',
+        controllerAs: 'vm'
+      })
       .when('/employeesPerShift', {
         templateUrl: 'views/employeespershift.html',
         controller: 'EmployeespershiftCtrl',

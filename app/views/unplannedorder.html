@@ -85,16 +85,14 @@
 			</button>
 		</div>
 		<div class="form-group" ng-if="!vm.isInsert">
-			<label for="">&nbsp;</label><br>
+			<label for=""></label>
 			<button class="btn btn-warning"
 				ng-disabled="vm.person.ID == 0 && (vm.numberWorker == 0 || vm.numberWorker == '' || vm.numberWorker == null)"
 				ng-click="vm.update();">
 				<i class="fa fa-pencil"></i>
 				<span>Промени</span>
 			</button>
-		</div>
-		<div class="form-group" ng-if="!vm.isInsert">
-			<label for="">&nbsp;</label><br>
+			<br><br>
 			<button class="btn btn-danger"
 				ng-disabled="vm.person.ID == 0 && (vm.numberWorker == 0 || vm.numberWorker == '' || vm.numberWorker == null)"
 				ng-click="vm.confirmDelete();">
