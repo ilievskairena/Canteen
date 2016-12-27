@@ -8,7 +8,7 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('MealsCtrl', function ($rootScope, $location, roleService, $scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr) {
+  .controller('MealsCtrl', function ($rootScope, $location, roleService, $scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr, ngProgressFactory) {
     var vm = this;
 
     $rootScope.isLogin = false;
@@ -21,14 +21,9 @@ angular.module('canteenApp')
 
     vm.isEditing = false;
     vm.editIndex = null;
-    vm.editModel = null;
+    vm.editModel = null;     
 
-    vm.insert = function() {
-       console.log({
-        "Description": vm.MealDescription,
-        "TypeId": vm.MealType
-      })
-    };      
+    vm.progressBar = ngProgressFactory.createInstance();
 
     vm.edit = function(row, index){
 		  vm.isEditing = true;
@@ -47,6 +42,8 @@ angular.module('canteenApp')
         "Description": vm.MealDescription,
         "TypeId": vm.MealType
       };
+      vm.progressBar.setColor('#8dc63f');
+      vm.progressBar.start();
       $http({
           method: 'POST',
           contentType:'application/json',
@@ -55,11 +52,16 @@ angular.module('canteenApp')
           data: newMeal
       }).
       success(function(data) {
-          /*console.log("Success adding cost center");*/
-          vm.getAllMeals();
+        toastr.success("Успешно додаден оброк");
+        vm.getAllMeals();
+        vm.progressBar.complete();
+        vm.MealDescription = "";
+        vm.MealType = "";
+        vm.form.$setPristine(true);
       }).
       error(function(data, status, headers, config) {
-          console.log("Error adding cost center");
+        vm.progressBar.reset();
+        toastr.error("Грешка при креирање на оброк");
       });
     };
 
@@ -70,25 +72,30 @@ angular.module('canteenApp')
     };
 
     vm.update = function(){
-        var editMeal = {
-          "Description": vm.editModel.MealDescription,
-          "TypeID": vm.editModel.TypeID
-        };
-        $http({
-            method: 'PUT',
-            data: editMeal,
-            contentType:'application/json',
-            crossDomain: true,
-            url: APP_CONFIG.BASE_URL + APP_CONFIG.meals + "/" + vm.editModel.MealID
-        }).
-        success(function(data) {
-            toastr.success("Успешно променет оброк!")
-            vm.getAllMeals();
-            vm.cancel();
-        }).
-        error(function(data, status, headers, config) {
-            toastr.success("Грешка при промена на оброкот! Ве молиме обидете се повторно.")
-        });
+      var editMeal = {
+        "Description": vm.editModel.MealDescription,
+        "TypeID": vm.editModel.TypeID
+      };
+      vm.progressBar.setColor('#8dc63f');
+      vm.progressBar.start();
+
+      $http({
+          method: 'PUT',
+          data: editMeal,
+          contentType:'application/json',
+          crossDomain: true,
+          url: APP_CONFIG.BASE_URL + APP_CONFIG.meals + "/" + vm.editModel.MealID
+      }).
+      success(function(data) {
+        toastr.success("Успешно променет оброк!")
+        vm.getAllMeals();
+        vm.cancel();
+        vm.progressBar.complete();
+      }).
+      error(function(data, status, headers, config) {
+        vm.progressBar.reset();
+        toastr.error("Грешка при промена на оброкот! Ве молиме обидете се повторно.")
+      });
     };
 
     vm.getAllMeals = function(){
@@ -102,7 +109,7 @@ angular.module('canteenApp')
           vm.allMeals = data;
           vm.table = new ngTableParams({
               page: 1,
-              count: 5
+              count: 15
             }, {
               total: data.length,
               //Hide the count div
@@ -125,10 +132,14 @@ angular.module('canteenApp')
 
     vm.openRemoveDialog = function(data){
         console.log(data);
+        var item = {
+          ID: data.MealID
+        };
+
         var nestedConfirmDialog = ngDialog.openConfirm({
             template: "../../views/partials/removeDialog.html",
             scope: $scope,
-            data: data
+            data: item
         });
 
         // NOTE: return the promise from openConfirm
@@ -136,16 +147,21 @@ angular.module('canteenApp')
     };
 
     vm.removeItem = function(mealId){
-        $http({
-            method:"DELETE",
-            url: APP_CONFIG.BASE_URL + APP_CONFIG.meals + "/"+ mealId,
-            crossDomain: true
-            
-        }).success(function(data){
-            console.log("Successfully deleted meal");
-        }).error(function(data){
-            console.log(data);
-        });
+      vm.progressBar.setColor('#8dc63f');
+      vm.progressBar.start();
+      $http({
+          method:"DELETE",
+          url: APP_CONFIG.BASE_URL + APP_CONFIG.meals + "/"+ mealId,
+          crossDomain: true
+          
+      }).success(function(data){
+        toastr.success("Успешно избришан оброк!");
+        vm.progressBar.complete();
+        vm.getAllMeals();
+      }).error(function(data){
+          toastr.error("Грешка при бришење на оброк.");
+          vm.progressBar.reset();
+      });
     };
 
     vm.getAllMeals();

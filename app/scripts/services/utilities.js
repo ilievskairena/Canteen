@@ -8,7 +8,7 @@
  * Service in the canteenApp.
  */
 
- angular.module('canteenApp').service('utility', function ($http, APP_CONFIG, localStorageService, $location, $rootScope,tableService) {
+ angular.module('canteenApp').service('utility', function ($http, APP_CONFIG, localStorageService, $location, $rootScope,tableService, $q) {
 
  	this.getAllCostCenters = function() {
         return $http.get(APP_CONFIG.BASE_URL+"/api/costcenter").then(function(result) {
@@ -184,5 +184,21 @@
             today.setDate(today.getDate() + (8 - day));
         }
         return today;
+    };
+
+    this.getWorkerOrders = function(date) {
+        var deferred = $q.defer()
+        $http({
+          method: 'GET',
+          crossDomain: true,
+          url:  APP_CONFIG.BASE_URL + APP_CONFIG.orders_workers + "?date=" +  date
+        }).
+        success(function(data) {
+          return deferred.resolve(data);
+        }).
+        error(function(data, status, headers, config) {
+          deferred.reject(data);
+        });
+        return deferred.promise;
     };
  });

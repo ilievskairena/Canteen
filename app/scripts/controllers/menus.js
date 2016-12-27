@@ -42,8 +42,23 @@ angular.module('canteenApp')
           for(var i in data) {
             vm.summary.shiftOne.push([]);
             vm.summary.shiftTwo.push([]);
-            vm.summary.shiftThree.push([]);
           }
+      }).
+      error(function(data, status, headers, config) {
+        toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
+      });
+    }; 
+
+    //Used to retreive the options for third shift
+    vm.getDefaultMeals = function(){
+      $http({
+        method: 'GET',
+        crossDomain: true,
+        url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_default
+      }).
+      success(function(data) {
+          vm.defaultMeals = data;
+          vm.summary.shiftThree.push([]);
       }).
       error(function(data, status, headers, config) {
         toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
@@ -170,4 +185,5 @@ angular.module('canteenApp')
     });
 
     vm.getMeals();
+    vm.getDefaultMeals();
 });

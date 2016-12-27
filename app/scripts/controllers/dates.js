@@ -47,7 +47,8 @@ angular.module('canteenApp')
       vm.setOpen(date);
     };
 
-    vm.setDayContent = function(date,content="") {
+    vm.setDayContent = function(date,content) {
+        content = "";
         //console.log(date.dayOfTheWeek);
         if(date.getDay() == 0 || date.getDay() == 6) 
             content = '<p>Викенд</p>';

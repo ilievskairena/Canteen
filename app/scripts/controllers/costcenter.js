@@ -8,7 +8,7 @@
  * Controller of the canteenApp
  */
 angular.module('canteenApp')
-  .controller('CostcenterCtrl', function ($scope, roleService, ngDialog, $http, utility, $location, APP_CONFIG, ngTableParams, toastr, ngProgressFactory) {
+  .controller('CostcenterCtrl', function ($scope, roleService, ngDialog, $http, utility, $location, APP_CONFIG, ngTableParams, toastr, ngProgressFactory, $rootScope) {
     
     var vm = this;
 
@@ -16,6 +16,7 @@ angular.module('canteenApp')
     var path = $location.path();
     if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
 
+    $rootScope.isLogin = false;
     vm.progressBar = ngProgressFactory.createInstance();
     vm.isEditing = false;
     vm.editIndex = null;
