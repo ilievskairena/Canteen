@@ -4,33 +4,53 @@
 	</div>
 </div>
 <div class="row">
-	<div class="form-horizontal">
-		<div class="form-group">
-			<label for="" class="col-sm-2 control-label time-label">Почеток на прва смена</label>
-			<div class="col-sm-10">
-				<div uib-timepicker
-				ng-model="vm.config.firstShift"
-				hour-step="1" minute-step="1"
-				show-meridian="false"></div>
+	<div class="col-md-6 col-lg-6">
+		<div class="form-horizontal">
+			<div class="form-group">
+				<label for="" class="col-sm-5 control-label time-label">Почеток на прва смена</label>
+				<div class="col-sm-5">
+					<div uib-timepicker
+					ng-model="vm.config.firstShift"
+					hour-step="1" minute-step="1"
+					show-meridian="false"></div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="" class="col-sm-5 control-label time-label">Почеток на втора смена</label>
+				<div class="col-sm-5">
+					<div uib-timepicker
+					ng-model="vm.config.secondShift"
+					hour-step="1" minute-step="1"
+					show-meridian="false"></div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="" class="col-sm-5 control-label time-label">Почеток на трета смена</label>
+				<div class="col-sm-5">
+					<div uib-timepicker
+					ng-model="vm.config.thirdShift"
+					hour-step="1" minute-step="1"
+					show-meridian="false"></div>
+				</div>
 			</div>
 		</div>
+	</div>
+	<div class="col-md-4 col-lg-4">
 		<div class="form-group">
-			<label for="" class="col-sm-2 control-label time-label">Почеток на втора смена</label>
-			<div class="col-sm-10">
-				<div uib-timepicker
-				ng-model="vm.config.secondShift"
-				hour-step="1" minute-step="1"
-				show-meridian="false"></div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-2 control-label time-label">Почеток на трета смена</label>
-			<div class="col-sm-10">
-				<div uib-timepicker
-				ng-model="vm.config.thirdShift"
-				hour-step="1" minute-step="1"
-				show-meridian="false"></div>
-			</div>
+			<label for="">Оброк за трета смена и за вработени кои не одбрале мени</label>
+		  	<ui-select 
+		  	ng-model="vm.config.mealId" 
+			theme="bootstrap"
+			style="width: 100%;">
+			    <ui-select-match placeholder="Select a person...">
+			    {{$select.selected.MealDescription}}
+			    </ui-select-match>
+			    <ui-select-choices 
+			    group-by="'Type'" 
+			    repeat="meal.MealID as meal in vm.meals | filter: $select.search">
+			      <div ng-bind-html="meal.MealDescription"></div>
+			    </ui-select-choices>
+			</ui-select>
 		</div>
 	</div>
 </div>

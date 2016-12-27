@@ -3,10 +3,10 @@
 		<h3 class="page-header">Оброци</h3>
 	</div>
 	<div class="col-md-12">
-		<form name="form" class="myForm" required ng-submit="vm.addMeal()">
+		<form name="vm.form" class="myForm" required ng-submit="vm.addMeal()">
 			<div class="row">
 				<div class="col-md-5">
-					<div class="form-group" ng-class="{'has-error' : form.description.$error.required && form.description.$touched}">
+					<div class="form-group" ng-class="{'has-error' : vm.form.description.$error.required && vm.form.description.$touched}">
 						<label for="">Опис</label>
 						<input class="form-control" type="text" required name="description" id="description" ng-model="vm.MealDescription" placeholder="Внеси опис на оброк..."/>
 					</div>
@@ -26,7 +26,7 @@
 						<label for="">&nbsp;</label>
 						<br>
 						<button class="btn btn-success"
-						ng-disabled="(form.description.$error.required && form.description.$touched) || vm.MealType == ''"
+						ng-disabled="(vm.form.description.$error.required && vm.form.description.$touched) || vm.MealType == ''"
 						ng-click="vm.insert();"
 						type="submit" >
 							<i class="fa fa-save"></i>
@@ -37,10 +37,10 @@
 			</div>
 		</form>
 	</div>
-	<div class="col-md-12" ng-if="form.description.$error.required && form.description.$touched">
+	<div class="col-md-12" ng-if="vm.form.description.$error.required && vm.form.description.$touched">
 		<div class="alert alert-danger" role="alert">
 			<ul class="text-danger">
-				<li ng-if="form.description.$error.required">Задолжително внесете опис на оброкот!</li>
+				<li ng-if="vm.form.description.$error.required">Задолжително внесете опис на оброкот!</li>
 				<li ng-if="vm.MealType == ''">Задолжително одберете тип на одброк!</li>
 			</ul>
 		</div>

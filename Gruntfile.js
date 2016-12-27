@@ -9,7 +9,7 @@
 
 module.exports = function (grunt) {
 
-  // Time how long tasks take. Can help when optimizing build times
+ // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
   // Automatically load required Grunt tasks
@@ -70,10 +70,10 @@ module.exports = function (grunt) {
     // The actual grunt server settings
     connect: {
       options: {
-        port: 9002,
+        port: 9003,
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
-        livereload: 35799
+        livereload: 357333
       },
       livereload: {
         options: {
@@ -96,7 +96,7 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
-          port: 9001,
+          port: 9044,
           middleware: function (connect) {
             return [
               connect.static('.tmp'),
@@ -343,7 +343,7 @@ module.exports = function (grunt) {
           usemin: 'scripts/scripts.js'
         },
         cwd: '<%= yeoman.app %>',
-        src: 'views/{,*/}*.html',
+        src: ['views/{,*/}*.html', 'scripts/directives/{,*/}*.html'],
         dest: '.tmp/templateCache.js'
       }
     },
@@ -380,7 +380,11 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '*.html',
             'images/{,*/}*.{webp}',
-            'styles/fonts/{,*/}*.*'
+            'images/{,*/}*.*',
+            'styles/fonts/{,*/}*.*',
+            'assets/css/{,*/}*.*',
+            'assets/js/{,*/}*.*',
+            'fonts/{,*/}*.*'
           ]
         }, {
           expand: true,
@@ -412,8 +416,8 @@ module.exports = function (grunt) {
       ],
       dist: [
         'copy:styles',
-        'imagemin',
-        'svgmin'
+        //'imagemin',
+        //'svgmin'
       ]
     },
 

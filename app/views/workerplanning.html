@@ -4,7 +4,7 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label for="">Датум</label>
 			<p class="input-group">
@@ -27,47 +27,111 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-12">
-		<div class="row">
-			<div class="col-md-4">
-				<label>Прва смена</label>
+	<form name="vm.workerForm" novalidate>
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-2">
+					<h3>Прва смена</h3>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<label for="">Бр. работници</label>
+						<input type="number" class="form-control" min="0"
+						required ng-model="vm.model.firstShift.count"
+						placeholder="Внесете број...">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="">Оброк</label>
+						<ui-select 
+					  	ng-model="vm.model.firstShift.mealId" 
+						theme="bootstrap"
+						style="width: 100%;">
+						    <ui-select-match placeholder="Одбери оброк...">
+						    {{$select.selected.MealDescription}}
+						    </ui-select-match>
+						    <ui-select-choices 
+						    group-by="'Type'" 
+						    repeat="meal.MealID as meal in vm.meals.firstShift | filter: $select.search">
+						      <div ng-bind-html="meal.MealDescription"></div>
+						    </ui-select-choices>
+						</ui-select>
+					</div>
+				</div>
 			</div>
-			<div class="col-md-4"></div>
-			<div class="col-md-4"></div>
 		</div>
-	</div>
-	<div class="col-md-12">
-		<div class="row">
-			<div class="col-md-4">
-				<label>Втора смена</label>
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-2">
+					<h3>Втора смена</h3>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<label for="">Бр. работници</label>
+						<input type="number" class="form-control" min="0"
+						required ng-model="vm.model.secondShift.count"
+						placeholder="Внесете број...">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="">Оброк</label>
+						<ui-select 
+					  	ng-model="vm.model.secondShift.mealId" 
+						theme="bootstrap"
+						style="width: 100%;">
+						    <ui-select-match placeholder="Одбери оброк...">
+						    {{$select.selected.MealDescription}}
+						    </ui-select-match>
+						    <ui-select-choices 
+						    group-by="'Type'" 
+						    repeat="meal.MealID as meal in vm.meals.secondShift | filter: $select.search">
+						      <div ng-bind-html="meal.MealDescription"></div>
+						    </ui-select-choices>
+						</ui-select>
+					</div>
+				</div>
 			</div>
-			<div class="col-md-4"></div>
-			<div class="col-md-4"></div>
 		</div>
-	</div>
-	<div class="col-md-12">
-		<div class="row">
-			<div class="col-md-4">
-				<label>Трета смена</label>
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-2">
+					<h3>Трета смена</h3>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<label for="">Бр. работници</label>
+						<input type="number" class="form-control" min="0"
+						required ng-model="vm.model.thirdShift.count"
+						placeholder="Внесете број...">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="">Оброк</label>
+						<ui-select 
+					  	ng-model="vm.model.thirdShift.mealId" 
+						theme="bootstrap"
+						style="width: 100%;">
+						    <ui-select-match placeholder="Одбери оброк...">
+						    {{$select.selected.MealDescription}}
+						    </ui-select-match>
+						    <ui-select-choices 
+						    group-by="'Type'" 
+						    repeat="meal.MealID as meal in vm.meals.thirdShift | filter: $select.search">
+						      <div ng-bind-html="meal.MealDescription"></div>
+						    </ui-select-choices>
+						</ui-select>
+					</div>
+				</div>
 			</div>
-			<div class="col-md-4"></div>
-			<div class="col-md-4"></div>
 		</div>
-	</div>
+	</form>
 </div>
 <div class="row">
-	<div class="col-md-3" 
-	ng-if="meal.Shift == vm.shift"
-	ng-repeat="meal in vm.meals.Meals">
-		<div class="panel panel-green meal-option"
-		ng-class="{'meal-active' : vm.selectedMeal == meal }"
-		ng-click="vm.selectMeal(meal);">
-		  	<div class="panel-heading">
-		    	<h3 class="panel-title">{{meal.Type}}</h3>
-		  	</div>
-		  	<div class="panel-body">
-		    {{meal.MealDescription}}
-			</div>
-		</div>
+	<div class="col-md-3 col-md-offset-8">
+		<button class="btn btn-success" ng-disabled="vm.hasChange()" ng-click="vm.submit()">Зачувај</button>
+		<button class="btn btn-danger" ng-disabled="!vm.enableDelete()" ng-click="vm.delete()">Избриши план</button>
 	</div>
 </div>
