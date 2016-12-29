@@ -10,8 +10,14 @@
 
  angular.module('canteenApp').service('utility', function ($http, APP_CONFIG, localStorageService, $location, $rootScope,tableService, $q) {
 
- 	this.getAllCostCenters = function() {
+    this.getAllCostCenters = function() {
         return $http.get(APP_CONFIG.BASE_URL+"/api/costcenter").then(function(result) {
+            return result;
+        });
+    };
+
+    this.getAllOrders = function() {
+        return $http.get(APP_CONFIG.BASE_URL+"/api/orders/GetAll").then(function(result) {
             return result;
         });
     };
