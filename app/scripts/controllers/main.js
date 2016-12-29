@@ -18,7 +18,7 @@ angular.module('canteenApp')
     vm.loggedInUser = utility.getLoggedInUser();
     var path = $location.path();
     if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
-
+    console.log(vm.loggedInUser);
     vm.chartOrder = {
         data: [],
         label: []
@@ -51,6 +51,29 @@ angular.module('canteenApp')
         },
         function(error) {
             AuthenticationService.logOut();
+        });
+    };
+
+    vm.getOrders = function(){
+        utility.getAllOrders().then(function(result) {
+            vm.orders = result.data;
+        },
+        function(error) {
+            AuthenticationService.logOut();
+        });
+    };
+
+    vm.getMeals = function() {
+        $http({
+            method: 'GET',
+            crossDomain: true,
+            url: APP_CONFIG.BASE_URL + "/api/meals/GetAll"
+        }).
+        success(function(data) {
+            vm.meals = data.length;
+        }).
+        error(function(data, status, headers, config) {
+            
         });
     };
 
@@ -116,10 +139,13 @@ angular.module('canteenApp')
         });
     };
 
-
-    vm.getCostCenters();
-    vm.getUsers();
-    vm.chartPieOrders();
-    vm.chartLineRatio();
-    vm.chartCenterRatio();
+    if(vm.loggedInUser.RoleID == 1) {      
+        vm.getCostCenters();
+        vm.getUsers();
+        vm.getOrders();
+        vm.getMeals();
+        vm.chartPieOrders();
+        vm.chartLineRatio();
+        vm.chartCenterRatio();
+    }
   });

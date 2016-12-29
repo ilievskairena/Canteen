@@ -29,7 +29,7 @@ angular.module('canteenApp')
   vm.dateOptions = {
     formatYear: 'yyyy',
     maxDate: endDate,
-    minDate: tomorrow,
+    //minDate: tomorrow,
     startingDay: 1
 	};
 
