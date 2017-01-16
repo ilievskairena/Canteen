@@ -48,17 +48,17 @@
 		<div class="form-group">
 			<label for="">&nbsp;</label><br>
 			<button class="btn btn-success"
-			ng-click="vm.GetOrdersRatio();">
+			ng-click="vm.getOrdersRatio();">
 				<i class="fa fa-eye-slash"></i>
 				<span>Прикажи</span>
 			</button>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-12">
 		<div class="form-group">
 			<label for="">&nbsp;</label><br>
 			<button class="btn btn-success"
-			ng-click="vm.exportToExcel();">
+			ng-click="vm.exportToExcel();" ng-disabled="vm.exportButtonDisabled">
 				<i class="fa fa-file-excel-o"></i>
 				<span>Export</span>
 			</button>
@@ -79,8 +79,8 @@
 			<tr>
 				<th>Датум</th>
 				<th>Трошковно место</th>
-				<th>Реализирани</th>
-				<th>Нереализирани</th>
+				<th>Планирани</th>
+				<th>Непланирани</th>
 			</tr>
 			<tr ng-repeat-start="order in $data" ng-if="order.CostCenters.length !=0">
 				<td rowspan="{{order.CostCenters.length*2}}">{{order.Date | shortdate}}</td>

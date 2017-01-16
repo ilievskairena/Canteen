@@ -1,4 +1,6 @@
-'use strict';
+(function(){
+
+    'use strict';
 
 /**
  * @ngdoc service
@@ -7,67 +9,69 @@
  * # AuthenticationService
  * Service in the canteenApp.
  */
-angular.module('canteenApp')
-.service('AuthenticationService', ['$http', '$q', 'localStorageService', 'APP_CONFIG', '$location', 
-function ($http, $q, localStorageService, APP_CONFIG, $location) {
  
-    var serviceBase = APP_CONFIG.BASE_URL;
-    var authServiceFactory = {};
- 
-    var _authentication = {
-        isAuth: false,
-        userName : ""
-    };
- 
-    var _login = function (loginData) {
- 
-        var data = "grant_type=password&username=" + loginData.username + "&password=" + loginData.password;
- 
-        var deferred = $q.defer();
- 
-        $http.post(serviceBase + APP_CONFIG.token, data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-        .success(function (response) {
- 
-            localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName });
- 
-            _authentication.isAuth = true;
-            _authentication.userName = loginData.userName;
- 
-            deferred.resolve(response);
- 
-        })
-        .error(function (err, status) {
-            _logOut();
-            deferred.reject(err);
-        });
- 
-        return deferred.promise;
-    };
- 
-    var _logOut = function () {
- 
-        localStorageService.remove('authorizationData');
-        localStorageService.remove('user');
-        _authentication.isAuth = false;
-        _authentication.userName = "";
+    angular.module('canteenApp')
+    .service('AuthenticationService', AuthenticationService);
 
-        $location.path("/login");
-    };
+    AuthenticationService.$inject = ['$http', '$q', 'localStorageService', 'APP_CONFIG', '$location']
+
+    function AuthenticationService($http, $q, localStorageService, APP_CONFIG, $location) {
  
-    var _fillAuthData = function () {
+        var serviceBase = APP_CONFIG.BASE_URL;
+        var authServiceFactory = {
+            login: _login,
+            logOut: _logOut,
+            fillAuthData: _fillAuthData,
+            authentication: _authentication
+        };
+     
+        var _authentication = {
+            isAuth: false,
+            userName : ""
+        };
+
+        return authServiceFactory;
  
-        var authData = localStorageService.get('authorizationData');
-        if (authData)
-        {
+        function _login(loginData) {
+ 
+            var data = "grant_type=password&username=" + loginData.username + "&password=" + loginData.password;
+     
+            var deferred = $q.defer();
+     
+            $http.post(serviceBase + APP_CONFIG.token, data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+            .then(function successCallback(response){
+                localStorageService.set('authorizationData', { token: response.data.access_token, userName: loginData.userName });
+     
+                _authentication.isAuth = true;
+                _authentication.userName = loginData.userName;
+     
+                deferred.resolve(response.data);
+            }, function errorCallback(response){
+                _logOut();
+                deferred.reject(response.data);
+            });
+     
+            return deferred.promise;
+        };
+ 
+        function _logOut() {
+ 
+            localStorageService.remove('authorizationData');
+            localStorageService.remove('user');
+            _authentication.isAuth = false;
+            _authentication.userName = "";
+
+            $location.path("/login");
+        };
+ 
+        function _fillAuthData() {
+ 
+            var authData = localStorageService.get('authorizationData');
+            if (authData)
+            {
             _authentication.isAuth = true;
             _authentication.userName = authData.userName;
-        }
-    };
- 
-    authServiceFactory.login = _login;
-    authServiceFactory.logOut = _logOut;
-    authServiceFactory.fillAuthData = _fillAuthData;
-    authServiceFactory.authentication = _authentication;
- 
-    return authServiceFactory;
-}]);
+            }
+        };
+    }
+})();

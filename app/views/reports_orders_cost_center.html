@@ -48,9 +48,9 @@
 		<div class="form-group">
 			<label for="">Трошковно место</label>
 			<select class="form-control" name="CostCenter" ng-model="vm.costCenter">
-				<option selected disabled value="">Одбери трошковно место</option>
+				<option selected value="">Сите</option>
 				<option ng-repeat="costCenter in vm.costCenters" 
-				value="{{costCenter.ID}}">{{costCenter.Name}}</option>
+				value="{{costCenter.ID}}">{{costCenter.Code}}</option>
 			</select>
 		</div>
 	</div>
@@ -58,17 +58,17 @@
 		<div class="form-group">
 			<label for="">&nbsp;</label><br>
 			<button class="btn btn-success"
-			ng-click="vm.GetOrdersPerCostCenter(vm.dateFrom.selected, vm.dateTo.selected);">
+			ng-click="vm.getOrdersPerCostCenter(vm.dateFrom.selected, vm.dateTo.selected);">
 				<i class="fa fa-eye-slash"></i>
 				<span>Прикажи</span>
 			</button>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-12">
 		<div class="form-group">
 			<label for="">&nbsp;</label><br>
 			<button class="btn btn-success"
-			ng-click="vm.exportToExcel();">
+			ng-click="vm.exportToExcel();" ng-disabled="vm.exportButtonDisabled">
 				<i class="fa fa-file-excel-o"></i>
 				<span>Export</span>
 			</button>

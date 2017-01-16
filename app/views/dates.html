@@ -13,8 +13,8 @@
 		title-format="'MMMM y'"
 		week-starts-on="1"
 		ng-model="vm.selectedDate"
-		data-start-month="9"
-		data-start-year="2016"
+		data-start-month="0"
+		data-start-year="2017"
 		tooltips="tooltips"
 		day-format="dayFormat"
 		day-label-format="'EEE'"
@@ -50,7 +50,7 @@
 	<div class="col-md-3">
 		<button class="btn btn-success" 
 		ng-show="vm.changes"
-		 ng-click="vm.saveDates()">
+		 ng-click="vm.saveDates()" ng-disabled="vm.saveButtonDisabled">
 			 <i class="fa fa-save"></i>
 			 <span>Зачувај датуми</span>
 		 </button>

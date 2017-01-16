@@ -1,4 +1,6 @@
-'use strict';
+(function(){
+
+  'use strict';
 
 /**
  * @ngdoc filter
@@ -8,13 +10,22 @@
  * # shortdate
  * Filter in the canteenApp.
  */
-angular.module('canteenApp')
-  .filter('shortdate', function () {
-    return function (input) {
-      	var date = new Date(input);
-	    var day = date.getDate();
-	    var month = date.getMonth() + 1;
-	    var year = date.getFullYear();
-	    return day + "." + month + "." +year;
-    };
-  });
+ 
+	angular.module('canteenApp')
+  	.filter('shortdate', shortdate);
+
+  	shortdate.$inject = [];
+
+  	function shortdate() {
+
+  		var filter = function (input) {
+      		var date = new Date(input);
+		    var day = date.getDate();
+		    var month = date.getMonth() + 1;
+		    var year = date.getFullYear();
+		    return day + "." + month + "." +year;
+		  };
+      
+    	return filter;
+  	}
+})();

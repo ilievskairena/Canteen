@@ -1,4 +1,6 @@
-'use strict';
+(function(){
+
+    'use strict';
 
 /**
  * @ngdoc service
@@ -7,33 +9,40 @@
  * # authInterceptorService
  * Service in the canteenApp.
  */
-angular.module('canteenApp')
-.service('authInterceptorService', ['$q', '$location', 'localStorageService', 
-function ($q, $location, localStorageService) {
  
-    var authInterceptorServiceFactory = {};
+    angular.module('canteenApp')
+    .service('authInterceptorService', authInterceptorService);
+
+    authInterceptorService.$inject = ['$q', '$location', 'localStorageService'];
+
+    
+    function authInterceptorService($q, $location, localStorageService) {
  
-    var _request = function (config) {
- 
-        config.headers = config.headers || {};
- 
-        var authData = localStorageService.get('authorizationData');
-        if (authData) {
-            config.headers.Authorization = 'Bearer ' + authData.token;
-        }
- 
-        return config;
+        var authInterceptorServiceFactory = {
+            request: _request,
+            responseError: _responseError
+        };
+
+        return authInterceptorServiceFactory;
+     
+        function _request(config) {
+     
+            config.headers = config.headers || {};
+     
+            var authData = localStorageService.get('authorizationData');
+            if (authData) {
+                config.headers.Authorization = 'Bearer ' + authData.token;
+            }
+     
+            return config;
+        };
+     
+        function _responseError(rejection) {
+            if (rejection.status === 401) {
+                $location.path('/login');
+            }
+            return $q.reject(rejection);
+        };
     }
- 
-    var _responseError = function (rejection) {
-        if (rejection.status === 401) {
-            $location.path('/login');
-        }
-        return $q.reject(rejection);
-    }
- 
-    authInterceptorServiceFactory.request = _request;
-    authInterceptorServiceFactory.responseError = _responseError;
- 
-    return authInterceptorServiceFactory;
-}]);
+})();
+

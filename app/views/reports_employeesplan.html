@@ -48,17 +48,17 @@
 		<div class="form-group">
 			<label for="">&nbsp;</label><br>
 			<button class="btn btn-success"
-			ng-click="vm.GetEmployeesPlan();">
+			ng-click="vm.getEmployeesPlan();">
 				<i class="fa fa-eye-slash"></i>
 				<span>Прикажи</span>
 			</button>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-12">
 		<div class="form-group">
 			<label for="">&nbsp;</label><br>
 			<button class="btn btn-success"
-			ng-click="vm.exportToExcel();">
+			ng-click="vm.exportToExcel();" ng-disabled="vm.exportButtonDisabled">
 				<i class="fa fa-file-excel-o"></i>
 				<span>Export</span>
 			</button>

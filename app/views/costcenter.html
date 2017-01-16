@@ -3,7 +3,7 @@
 		<h3 class="page-header">Трошковни места</h3>
 	</div>
 	<div class="col-md-12">		
-		<form name="form" required ng-submit="vm.insert()">
+		<form name="form" required ng-submit="vm.insert(); form.$setUntouched(); form.$setPristine()" novalidate>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group"
@@ -48,24 +48,24 @@
 	<table ng-table="vm.table"
 	class="table table-bordered table-striped table-condensed">
 			<colgroup>
-				<col width="60%">
 				<col width="25%">
+				<col width="60%">
 				<col width="15%">
 			</colgroup>
 			<tr>
-				<th>Назив на трошковно место</th>
 				<th>Код</th>
+				<th>Назив на трошковно место</th>
 				<th>Акции</th>
 			</tr>
 			<tr ng-repeat="row in $data">
-				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Name}}</td>
 				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Code}}</td>
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Name}}</td>
 				<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
-	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.Name" 
+					<input ng-switch-default type="text" name="" ng-model="vm.editModel.Code" 
 	              	class="editable-input form-control input-sm" required />
 	            </td>
 				<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
-					<input ng-switch-default type="text" name="" ng-model="vm.editModel.Code" 
+	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.Name" 
 	              	class="editable-input form-control input-sm" required />
 	            </td>
 				<td class="command">

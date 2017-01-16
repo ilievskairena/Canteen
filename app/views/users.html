@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="col-md-3 pull-left">
 				<button class="btn btn-info pull-left"
-				ng-click="vm.showFilters=!vm.showFilters">
+				ng-click="vm.showFilters=!vm.showFilters; vm.clearFilters()">
 					<i class="fa fa-filter"></i>
 					<span ng-if="!vm.showFilters">Прикажи филтри</span>
 					<span ng-if="vm.showFilters">Исклучи филтри</span>
@@ -14,7 +14,7 @@
 			</div>
 			<div class="col-md-3 pull-right">
 				<button class="btn btn-success pull-right"
-				ng-click="vm.isInserting=true">
+				ng-click="vm.isInserting=true; vm.showFilters=false; vm.clearFilters()">
 					<i class="fa fa-plus"></i>
 					<span>Додади нов корисник</span>
 				</button>
@@ -59,7 +59,7 @@
 </div>
 <div class="row" ng-show="vm.isInserting">
 	<div class="col-md-12">
-		<form novalidate name="form" required>
+		<form novalidate name="form" ng-submit="vm.save(); form.$setUntouched(); form.$setPristine()" required>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group" ng-class="{ 'has-error' : form.name.$error.required && form.name.$touched }">
@@ -73,7 +73,7 @@
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : (form.usrName.$error.required && form.usrName.$touched) ||  (form.usrName.$error.pattern && form.usrName.$touched)}">
 						<label for="usrName">Корисничко име</label>	
-						<input type="text" class="form-control" id="usrName" ng-pattern="vm.regex.username" limit-to="6" name="usrName" ng-model="vm.username" placeholder="Внеси корисничко име (MKxxxx)..." required />
+						<input type="text" class="form-control" id="usrName" ng-pattern="vm.regex.username" name="usrName" ng-model="vm.username" placeholder="Внеси корисничко име (MKxxxx)..." required />
 					</div>
 					<div class="checkbox">
 						<label>
@@ -86,7 +86,7 @@
 						<label for="costCenter">Трошковно место</label>
 						<select id="costCenter" name="costCenter" required class="form-control" ng-model="vm.costCenter">
 							<option selected disabled value="">Одбери трошковно место</option>
-							<option ng-repeat="costCenter in vm.allCostCenters" value="{{costCenter.ID}}">{{costCenter.Name}}</option>
+							<option ng-repeat="costCenter in vm.allCostCenters" value="{{costCenter.ID}}">{{costCenter.Code}}</option>
 						</select>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : form.role.$error.required && form.role.$touched }">
@@ -138,8 +138,7 @@
 									(form.cardNumber.$error.required && form.cardNumber.$touched) ||
 									(form.cardNumber.$error.pattern && form.cardNumber.$touched) ||
 									(form.cardType.$error.required && form.cardType.$untouched)"
-						type="submit"
-						ng-click="vm.save();">
+						type="submit">
 							<i class="fa fa-save"></i>
 							<span>Зачувај</span>
 						</button>

@@ -3,7 +3,7 @@
 		<h3 class="page-header">Оброци</h3>
 	</div>
 	<div class="col-md-12">
-		<form name="vm.form" class="myForm" required ng-submit="vm.addMeal()">
+		<form name="vm.form" class="myForm" ng-submit="vm.addMeal(); vm.form.$setUntouched(); vm.form.$setPristine()" novalidate>
 			<div class="row">
 				<div class="col-md-5">
 					<div class="form-group" ng-class="{'has-error' : vm.form.description.$error.required && vm.form.description.$touched}">
@@ -14,7 +14,7 @@
 				<div class="col-md-4">
 					<div class="form-group">
 						<label for="">Тип на оброк</label>
-						<select class="form-control" name="MealType" ng-model="vm.MealType">
+						<select class="form-control" name="MealType" ng-model="vm.MealType" required>
 							<option selected disabled value="">Одбери тип оброк</option>
 							<option ng-repeat="mealtype in vm.allMealTypes" 
 							value="{{mealtype.ID}}">{{mealtype.Name}}</option>
@@ -26,7 +26,7 @@
 						<label for="">&nbsp;</label>
 						<br>
 						<button class="btn btn-success"
-						ng-disabled="(vm.form.description.$error.required && vm.form.description.$touched) || vm.MealType == ''"
+						ng-disabled="vm.form.$invalid"
 						ng-click="vm.insert();"
 						type="submit" >
 							<i class="fa fa-save"></i>
@@ -37,11 +37,11 @@
 			</div>
 		</form>
 	</div>
-	<div class="col-md-12" ng-if="vm.form.description.$error.required && vm.form.description.$touched">
+	<div class="col-md-12" ng-if="(vm.form.description.$error.required && vm.form.description.$touched) || (vm.form.MealType.$error.required && vm.form.MealType.$touched)">
 		<div class="alert alert-danger" role="alert">
 			<ul class="text-danger">
 				<li ng-if="vm.form.description.$error.required">Задолжително внесете опис на оброкот!</li>
-				<li ng-if="vm.MealType == ''">Задолжително одберете тип на одброк!</li>
+				<li ng-if="vm.form.MealType.$error.required">Задолжително одберете тип на одброк!</li>
 			</ul>
 		</div>
 	</div>

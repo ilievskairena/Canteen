@@ -20,8 +20,8 @@
 								title-format="'MMMM y'"
 								week-starts-on="1"
 								ng-model="vm.summary.selectedDates"
-								data-start-month="9"
-								data-start-year="2016"
+								data-start-month="0"
+								data-start-year="2017"
 								tooltips="tooltips"
 								day-format="dayFormat"
 								day-label-format="'EEE'"
@@ -35,6 +35,7 @@
                        	<div class="col-md-12 margin-top-15">
                        		<button wz-next 
                        		ng-show="vm.summary.selectedDates.length > 0"
+                       		ng-disabled="vm.defaultMeals === null"
                        		class="btn btn-success pull-right">
 								<span>Продолжи</span>
 								<i class="fa fa-angle-double-right" aria-hidden="true""></i>

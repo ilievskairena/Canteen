@@ -1,4 +1,6 @@
-'use strict';
+(function(){
+
+  'use strict';
 
 /**
  * @ngdoc function
@@ -7,10 +9,38 @@
  * # MenusCtrl
  * Controller of the canteenApp
  */
-angular.module('canteenApp')
-  .controller('MenusCtrl', function ($rootScope, $route, roleService, $location, $http, $scope, utility, APP_CONFIG, toastr, $filter, WizardHandler) {
+ 
+  angular.module('canteenApp')
+  .controller('MenusCtrl', MenusCtrl);
+
+  MenusCtrl.$inject = ['$rootScope', '$route', 'roleService', '$location', '$http', '$scope', 'utility', 'APP_CONFIG', 'toastr', '$filter', 'WizardHandler'];
+
+  function MenusCtrl($rootScope, $route, roleService, $location, $http, $scope, utility, APP_CONFIG, toastr, $filter, WizardHandler) {
 
     var vm = this;
+
+    vm.shiftOne = [];
+    vm.shiftTwo= [];
+    vm.shiftThree = [];
+    vm.startMonth = 0;
+
+    vm.summary = {
+      selectedDates:[],
+      shiftOne: [],
+      shiftTwo: [],
+      shiftThree: []
+    };
+    vm.defaultMeals = {};
+
+    // Functions
+    vm.formatData = formatData;
+    vm.getByMealTypeId = getByMealTypeId;
+    vm.getDefaultMeals = getDefaultMeals;
+    vm.getMeals = getMeals;
+    vm.getMealsPerDay = getMealsPerDay;
+    vm.submitMenu = submitMenu;
+
+    // Init
 
     $rootScope.isLogin = false;
     if(!utility.isAuthenticated()) {
@@ -19,66 +49,13 @@ angular.module('canteenApp')
     vm.loggedInUser = utility.getLoggedInUser();
     var path = $location.path();
     if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+    
+    getMeals();
+    getDefaultMeals();
 
-    vm.shiftOne = [];
-    vm.shiftTwo= [];
-    vm.shiftThree = [];
+    // Define functions here
 
-    vm.summary = {
-      selectedDates:[],
-      shiftOne: [],
-      shiftTwo: [],
-      shiftThree: []
-    };
-
-    vm.getMeals = function(){
-      $http({
-        method: 'GET',
-        crossDomain: true,
-        url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_per_type
-      }).
-      success(function(data) {
-          vm.mealsPerType = data;
-          for(var i in data) {
-            vm.summary.shiftOne.push([]);
-            vm.summary.shiftTwo.push([]);
-          }
-      }).
-      error(function(data, status, headers, config) {
-        toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
-      });
-    }; 
-
-    //Used to retreive the options for third shift
-    vm.getDefaultMeals = function(){
-      $http({
-        method: 'GET',
-        crossDomain: true,
-        url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_default
-      }).
-      success(function(data) {
-          vm.defaultMeals = data;
-          vm.summary.shiftThree.push([]);
-      }).
-      error(function(data, status, headers, config) {
-        toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
-      });
-    }; 
-
-    vm.getByMealTypeId = function(id) {
-      for(var i in vm.mealsPerType) {
-        if(vm.mealsPerType[i].ID == id) {
-          return vm.mealsPerType[i].Name;
-        }
-      }
-    };
-
-    /**
-     * @ngdoc function
-     * @name canteenApp.controller:MenusCtrl.formatData
-     * @description It generated a POST data formated
-     */ 
-    vm.formatData = function() {
+    function formatData() {
         var result = {
           dates: [],
           shifts: [
@@ -132,34 +109,85 @@ angular.module('canteenApp')
           shift: 3,
           meals: mealsId
         });
-        console.log(result);
         return result;
     };
 
-    vm.getMealsPerDay = function(date) {
+    function getByMealTypeId(id) {
+      for(var i in vm.mealsPerType) {
+        if(vm.mealsPerType[i].ID == id) {
+          return vm.mealsPerType[i].Name;
+        }
+      }
+    };
+
+    function getDefaultMeals(){
+      $http({
+        method: 'GET',
+        crossDomain: true,
+        url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_default
+      }).then(function successCallback(response){
+        if(response.data === null){
+          toastr.error("Ве молиме изберете Default-ен оброк во конфигурација пред да продолжите со планирање на менијата!")
+        }
+        vm.defaultMeals = response.data;
+        vm.summary.shiftThree.push([]);
+      }, function errorCallback(response){
+        toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
+      });
+    }; 
+
+    function getMeals(){
+      $http({
+        method: 'GET',
+        crossDomain: true,
+        url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_per_type
+      }).then(function successCallback(response){
+        var data = angular.copy(response.data);
+        vm.mealsPerType = data;
+        for(var i in data) {
+          vm.summary.shiftOne.push([]);
+          vm.summary.shiftTwo.push([]);
+        }
+      }, function errorCallback(response){
+        toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
+      });
+    }; 
+
+    //Used to retreive the options for third shift
+      
+
+    /**
+     * @ngdoc function
+     * @name canteenApp.controller:MenusCtrl.formatData
+     * @description It generated a POST data formated
+     */ 
+    
+
+    function getMealsPerDay(date) {
       var formattedDate = $filter("date")(date, "yyyy-MM-dd HH:mm:ss.sss");
       $http({
           method: 'GET',
           crossDomain: true,
           url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_by_date + "?date=" + formattedDate.toString()
-      }).
-      success(function(data) {
-          
-      }).
-      error(function(data, status, headers, config) {
+      }).then(function successCallback(response){
+
+      }, function errorCallback(response){
         toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
       });
     };
 
-    vm.submitMenu = function() {
+    function submitMenu() {
         $http({
             method: 'POST',
-            data: vm.formatData(),
+            data: formatData(),
             contentType:'application/json',
             crossDomain: true,
             url: APP_CONFIG.BASE_URL + APP_CONFIG.menu
-        }).
-        success(function(data) {
+        }).then(function successCallback(response){
+            if(response.data !== null){
+              toastr.error("Промена на менито не е возможно. Веќе постојат нарачки за тоа мени за одбраниот/те датум/и!")
+              return;
+            }
             toastr.success("Менијата се успешно запишани.");
             $route.reload();
             vm.summary = {
@@ -168,10 +196,9 @@ angular.module('canteenApp')
               shiftTwo: [],
               shiftThree: []
             };
-            vm.getMeals();
-        }).
-        error(function(data, status, headers, config) {
-            toastr.error("Грешка при запишување на мениата. Ве молиме обидете се повторно!");
+            getMeals();
+        }, function errorCallback(response){
+            toastr.error("Грешка при запишување на менијата. Ве молиме обидете се повторно!");
         });
     };
 
@@ -183,7 +210,6 @@ angular.module('canteenApp')
           controls.width('100%');
         }
     });
+  }
+})();
 
-    vm.getMeals();
-    vm.getDefaultMeals();
-});

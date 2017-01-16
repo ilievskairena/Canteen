@@ -131,7 +131,7 @@
 </div>
 <div class="row">
 	<div class="col-md-3 col-md-offset-8">
-		<button class="btn btn-success" ng-disabled="vm.hasChange()" ng-click="vm.submit()">Зачувај</button>
+		<button class="btn btn-success" ng-disabled="!vm.hasChange()" ng-click="vm.submit()">Зачувај</button>
 		<button class="btn btn-danger" ng-disabled="!vm.enableDelete()" ng-click="vm.delete()">Избриши план</button>
 	</div>
 </div>

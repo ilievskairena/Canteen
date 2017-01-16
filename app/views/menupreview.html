@@ -69,7 +69,7 @@
 				<td colspan="3">
 					<a href="" ng-click="date.$hideRows = !date.$hideRows">
 						<span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': date.$hideRows, 'glyphicon-chevron-down': !date.$hideRows }"></span>
-						<strong>{{ date.Date }}</strong>
+						<strong>{{ date.Date | date: 'dd-MM-yyyy'}}</strong>
 					</a>
 				</td>
 			</tr>

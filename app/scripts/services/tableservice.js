@@ -1,4 +1,6 @@
-'use strict';
+(function(){
+
+    'use strict';
 
 /**
  * @ngdoc service
@@ -7,25 +9,40 @@
  * # tableService
  * Service in the canteenApp.
  */
-angular.module('canteenApp')
-  .service('tableService', function () {
+ 
+    angular.module('canteenApp')
+    .service('tableService', tableService);
+
+
+
+    function tableService() {
         // AngularJS will instantiate a singleton by calling "new" on this function
+
+        this.getTable = getTable;
+
+        // This function is exposed for usage
+
+        function getTable(data, lang){
+            return buildTable(data, lang);
+        };
+
+        // Local functions
 
         function isArray(a) {
             return "[object Array]" === Object.prototype.toString.call(a)
-        }
+        };
 
         function encodeText(a) {
             return $("<div />").text(a).html()
-        }
+        };
 
         function isEven(a) {
             return 0 == a % 2
-        }
+        };
 
         function getHeader(string, language){
-        		return string;
-            }
+            return string;
+        };
 
         function buildArray(a, lang) {
             var e = document.createElement("table"), child, 
@@ -103,10 +120,7 @@ angular.module('canteenApp')
             tmp.appendChild(e);
             //get the innerHTML from that div as string
             return tmp.innerHTML;
-
-        }
-
-
+        };
 
         function buildTable(a, lang) {
             var e = document.createElement("table"),
@@ -127,15 +141,6 @@ angular.module('canteenApp')
                     b.colSpan = 2,
                     b.innerHTML = '<div class="td_head">' + encodeText(c) + '</div><table class="table table-bordered table-striped table-condensed table-hover" style="width:100%">' + $(buildTable(a[c], lang), !1).html() + "</table>");
             return e
-        }
-
-        return {
-
-        	getTable : function(data, lang){
-        		return buildTable(data, lang);
-        	},
-
-        }
-
-    });
-
+        };
+    }
+})();

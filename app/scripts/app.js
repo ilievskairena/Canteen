@@ -150,4 +150,7 @@ angular
   })
   .config(function($httpProvider) {
       $httpProvider.interceptors.push('authInterceptorService');
-  });
+  })
+  .config(['$locationProvider', function($locationProvider) {
+  $locationProvider.hashPrefix('');
+}]);
