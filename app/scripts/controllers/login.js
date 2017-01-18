@@ -23,7 +23,7 @@
     vm.user = {
       username: "",
       password: ""
-    }; 
+    };
 
     // Functions
 
@@ -54,7 +54,7 @@
          toastr.error("Погрешно корисничко име или лозинка!");
         }
       );
-    };
+    }
 
     function profileProperties() {
       $http({
@@ -75,7 +75,7 @@
         vm.progressBar.reset();
         toastr.error("Грешка при најава, ве молиме обидете се повторно!");
       });
-    }; 
+    } 
   }
 })();
  

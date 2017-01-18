@@ -13,9 +13,9 @@
 	angular.module('canteenApp')
  	.controller('MenupreviewCtrl', MenupreviewCtrl);
 
- 	MenupreviewCtrl.$inject = ['$rootScope', 'roleService', '$location', 'utility', 'APP_CONFIG', '$scope', '$http', 'toastr', '$filter', 'ngTableParams'];
+ 	MenupreviewCtrl.$inject = ['$rootScope', 'roleService', '$location', 'utility', 'APP_CONFIG', '$http', 'toastr', '$filter', 'ngTableParams'];
 
- 	function MenupreviewCtrl($rootScope, roleService, $location, utility, APP_CONFIG, $scope, $http, toastr, $filter, ngTableParams) {
+ 	function MenupreviewCtrl($rootScope, roleService, $location, utility, APP_CONFIG, $http, toastr, $filter, ngTableParams) {
  		var vm = this;
 
  		vm.dateOptions = {
@@ -52,17 +52,19 @@
 
  		vm.loggedInUser = utility.getLoggedInUser();
  		var path = $location.path();
- 		if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+ 		if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+ 			$location.path("/");	
+ 		} 
 
 	 	// Define functions here
 
 	 	function openDateFrom() {
 	 		vm.dateFrom.open = true;
-	 	};
+	 	}
 
 	 	function openDateTo() {
 	 		vm.dateTo.open = true;
-	 	};
+	 	}
 
 	 	function showPreview() {
 	 		var from = $filter("date")(vm.dateFrom.selected, "yyyy-MM-dd HH:mm:ss.sss");
@@ -105,6 +107,6 @@
 		      	vm.isLoading = false;
 		      	toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
 	      	});
- 		};
+ 		}
  	}
 })();

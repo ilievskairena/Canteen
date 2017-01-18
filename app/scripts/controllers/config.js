@@ -11,7 +11,7 @@
   angular.module('canteenApp')
   .controller('ConfigCtrl', ConfigCtrl);
 
-  ConfigCtrl.$inject = ['$http', '$filter', '$location', '$rootScope', 'roleService', 'utility', 'toastr', 'ngProgressFactory', 'APP_CONFIG']
+  ConfigCtrl.$inject = ['$http', '$filter', '$location', '$rootScope', 'roleService', 'utility', 'toastr', 'ngProgressFactory', 'APP_CONFIG'];
 
   function ConfigCtrl($http, $filter, $location, $rootScope, roleService, utility, toastr, ngProgressFactory, APP_CONFIG) {
 
@@ -58,7 +58,7 @@
         vm.config.thirdShift = vm.returnDateTime(response.data.thirdShiftStart);
         vm.config.mealId = response.data.defaultMeal;//$filter('filter')(vm.meals, { MealID: response.data.defaultMeal});
       });
-    };
+    }
 
     function getMeals() {
       $http({
@@ -72,7 +72,7 @@
       }, function errorCallback(response){
         console.log("Error getting meals");
       });
-    };
+    }
 
     function returnDateTime(timeString) {
       var timeArray = timeString.split(":");
@@ -80,7 +80,7 @@
       d.setHours(parseInt(timeArray[0]));
       d.setMinutes(parseInt(timeArray[1]));
       return d;
-    };
+    }
     
     function save() {
       vm.progressBar.setColor('#8dc63f');
@@ -96,7 +96,7 @@
         data: vm.config
       }).then(function successCallback(response){
 
-        toastr.success("Успешно зачувана конфигурација!")
+        toastr.success("Успешно зачувана конфигурација!");
         getConfig();
         vm.progressBar.complete();
 
@@ -105,7 +105,7 @@
         toastr.error("Грешка при зачувување. Ве молиме обидете се повторно!");
         vm.progressBar.reset();
       });
-    };   
+    }   
   }
 })();
 

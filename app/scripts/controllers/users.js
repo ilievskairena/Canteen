@@ -36,7 +36,7 @@
         vm.regex = {
             number: "[0-9]{8}",
             username: ".+",
-            card: "[0-9]{11}"
+            card: "[0-9]{15}"
         };
 
         // Functions
@@ -63,7 +63,9 @@
         
         vm.loggedInUser = utility.getLoggedInUser();
         var path = $location.path();
-        if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+        if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+            $location.path("/");  
+        } 
 
         getUsers();
         getRoles();
@@ -75,7 +77,7 @@
           vm.isEditing = false;
           vm.editModel = null;
           vm.editIndex = null;
-        };
+        }
 
         function clearFilters(){
             if(angular.isUndefined(vm.filters)){
@@ -85,25 +87,25 @@
             vm.filters.Name = "";
             vm.filters.Username = "";
             vm.filters.CardNumber = "";
-        };
+        }
 
         function clearForm(){
            // vm.username = vm.name = vm.costCenter = vm.personNumber = vm.role = vm.isEmployee = vm.cardNumber = vm.cardType = null;
            vm.isInserting = false;
-        };
+        }
 
         function edit(row, index){
           vm.editModel = angular.copy(row);
           vm.isEditing = true;
           vm.editIndex = index;      
-        }; 
+        }
 
         function getCostCenters(){
             utility.getAllCostCenters().then(function(result) {
                 // console.log(result);
                 vm.allCostCenters = result.data;
             });
-        };
+        }
 
         function getRoles(){
             $http({
@@ -115,15 +117,15 @@
             }, function errorCallback(response){
                 console.log("Error getting roles");
             });
-        };
+        }
 
         function getUser(user){
             utility.getUserPerID(user.ID).then(function(result) {
                 /*console.log(result.data);*/
                 vm.returnedUser = result.data;
-                openEditDialog();
+                //openEditDialog();
             });
-        };
+        }
 
         function getUsers() {
             $http({
@@ -152,7 +154,7 @@
             }, function errorCallback(response){
                 console.log("Error getting users");
             });
-        };
+        }
 
         function openRemoveDialog(data){
             var nestedConfirmDialog = ngDialog.openConfirm({
@@ -163,7 +165,7 @@
 
             // NOTE: return the promise from openConfirm
             return nestedConfirmDialog;   
-        };
+        }
 
         function removeItem(userId){
             $http({
@@ -171,13 +173,13 @@
                 url: APP_CONFIG.BASE_URL +"/api/users/"+ userId,
                 crossDomain: true          
             }).then(function successCallback(response){
-                toastr.success('Корисникот е успешно деактивиран.')
+                toastr.success('Корисникот е успешно деактивиран.');
                 vm.getUsers();
             }, function errorCallback(response){
-                toastr.error('Грешка при деактивирање на корисник. Ве молиме обидете се повторно!')
+                toastr.error('Грешка при деактивирање на корисник. Ве молиме обидете се повторно!');
                 //console.log(response.data);
             });
-        };
+        }
 
         function reset() {
             vm.username = "";
@@ -188,7 +190,7 @@
             vm.isEmployee = true;
             vm.cardNumber = "";
             vm.cardType = "";
-        };
+        }
 
         function save(){
             vm.progressBar.setColor('#8dc63f');
@@ -224,7 +226,7 @@
                 vm.progressBar.reset();
                 toastr.error("Грешка при додавање на корисник. Ве молиме обидете се повторно!");
             });
-        };
+        }
 
         function update(){
             vm.progressBar.setColor('#8dc63f');
@@ -257,7 +259,7 @@
                 vm.progressBar.reset();
                 toastr.error("Грешка при промена на корисник. Ве молиме обидете се повторно!");
             });
-        };
+        }
     }
 })();
 

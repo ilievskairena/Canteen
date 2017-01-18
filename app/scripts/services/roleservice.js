@@ -56,7 +56,7 @@
         // Define functions here
 
         function hasPermission(route, roleId) {
-            return routes[route].indexOf(roleId) != -1;
-        };
+            return routes[route].indexOf(roleId) !== -1;
+        }
     }
 })();

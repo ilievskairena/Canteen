@@ -13,9 +13,9 @@
   angular.module('canteenApp')
   .controller('MenusCtrl', MenusCtrl);
 
-  MenusCtrl.$inject = ['$rootScope', '$route', 'roleService', '$location', '$http', '$scope', 'utility', 'APP_CONFIG', 'toastr', '$filter', 'WizardHandler'];
+  MenusCtrl.$inject = ['$rootScope', '$route', 'roleService', '$location', '$http', '$scope', 'utility', 'APP_CONFIG', 'toastr', '$filter'];
 
-  function MenusCtrl($rootScope, $route, roleService, $location, $http, $scope, utility, APP_CONFIG, toastr, $filter, WizardHandler) {
+  function MenusCtrl($rootScope, $route, roleService, $location, $http, $scope, utility, APP_CONFIG, toastr, $filter) {
 
     var vm = this;
 
@@ -48,7 +48,9 @@
     }
     vm.loggedInUser = utility.getLoggedInUser();
     var path = $location.path();
-    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+        $location.path("/");
+    } 
     
     getMeals();
     getDefaultMeals();
@@ -69,11 +71,13 @@
         }
 
         var mealsId = [];
-        for(var i in vm.summary.shiftOne) {
+        for( i in vm.summary.shiftOne) {
           var mealType = vm.summary.shiftOne[i];
           for(var j in mealType) {
             var meal = mealType[j];
-            if(meal.ID == undefined) continue;
+            if(meal.ID === undefined){
+                continue;
+            } 
             mealsId.push(meal.ID);
           }
         }
@@ -83,11 +87,13 @@
         });
 
         mealsId = [];
-        for(var i in vm.summary.shiftTwo) {
+        for( i in vm.summary.shiftTwo) {
           var mealType = vm.summary.shiftTwo[i];
-          for(var j in mealType) {
+          for( j in mealType) {
             var meal = mealType[j];
-            if(meal.ID == undefined) continue;
+            if(meal.ID === undefined){
+                continue;
+            } 
             mealsId.push(meal.ID);
           }
         }
@@ -97,11 +103,13 @@
         });
 
         mealsId = [];
-        for(var i in vm.summary.shiftThree) {
+        for( i in vm.summary.shiftThree) {
           var mealType = vm.summary.shiftThree[i];
-          for(var j in mealType) {
+          for( j in mealType) {
             var meal = mealType[j];
-            if(meal.ID == undefined) continue;
+            if(meal.ID === undefined){
+                continue;
+            } 
             mealsId.push(meal.ID);
           }
         }
@@ -110,15 +118,15 @@
           meals: mealsId
         });
         return result;
-    };
+    }
 
     function getByMealTypeId(id) {
       for(var i in vm.mealsPerType) {
-        if(vm.mealsPerType[i].ID == id) {
+        if(vm.mealsPerType[i].ID === id) {
           return vm.mealsPerType[i].Name;
         }
       }
-    };
+    }
 
     function getDefaultMeals(){
       $http({
@@ -127,14 +135,14 @@
         url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_default
       }).then(function successCallback(response){
         if(response.data === null){
-          toastr.error("Ве молиме изберете Default-ен оброк во конфигурација пред да продолжите со планирање на менијата!")
+          toastr.error("Ве молиме изберете Default-ен оброк во конфигурација пред да продолжите со планирање на менијата!");
         }
         vm.defaultMeals = response.data;
         vm.summary.shiftThree.push([]);
       }, function errorCallback(response){
         toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
       });
-    }; 
+    }
 
     function getMeals(){
       $http({
@@ -151,7 +159,7 @@
       }, function errorCallback(response){
         toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
       });
-    }; 
+    }
 
     //Used to retreive the options for third shift
       
@@ -174,7 +182,7 @@
       }, function errorCallback(response){
         toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
       });
-    };
+    }
 
     function submitMenu() {
         $http({
@@ -185,7 +193,7 @@
             url: APP_CONFIG.BASE_URL + APP_CONFIG.menu
         }).then(function successCallback(response){
             if(response.data !== null){
-              toastr.error("Промена на менито не е возможно. Веќе постојат нарачки за тоа мени за одбраниот/те датум/и!")
+              toastr.error("Промена на менито не е возможно. Веќе постојат нарачки за тоа мени за одбраниот/те датум/и!");
               return;
             }
             toastr.success("Менијата се успешно запишани.");
@@ -200,7 +208,7 @@
         }, function errorCallback(response){
             toastr.error("Грешка при запишување на менијата. Ве молиме обидете се повторно!");
         });
-    };
+    }
 
     $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         //you also get the actual event object

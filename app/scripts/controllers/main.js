@@ -52,7 +52,9 @@
 
         vm.loggedInUser = utility.getLoggedInUser();
         var path = $location.path();
-        if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+        if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+            $location.path("/");  
+        } 
         
         getCostCenters();
         getUsers();
@@ -75,7 +77,7 @@
             }, function errorCallback(response){
 
             });
-        };
+        }
 
         function chartLineRatio() {
             var dateFrom = new Date();
@@ -101,7 +103,7 @@
             }, function errorCallback(response){
                 console.log("Error",response);
             });
-        };
+        }
 
         function chartPieOrders() {
             $http({
@@ -116,7 +118,7 @@
             }, function errorCallback(response){
                 console.log("Error",response);
             });
-        };
+        }
 
         function getCostCenters(){
             utility.getAllCostCenters().then(function(result) {
@@ -125,7 +127,7 @@
             function(error) {
                 AuthenticationService.logOut();
             });
-        };
+        }
 
         function getUsers(){
             utility.getUsers().then(function(result) {
@@ -134,7 +136,7 @@
             function(error) {
                 AuthenticationService.logOut();
             });
-        };
+        }
     }
 })();
 

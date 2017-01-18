@@ -25,7 +25,7 @@
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     var endDate = new Date();
-    endDate.setDate(endDate.getDate() + 5)
+    endDate.setDate(endDate.getDate() + 5);
     vm.dateOptions = {
       formatYear: 'yyyy',
       maxDate: endDate,
@@ -97,21 +97,23 @@
     
     vm.loggedInUser = utility.getLoggedInUser();
     var path = $location.path();
-    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+        $location.path("/");
+    } 
 
     // Define functions here
 
     function boxData() {
       return {
         DateId: vm.model.dateId,
-        firstCount: vm.model.firstShift.count == null ? 0 : vm.model.firstShift.count,
-        firstMealId: vm.model.firstShift.mealId == null ? 0 : vm.model.firstShift.mealId,
-        secondCount: vm.model.secondShift.count == null ? 0 : vm.model.secondShift.count,
-        secondMealId: vm.model.secondShift.mealId == null ? 0 : vm.model.secondShift.mealId,
-        thirdCount: vm.model.thirdShift.count == null ? 0 : vm.model.thirdShift.count,
-        thirdMealId: vm.model.thirdShift.mealId == null ? 0 : vm.model.thirdShift.mealId
+        firstCount: vm.model.firstShift.count === null ? 0 : vm.model.firstShift.count,
+        firstMealId: vm.model.firstShift.mealId === null ? 0 : vm.model.firstShift.mealId,
+        secondCount: vm.model.secondShift.count === null ? 0 : vm.model.secondShift.count,
+        secondMealId: vm.model.secondShift.mealId === null ? 0 : vm.model.secondShift.mealId,
+        thirdCount: vm.model.thirdShift.count === null ? 0 : vm.model.thirdShift.count,
+        thirdMealId: vm.model.thirdShift.mealId === null ? 0 : vm.model.thirdShift.mealId
       };
-    };
+    }
 
     function Delete() {
       vm.progressBar.start();
@@ -122,12 +124,12 @@
       }).then(function successCallback(response){
         vm.progressBar.complete();
         toastr.success("Нарачката е успешно избришана");
-        $route.reload() 
+        $route.reload(); 
       }, function errorCallback(response){
         vm.progressBar.reset();
         toastr.error("Грешка при бришење на нарачката");
       });
-    };
+    }
 
     function edit() {
       vm.progressBar.start();
@@ -165,11 +167,11 @@
         vm.progressBar.reset();
         toastr.error("Грешка при ажурирање на нарачката");
       });
-    };
+    }
 
     function enableDelete() {
-      return vm.original.firstShift.count != null && vm.original.secondShift.count != null && vm.original.thirdShift.count != null;
-    };
+      return vm.original.firstShift.count !== null && vm.original.secondShift.count !== null && vm.original.thirdShift.count !== null;
+    }
 
     function getMealsForDay() {
       vm.progressBar.setColor('#8dc63f');
@@ -210,12 +212,15 @@
           };  
         });
       }, function errorCallback(response){
-        if(response.status === 404)
+        if(response.status === 404){
           toastr.info("За овој ден не се пронајдени оброци. Обратете се до администрацијата да се внесе мени!");
-        else toastr.error("Грешка при преземање на податоците!");
+        }
+        else{
+            toastr.error("Грешка при преземање на податоците!");
+        } 
         vm.progressBar.reset();
       });
-    };
+    }
 
     function hasChange() {
       return (vm.model.firstShift.count !== vm.original.firstShift.count || 
@@ -225,7 +230,7 @@
         vm.model.secondShift.mealId !== vm.original.secondShift.mealId ||
         vm.model.thirdShift.mealId !== vm.original.thirdShift.mealId) &&
       vm.date.selected !== null;
-    };
+    }
 
     function insert() {
       vm.progressBar.start();
@@ -263,18 +268,20 @@
         vm.progressBar.reset();
         toastr.error("Грешка при бришење на нарачката");
       });
-    };
+    }
 
     function openDate() {
       vm.date.open = !vm.date.open;
-    };
+    }
 
     function submit() {
       if(!enableDelete() && hasChange()) {
         insert();
       }
-      else edit();
-    };
+      else{
+          edit();
+      } 
+    }
 
     function unboxData(data) {
       vm.model.firstShift.count = data.firstCount;
@@ -290,6 +297,6 @@
       vm.original.firstShift.mealId = data.firstMealId;
       vm.original.secondShift.mealId = data.secondMealId;
       vm.original.thirdShift.mealId = data.thirdMealId;
-    };
+    }
   } 
 })();

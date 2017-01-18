@@ -1,4 +1,5 @@
-'use strict';
+(function(){
+    'use strict';
 
 /**
  * @ngdoc directive
@@ -6,15 +7,22 @@
  * @description
  * # maxLimit
  */
-angular.module('canteenApp')
-  .directive('limitTo', function () {
+    angular.module('canteenApp')
+    .directive('limitTo', limitTo);
+
+    limitTo.$inject = [];
+
+    function limitTo() {
     return {
         restrict: "A",
         link: function(scope, elem, attrs) {
             var limit = parseInt(attrs.limitTo);
             angular.element(elem).on("keypress", function(e) {
-                if (this.value.length == limit) e.preventDefault();
+                if (this.value.length === limit){
+                    e.preventDefault();  
+                } 
             });
         }
-    }
-  });
+    };
+  }
+})();

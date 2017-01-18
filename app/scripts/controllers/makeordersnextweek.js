@@ -57,12 +57,16 @@
     }
     vm.loggedInUser = utility.getLoggedInUser();
     var path = $location.path();
-    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+      $location.path("/");
+    } 
 
-    if(vm.loggedInUser == null || vm.loggedInUser == undefined) {
+    if(vm.loggedInUser === null || vm.loggedInUser === undefined) {
       $location.path('/');
     }
-    else getOrderPlan();
+    else{
+      getOrderPlan();
+    } 
 
     // Define functions here
 
@@ -76,7 +80,7 @@
 
       // NOTE: return the promise from openConfirm
       return confirmDialog;  
-    };
+    }
 
     function formatData() {
       var result = [];
@@ -85,12 +89,12 @@
         //console.log(date);
         var dateOrderExists = false;
         //if there is no meal selected for the date
-        if(date.selectedMeal==null){
+        if(date.selectedMeal === null){
           continue;
         }
         //if the date has already a order from before
-        for(var i = 0; i < vm.ordersMade.length; i++){
-          if(date.DateID == vm.ordersMade[i].DateID){
+        for( i = 0; i < vm.ordersMade.length; i++){
+          if(date.DateID === vm.ordersMade[i].DateID){
             dateOrderExists = true;
             break;
           }
@@ -106,25 +110,27 @@
           MealPerDayID: date.MealPerDateID,
           MealID : date.selectedMeal,
           Guests: date.Guests,
-          ChosenShift : date.ChosenShift == null ? date.shift : date.ChosenShift,
+          ChosenShift : date.ChosenShift === null ? date.shift : date.ChosenShift,
           MealChoices : []
         });
       }
 
-      if(result.length == 0) {
+      if(result.length === 0) {
         return null;
       }
       return result;
-    };
+    }
 
     function formatPreviewData() {
       var result = [];
       for(var i in vm.options) {
         var date = vm.options[i];
-        if(date.OrderID != null) continue;
+        if(date.OrderID !== null){
+          continue;
+        } 
         for(var j in date.MealChoices) {
           var meal = date.MealChoices[j];
-          if(meal.MealID == date.selectedMeal) {
+          if(meal.MealID === date.selectedMeal) {
             result.push({
               date : date.Date,
               meal : meal.MealDescription,
@@ -137,17 +143,17 @@
         }
       }
       return result;
-    };
+    }
 
     function getMeal(date){
       for(var i in date.MealChoices) {
         var meal = date.MealChoices[i];
-        if(meal.MealID == date.selectedMeal){
+        if(meal.MealID === date.selectedMeal){
           return meal.MealDescription;   
         }
       }
 
-    };
+    }
 
     function getOrderPlan() {
       var tomorrow = new Date();
@@ -164,15 +170,16 @@
         function(result) {
           vm.options = result.data;
         for(var i = 0; i< vm.options.length; i++){
-          if(vm.options[i].OrderID!=null)
+          if(vm.options[i].OrderID !== null){
             vm.ordersMade.push(vm.options[i]);
+          }
         }
         vm.flags.showOtherDays = result.data.length >= 5;
       }, 
       function(error) {
 
       });
-    };
+    }
 
     function insert() {
       var data = vm.formatData();
@@ -193,32 +200,36 @@
         vm.progressBar.setColor('red');
         vm.progressBar.reset();
       });
-    };
+    }
 
     function isAlreadyOrdered(date) {
-      return date.OrderID != null? true: false;
-    };
+      return date.OrderID !== null? true: false;
+    }
 
     function nextWeek() {
       if(vm.flags.showOtherDays) {
         vm.items.startIndex += 5;
         vm.items.endIndex +=5;
       }
-    };
+    }
 
     function reload() {
       $route.reload();
-    };
+    }
 
     function selectMeal(date, meal) {
-      if(date.MealPerDateID != null) return;
-      date.selectedMeal = meal.MealID
-    };
+      if(date.MealPerDateID !== null){
+        return;
+      } 
+      date.selectedMeal = meal.MealID;
+    }
 
     function selectShift(date, shift) {
-      if(date.ChosenShift != null) return;
+      if(date.ChosenShift !== null){
+        return;
+      } 
       date.shift = shift;
       date.selectedMeal = null;
-    };
+    }
   }
 })();

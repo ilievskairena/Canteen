@@ -28,7 +28,7 @@
 		      6: "Сабота",
 		      0: "Недела"
 		    };
-		    var dateString = $filter('date')(input, "yyyy-MM-dd HH:mm:ss.sss")
+		    var dateString = $filter('date')(input, "yyyy-MM-dd HH:mm:ss.sss");
 		    var date = new Date(dateString);
 		    return days[date.getDay()];
 	  	};

@@ -13,9 +13,9 @@
   angular.module('canteenApp')
   .controller('UnplannedorderCtrl', UnplannedorderCtrl);
 
-  UnplannedorderCtrl.$inject = ['$rootScope', 'roleService', '$location', '$scope','$filter', 'utility', 'ngDialog','$http', 'APP_CONFIG', 'ngTableParams', 'toastr', 'ngProgressFactory'];
+  UnplannedorderCtrl.$inject = ['$rootScope', 'roleService', '$location', '$scope','$filter', 'utility', 'ngDialog','$http', 'APP_CONFIG', 'toastr', 'ngProgressFactory'];
 
-  function UnplannedorderCtrl($rootScope, roleService, $location, $scope, $filter, utility, ngDialog, $http, APP_CONFIG, ngTableParams, toastr, ngProgressFactory) {
+  function UnplannedorderCtrl($rootScope, roleService, $location, $scope, $filter, utility, ngDialog, $http, APP_CONFIG, toastr, ngProgressFactory) {
 
     var vm = this;
 
@@ -44,7 +44,7 @@
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     var endDate = new Date();
-    endDate.setDate(endDate.getDate() + 5)
+    endDate.setDate(endDate.getDate() + 5);
     vm.dateOptions = {
       formatYear: 'yyyy',
       maxDate: endDate,
@@ -79,7 +79,9 @@
     
     vm.loggedInUser = utility.getLoggedInUser();
     var path = $location.path();
-    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+      $location.path("/");
+    } 
 
     utility.getUsers().then(function(result) {
       vm.users = result.data;
@@ -111,7 +113,7 @@
 
       // NOTE: return the promise from openConfirm
       return nestedConfirmDialog;   
-    };
+    }
 
     function Delete(orderId) {
       $http({
@@ -127,7 +129,7 @@
           }
           else {
             vm.progressBar.complete();
-            toastr.success("Успешно е избришана нарачката!")
+            toastr.success("Успешно е избришана нарачката!");
           }
           reset();
         }
@@ -144,7 +146,7 @@
           }
           else {
             vm.progressBar.complete();
-            toastr.success("Успешно е избришана нарачката!")
+            toastr.success("Успешно е избришана нарачката!");
           }
           reset();
         }
@@ -152,7 +154,7 @@
           Delete(vm.order[vm.deleteCount].OrderID);
         } 
       });
-    };
+    }
 
     function getMealsForDay() {
       vm.showMealChoices = null;
@@ -168,12 +170,15 @@
         vm.meals = response.data[0];
         vm.progressBar.complete();
       }, function errorCallback(response){
-        if(response.status === 404)
+        if(response.status === 404){
           toastr.info("За овој ден не се пронајдени оброци. Обратете се до администрацијата да се внесе мени!");
-        else toastr.error("Грешка при преземање на податоците!");
+        }
+        else{
+          toastr.error("Грешка при преземање на податоците!");
+        }
         vm.progressBar.reset();
       });
-    };
+    }
 
     function getOrder() {
       vm.showMealChoices = null;
@@ -182,7 +187,10 @@
 
       var url = APP_CONFIG.BASE_URL + APP_CONFIG.orders_existing;
       url += "?dateId=" + vm.meals.DateId;
-      if(vm.person.ID != 0) url += "&userId=" + vm.person.ID;
+      if(vm.person.ID !== 0){
+        url += "&userId=" + vm.person.ID;
+      } 
+        
       $http({
         method: 'GET',
         crossDomain: true,
@@ -192,20 +200,23 @@
         vm.order = data;
         vm.progressBar.complete();
         vm.step = 4;
-        if(vm.person.ID == 0) {
+        if(vm.person.ID === 0) {
           vm.numberWorker = data.length;
         }
         vm.shift = data[0].Shift;
         vm.isInsert = false;
       }, function errorCallback(response){
-        if(response.status != 500) {
+        if(response.status !== 500) {
           vm.step = 3;
           vm.isInsert = true;
         }
-        else toastr.error("Грешка при преземање на податоци за нарачка. Ве молиме обратете се кај администраторот!");
+        else {
+          toastr.error("Грешка при преземање на податоци за нарачка. Ве молиме обратете се кај администраторот!");
+        } 
+          
         vm.progressBar.reset();
       });
-    };
+    }
 
     function insert() {
       vm.progressBar.setColor('#8dc63f');
@@ -232,17 +243,17 @@
         vm.progressBar.reset();
         toastr.error("Грешка при внес на нарачката. Обратете се кај администраторот.")
       });
-    };
+    }
 
     function openDate() {
       vm.date.open = !vm.date.open;
-    };
+    }
 
     function personChange() {
       vm.step = 2;
       vm.selectedMeal = null;
       getOrder();
-    };
+    }
 
     function removeItem() {
       console.log(vm.order);
@@ -251,7 +262,7 @@
 
       vm.deleteCount = vm.order.length - 1;
       Delete(vm.order[vm.deleteCount].OrderID);
-    };
+    }
 
     function reset() {
       vm.step = 0;
@@ -260,19 +271,19 @@
       vm.shift = null;
       vm.numberWorker = null;
       vm.date.selected = null;
-    };
+    }
 
     function selectMeal(meal) {
       vm.selectedMeal = meal;
       vm.step = 4;  
-    };
+    }
 
     function update() {
       vm.progressBar.setColor('#8dc63f');
       vm.progressBar.start();
       var data = {
         OrderID: vm.order[0].OrderID,
-        IsWorker: vm.person.ID == 0,
+        IsWorker: vm.person.ID === 0,
         UserID: vm.person.ID,
         DateID: vm.meals.DateId,
         MealPerDayID: vm.selectedMeal.MealID,
@@ -291,18 +302,18 @@
         toastr.success("Нарачката е успешно внесена!");
       }, function errorCallback(response){
         vm.progressBar.reset();
-        toastr.error("Грешка при внес на нарачката. Обратете се кај администраторот.")
+        toastr.error("Грешка при внес на нарачката. Обратете се кај администраторот.");
       });
-    };
+    }
 
     //OnShiftChange Event
     $scope.$watch('vm.shift', function(oldValue, newValue) {
-      if(oldValue != newValue) {
+      if(oldValue !== newValue) {
         vm.selectedMeal = null;
-        if(vm.order != null && vm.order != undefined) {
+        if(vm.order !== null && vm.order !== undefined) {
           for(var i in vm.meals.Meals) {
             var meal = vm.meals.Meals[i];
-            if(meal.MealID == vm.order[0].MealPerDayID){
+            if(meal.MealID === vm.order[0].MealPerDayID){
               vm.selectedMeal = meal;
               break;
             }

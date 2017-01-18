@@ -44,7 +44,9 @@
     }
     vm.loggedInUser = utility.getLoggedInUser();
     var path = $location.path();
-    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+      $location.path("/");
+    } 
     
     getAllMeals();
     getAllMealTypes();
@@ -74,19 +76,19 @@
         vm.progressBar.reset();
         toastr.error("Грешка при креирање на оброк");
       });
-    };
+    }
 
     function cancel() {
       vm.isEditing = false;
       vm.editIndex = null;
       vm.editModel = null;
-    };
+    }
 
     function edit(row, index){
       vm.isEditing = true;
       vm.editIndex = index;
       vm.editModel = row;
-    };
+    }
 
     function getAllMeals(){
       $http({
@@ -119,13 +121,13 @@
         }, function errorCallback(response){
           console.log("Error getting meals");
       });
-    };
+    }
 
     function getAllMealTypes(user){
       utility.getMealTypes().then(function(result) {
         vm.allMealTypes = result.data;
       });
-    };
+    }
 
     function openRemoveDialog(data){
       var item = {
@@ -140,7 +142,7 @@
 
       // NOTE: return the promise from openConfirm
       return nestedConfirmDialog;   
-    };
+    }
 
     function removeItem(mealId){
       vm.progressBar.setColor('#8dc63f');
@@ -158,7 +160,7 @@
         toastr.error("Грешка при бришење на оброк.");
         vm.progressBar.reset();
       });
-    };
+    }
 
     function update(){
       var editMeal = {
@@ -175,15 +177,15 @@
         crossDomain: true,
         url: APP_CONFIG.BASE_URL + APP_CONFIG.meals + "/" + vm.editModel.MealID
       }).then(function successCallback(response){
-        toastr.success("Успешно променет оброк!")
+        toastr.success("Успешно променет оброк!");
         getAllMeals();
         cancel();
         vm.progressBar.complete();
       }, function errorCallback(response){
         vm.progressBar.reset();
-        toastr.error("Грешка при промена на оброкот! Ве молиме обидете се повторно.")
+        toastr.error("Грешка при промена на оброкот! Ве молиме обидете се повторно.");
       });
-    };
+    }
   }
 })();
 

@@ -13,9 +13,9 @@
  angular.module('canteenApp')
  .controller('DatesCtrl', DatesCtrl);
 
- DatesCtrl.$inject = ['$rootScope', 'roleService', '$location', '$scope', '$filter', '$http', 'MaterialCalendarData', 'APP_CONFIG', 'ngTableParams', 'toastr', 'utility'];
+ DatesCtrl.$inject = ['$rootScope', 'roleService', '$location', '$filter', '$http', 'MaterialCalendarData', 'APP_CONFIG', 'ngTableParams', 'toastr', 'utility'];
 
- function DatesCtrl($rootScope, roleService, $location, $scope, $filter, $http, MaterialCalendarData, APP_CONFIG, ngTableParams, toastr, utility) {
+ function DatesCtrl($rootScope, roleService, $location, $filter, $http, MaterialCalendarData, APP_CONFIG, ngTableParams, toastr, utility) {
 
     var vm = this;
 
@@ -69,7 +69,7 @@
 
         function checkChanges() {
             vm.changes = !utility.compareArrays(vm.dateObjectList, vm.originalData);
-        };
+        }
 
         function createDates() {
             sortDates();
@@ -89,13 +89,14 @@
                 console.log("Error inserting dates");
                 vm.saveButtonDisabled = false;
             });
-        };
+        }
 
         function dayClick(date) {
-            if(vm.dates[date] === undefined)
+            if(vm.dates[date] === undefined){
                 vm.dates[date] = 0;
+            }
             setOpen(date);
-        };
+        }
 
 
 
@@ -133,8 +134,8 @@
                     //Hide the count div
                     counts: [],
                     getData: function($defer, params) {
-                        var filter = params.filter();
-                        var sorting = params.sorting();
+                        // var filter = params.filter();
+                        // var sorting = params.sorting();
                         var count = params.count();
                         var page = params.page();
                         //var filteredData = filter ? $filter('filter')(vm.data, filter) : vm.data
@@ -146,7 +147,7 @@
             }, function errorCallback(response){
                 console.log("Error getting dates");
             });
-        };
+        }
 
         function saveDates(){
 
@@ -168,38 +169,42 @@
                 }
 
                 if(createNewDates === 0){
-                    if(today.getFullYear() <= parseInt(year))
+                    if(today.getFullYear() <= parseInt(year)){
                         updateDates();
-                    else
+                    }
+                    else{
                         createDates();
+                    }
                 }
-                else
+                else{
                     createDates();
+                }
 
             }, function errorCallback(response){
                 toastr.error("Грешка при промена на датумите. Ве молиме обидете се повторно!");
             });
-        };
+        }
 
         function setAvailableYears() {
             var currentYear = (new Date()).getFullYear();
             vm.availableYears.push(currentYear);
             vm.availableYears.push(currentYear+1);
             vm.selectedYear = vm.availableYears[0];
-        };
+        }
 
 
         function setDayContent(date,content) {
             content = "";
             //console.log(date.dayOfTheWeek);
-            if(date.getDay() === 0 || date.getDay() === 6) 
+            if(date.getDay() === 0 || date.getDay() === 6){
                 content = '<p>Викенд</p>';
+            }
             return content;
-        };
+        }
         
         function setDirection(direction) {
             vm.direction = direction;
-        };
+        }
 
         function setOpen(date) {
             //Validate the selected year
@@ -213,13 +218,13 @@
             maxDate.setMonth(12);
             maxDate.setFullYear(vm.selectedYear+1);
             maxDate.setHours(0,0,0);
-            if((minDate > date || maxDate < date) && minDate.toString() != date.toString()) {
+            if((minDate > date || maxDate < date) && minDate.toString() !== date.toString()) {
                 toastr.error("Не смеете да внесувате за оваа календарска година. Одберете календарска година од понудените!");
                 return;
             }
 
             //check if the date is already set as Holiday, if not add the date as holiday to the list
-            if(vm.dates[date] == 0) {
+            if(vm.dates[date] === 0) {
               vm.dates[date] = 1;
 
               vm.dateObjectList.push({date:$filter('date')(new Date(date), "yyyy-MM-dd HH:mm:ss.sss")});
@@ -230,11 +235,12 @@
             vm.dates[date] = 0;
                 //remove the date that was set as Holiday from the list of dates
                 var tempObjectList = vm.dateObjectList.filter(function(el) {
-                    if(el.date !== $filter("date")(date, "yyyy-MM-dd HH:mm:ss.sss"))
+                    if(el.date !== $filter("date")(date, "yyyy-MM-dd HH:mm:ss.sss")){
                         return el;
+                    }
                 });
                 vm.dateObjectList = tempObjectList;
-                if(date.getDay() == 0 || date.getDay() == 6) {
+                if(date.getDay() === 0 || date.getDay() === 6) {
                     MaterialCalendarData.setDayContent(date, '<p>Викенд</p>');
                 }    
                 else
@@ -243,12 +249,12 @@
                 }      
             }  
             checkChanges();   
-        };
+        }
 
         function sortDates(){
             var tempList = $filter('orderBy')(vm.dateObjectList, "date");
             vm.dateObjectList = tempList;
-        };
+        }
 
         function updateDates() {
             sortDates();
@@ -260,15 +266,16 @@
                 crossDomain: true,
                 url: APP_CONFIG.BASE_URL + APP_CONFIG.dates_update
             }).then(function successCallback(response){
-                toastr.success("Празниците се успешно променети.")
+                toastr.success("Празниците се успешно променети.");
                 getAllDates();
                 vm.changes = false;
                 vm.saveButtonDisabled = false;
             }, function errorCallback(response){
+                toastr.error("Грешка при внесување на датумите. Ве молиме обидете се повторно!");
                 console.log("Error inserting dates");
                 vm.saveButtonDisabled = false;
             });
-        }; 
+        }
     }
 })();
 

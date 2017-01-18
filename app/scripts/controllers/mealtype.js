@@ -41,7 +41,9 @@
     }
     vm.loggedInUser = utility.getLoggedInUser();
     var path = $location.path();
-    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+    if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+      $location.path("/");
+    } 
     
     getAllMealTypes();
 
@@ -51,13 +53,13 @@
       vm.isEditing = false;
       vm.editModel = null;
       vm.editIndex = null;
-    };
+    }
 
     function edit(row, index){
       vm.editModel = angular.copy(row);
       vm.isEditing = true;
       vm.editIndex = index;
-    };
+    }
 
     function getAllMealTypes(user){
       utility.getMealTypes().then(function(result) {
@@ -72,8 +74,6 @@
           //Hide the count div
           counts: [],
           getData: function($defer, params) {
-            var filter = params.filter();
-            var sorting = params.sorting();
             var count = params.count();
             var page = params.page();
             //var filteredData = filter ? $filter('filter')(vm.data, filter) : vm.data
@@ -83,7 +83,7 @@
         }
         );
       });
-    };
+    }
 
     function insert(){
       var newMealType = {
@@ -100,9 +100,9 @@
         getAllMealTypes();
         vm.MealTypeTitle = "";
       }, function errorCallback(response){
-        toastr.error("Грешка при додавање на тип! Ве молиме обидете се повторно.")
+        toastr.error("Грешка при додавање на тип! Ве молиме обидете се повторно.");
       });
-    };
+    }
 
     function openRemoveDialog(data){
       var nestedConfirmDialog = ngDialog.openConfirm({
@@ -113,7 +113,7 @@
 
       // NOTE: return the promise from openConfirm
       return nestedConfirmDialog;   
-    };
+    }
 
     function removeItem(mealTypeId){
       $http({
@@ -121,13 +121,13 @@
         url: APP_CONFIG.BASE_URL + APP_CONFIG.mealtype +"/"+ mealTypeId,
         crossDomain: true
       }).then(function successCallback(response){
-        toastr.success("Успешно избришан тип на оброк.")
+        toastr.success("Успешно избришан тип на оброк.");
         getAllMealTypes();
       }, function errorCallback(response){
-        toastr.error("Грешка при бришење на тип на оброк. Ве молиме обидете се повторно!")
+        toastr.error("Грешка при бришење на тип на оброк. Ве молиме обидете се повторно!");
         console.log(response);
       });
-    };
+    }
 
     function update(){
       var mealType = {
@@ -144,9 +144,9 @@
         cancel();
         getAllMealTypes();
       }, function errorCallback(response){
-        toastr.error("Грешка при промена на тип! Ве молиме обидете се повторно.")
+        toastr.error("Грешка при промена на тип! Ве молиме обидете се повторно.");
       });
-    };
+    }
   }
 })();
 

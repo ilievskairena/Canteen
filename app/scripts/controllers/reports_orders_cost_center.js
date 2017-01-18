@@ -13,9 +13,9 @@
     angular.module('canteenApp')
     .controller('ReportsOrdersCostCenterCtrl', ReportsOrdersCostCenterCtrl);
 
-    ReportsOrdersCostCenterCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$scope', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
+    ReportsOrdersCostCenterCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
 
-    function ReportsOrdersCostCenterCtrl($rootScope, $filter, roleService, $location, $scope, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
+    function ReportsOrdersCostCenterCtrl($rootScope, $filter, roleService, $location, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
     
         var vm = this;
 
@@ -72,7 +72,9 @@
         }
         vm.loggedInUser = utility.getLoggedInUser();
         var path = $location.path();
-        if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+        if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+            $location.path("/");  
+        } 
         
         getCostCenters();
 
@@ -100,7 +102,7 @@
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
 
             });
-        };
+        }
 
         function getCostCenters(){
             $http({
@@ -115,7 +117,7 @@
             }, function errorCallback(response){
                 console.log("Error getting cost centers");
             });
-        };
+        }
 
         function getOrdersPerCostCenter(){
             vm.progressBar.setColor('#8dc63f');
@@ -125,8 +127,9 @@
             params.costCenterID = vm.costCenter;
 
 
-            if(vm.costCenter != null && vm.costCenter != undefined && vm.costCenter != "")
+            if(vm.costCenter !== null && vm.costCenter !== undefined && vm.costCenter !== ""){
                 params.costCenterID = vm.costCenter;
+            }
 
             $http({
                 method: 'GET',
@@ -171,7 +174,7 @@
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
             });
-        };
+        }
 
         function getDates() {
             vm.progressBar.setColor('#8dc63f');
@@ -191,20 +194,22 @@
             }, function errorCallback(response){
 
                 vm.progressBar.reset();
-                if(response.status == 404) {
+                if(response.status === 404) {
                     toastr.info("Нема внесено датуми. Обратете се на администраторот да внесе година!");
                 }
-                else toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");
+                else{
+                    toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");  
+                } 
 
             });
-        };
+        }
 
         function openDateFrom() {
             vm.dateFrom.open = !vm.dateFrom.open;
-        };
+        }
 
         function openDateTo() {
             vm.dateTo.open = !vm.dateTo.open;
-        };
+        }
     }
 })();

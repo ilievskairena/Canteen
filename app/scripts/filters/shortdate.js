@@ -19,11 +19,12 @@
   	function shortdate() {
 
   		var filter = function (input) {
-      		var date = new Date(input);
+    		var date = new Date(input);
 		    var day = date.getDate();
 		    var month = date.getMonth() + 1;
 		    var year = date.getFullYear();
-		    return day + "." + month + "." +year;
+        var fullYear = day + "." + month + "." + year;
+		    return fullYear;
 		  };
       
     	return filter;

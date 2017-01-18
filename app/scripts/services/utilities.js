@@ -13,7 +13,7 @@
     angular.module('canteenApp')
     .service('utility', utility);
 
-    utility.$inject = ['$http', 'APP_CONFIG', 'localStorageService', '$location', '$rootScope', 'tableService', '$q']
+    utility.$inject = ['$http', 'APP_CONFIG', 'localStorageService', '$location', '$rootScope', 'tableService', '$q'];
 
     function utility($http, APP_CONFIG, localStorageService, $location, $rootScope, tableService, $q) {
 
@@ -40,23 +40,23 @@
             return $http.get(APP_CONFIG.BASE_URL+"/api/costcenter").then(function(result) {
                 return result;
             });
-        };
+        }
 
         function getUserPerID(userID) {
             return $http.get(APP_CONFIG.BASE_URL+APP_CONFIG.users+"/"+userID).then(function(result) {
                 return result;
             });
-        }; 
+        }
 
         function getMealTypes() {
             return $http.get(APP_CONFIG.BASE_URL+"/api/mealtype").then(function(result) {
                 return result;
             });
-        };  
+        } 
 
         function compareArrays(arrayOne, arrayTwo) {
             var result = true;
-            if(arrayOne.length == arrayTwo.length) {   
+            if(arrayOne.length === arrayTwo.length) {   
                 for (var i = 0; i < arrayOne.length; i++) {
                     var value1 = arrayOne[i];
                     var isDateFound = false;
@@ -73,15 +73,17 @@
                     }
                 }
             }
-            else result = false;
+            else{
+              result = false;  
+            } 
             return result;
-        };  
+        }  
 
         function getUsers() {
             return $http.get(APP_CONFIG.BASE_URL+APP_CONFIG.users).then(function(result) {
                 return result;
             });
-        };
+        }
 
         function getWeekNumber(d) {
              // Copy date so don't modify original
@@ -96,23 +98,23 @@
             var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
             // Return array of year and week number
             return [d.getFullYear(), weekNo];
-        };
+        }
 
         function getAvailableDates() {
             return $http.get(APP_CONFIG.BASE_URL+APP_CONFIG.dates_allowed).then(function(result) {
                 return result;
             });
-        };
+        }
 
         function getConfig() {
             return $http.get(APP_CONFIG.BASE_URL+APP_CONFIG.config).then(function(result) {
                 return result;
             });
-        }; 
+        } 
 
         function isAuthenticated() {
             var user = localStorageService.get('user');
-            if(user == null || user == undefined) {
+            if(user === null || user === undefined) {
                 return false;
             }
             else {
@@ -121,11 +123,11 @@
                 $rootScope.roleId = user.RoleID;
                 return true;
             }
-        };
+        }
 
         function getLoggedInUser() {
             var user = localStorageService.get('user');
-            if(user == null || user == undefined) {
+            if(user === null || user === undefined) {
                 $location.path('/login');
                 return null;
             }
@@ -133,14 +135,14 @@
                 $rootScope.isLogin = false;
                 return user;
             }
-        };
+        }
 
         function downloadStatistics(data, name) {
-                var html = tableService.getTable(data, "MK");
-                var fileName = name;
-                statToExcel(fileName, html);
+            var html = tableService.getTable(data, "MK");
+            var fileName = name;
+            statToExcel(fileName, html);
             
-        };
+        }
 
         function statToExcel(fileName, html) {
             var fileName = fileName + ".xls";
@@ -163,7 +165,7 @@
             link.download = fileName;
             link.href = uri + base64(format(template, ctx));
             link.click();
-        };   
+        }   
 
 
         //extra from client view
@@ -173,14 +175,14 @@
             then(function(result) {
                 return result;
             });
-        };
+        }
 
         function getOrdersByDateRage(dateFrom, dateTo) {
             return $http.get(APP_CONFIG.BASE_URL + APP_CONFIG.client_orders + "?dateFrom=" + dateFrom + "&dateTo=" + dateTo).
             then(function(result) {
                 return result;
             });
-        };
+        }
 
         function getThisWeekEnd(date) {
             var day = date.getDay();
@@ -188,14 +190,14 @@
             //1- Monday
             //...6 - Saturday
             var end = new Date(date);
-            if(day == 5) {
+            if(day === 5) {
                 return date;
             }
             else {
                 end.setDate(end.getDate() + (5 - day));
             }
             return end;
-        };
+        }
 
         function getNextWeekStart() {
             var today = new Date();
@@ -203,17 +205,17 @@
             //0 - Sunday
             //1- Monday
             //...6 - Saturday
-            if(day == 0) {
+            if(day === 0) {
                 today.setDate(today.getDate() + 1);
             }
             else {
                 today.setDate(today.getDate() + (8 - day));
             }
             return today;
-        };
+        }
 
         function getWorkerOrders(date) {
-            var deferred = $q.defer()
+            var deferred = $q.defer();
             $http({
               method: 'GET',
               crossDomain: true,
@@ -224,6 +226,6 @@
                 deferred.reject(response.data);
             });
             return deferred.promise;
-        };
+        }
     }
 })();

@@ -13,7 +13,7 @@
     angular.module('canteenApp')
     .service('AuthenticationService', AuthenticationService);
 
-    AuthenticationService.$inject = ['$http', '$q', 'localStorageService', 'APP_CONFIG', '$location']
+    AuthenticationService.$inject = ['$http', '$q', 'localStorageService', 'APP_CONFIG', '$location'];
 
     function AuthenticationService($http, $q, localStorageService, APP_CONFIG, $location) {
  
@@ -52,7 +52,7 @@
             });
      
             return deferred.promise;
-        };
+        }
  
         function _logOut() {
  
@@ -62,16 +62,16 @@
             _authentication.userName = "";
 
             $location.path("/login");
-        };
+        }
  
         function _fillAuthData() {
  
             var authData = localStorageService.get('authorizationData');
             if (authData)
             {
-            _authentication.isAuth = true;
-            _authentication.userName = authData.userName;
+                _authentication.isAuth = true;
+                _authentication.userName = authData.userName;
             }
-        };
+        }
     }
 })();

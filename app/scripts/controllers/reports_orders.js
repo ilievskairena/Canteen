@@ -13,9 +13,9 @@
     angular.module('canteenApp')
     .controller('ReportsOrdersCtrl', ReportsOrdersCtrl);
 
-    ReportsOrdersCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$scope', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams', '$timeout', 'Excel', 'tableService'];
+    ReportsOrdersCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
 
-    function ReportsOrdersCtrl($rootScope, $filter, roleService, $location, $scope, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams, $timeout, Excel, tableService) {
+    function ReportsOrdersCtrl($rootScope, $filter, roleService, $location, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
 
         var vm = this;
 
@@ -61,14 +61,16 @@
         }
         vm.loggedInUser = utility.getLoggedInUser();
         var path = $location.path();
-        if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+        if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+            $location.path("/");  
+        } 
 
         // Define functions here
 
         function exportToExcel(){
             var ord = vm.orders;
             return utility.downloadStatistics(ord, 'All_Orders');
-        };
+        }
 
         function getDates() {
             vm.progressBar.setColor('#8dc63f');
@@ -85,12 +87,14 @@
                 vm.progressBar.complete();
             }, function errorCallback(response){
                 vm.progressBar.reset();
-                if(response.status == 404) {
+                if(response.status === 404) {
                     toastr.info("Нема внесено датуми. Обратете се на администраторот да внесе година!");
                 }
-                else toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");
+                else{
+                    toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");  
+                } 
             });
-        };
+        }
 
         function getOrdersPerEmployee(){
             vm.progressBar.setColor('#8dc63f');
@@ -131,19 +135,14 @@
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
             });
-        };
+        }
 
         function openDateFrom() {
             vm.dateFrom.open = !vm.dateFrom.open;
-        };
+        }
 
         function openDateTo() {
             vm.dateTo.open = !vm.dateTo.open;
-        };
-
-        //vm.exportToExcel=function(tableId){ // ex: '#my-table'
-        //      var exportHref=Excel.tableToExcel(tableId,'WireWorkbenchDataExport');
-        //      $timeout(function(){location.href=exportHref;},100); // trigger download
-        //}
+        }
     }
 })();

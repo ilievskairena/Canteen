@@ -13,9 +13,9 @@
     angular.module('canteenApp')
     .controller('ReportsWorkersGuestsCtrl', ReportsWorkersGuestsCtrl);
 
-    ReportsWorkersGuestsCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$scope', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
+    ReportsWorkersGuestsCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
 
-    function ReportsWorkersGuestsCtrl($rootScope, $filter, roleService, $location, $scope, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
+    function ReportsWorkersGuestsCtrl($rootScope, $filter, roleService, $location, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
 
         var vm = this;
 
@@ -67,7 +67,9 @@
         }
         vm.loggedInUser = utility.getLoggedInUser();
         var path = $location.path();
-        if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)) $location.path("/");
+        if(!roleService.hasPermission(path, vm.loggedInUser.RoleID)){
+            $location.path("/");  
+        } 
 
         // Define functions here
 
@@ -88,7 +90,7 @@
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");
             });
-        };
+        }
 
         function getDates() {
             vm.progressBar.setColor('#8dc63f');
@@ -105,12 +107,14 @@
                 vm.progressBar.complete();
             }, function errorCallback(response){
                 vm.progressBar.reset();
-                if(response.status == 404) {
+                if(response.status === 404) {
                     toastr.info("Нема внесено датуми. Обратете се на администраторот да внесе година!");
                 }
-                else toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");
+                else{
+                    toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");  
+                } 
             });
-        };
+        }
 
         function getOrdersWorkersGuests(){
             vm.progressBar.setColor('#8dc63f');
@@ -147,14 +151,14 @@
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
             });
-        };
+        }
 
         function openDateFrom() {
             vm.dateFrom.open = !vm.dateFrom.open;
-        };
+        }
 
         function openDateTo() {
             vm.dateTo.open = !vm.dateTo.open;
-        };
+        }
     }
 })();

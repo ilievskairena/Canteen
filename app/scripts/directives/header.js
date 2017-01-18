@@ -1,4 +1,5 @@
-'use strict';
+(function(){
+  'use strict';
 
 /**
  * @ngdoc directive
@@ -6,44 +7,47 @@
  * @description
  * # header
  */
- angular.module('canteenApp')
- .directive('header', header);
+  angular.module('canteenApp')
+  .directive('header', header);
 
- function header() {
-  return {
-    templateUrl:'scripts/directives/header.html',
-    restrict: 'E',
-    replace: true,
-    scope: {
-    },
-    controller:function($scope, localStorageService, roleService, AuthenticationService, $location, $rootScope){
-      $scope.selectedMenu = 'dashboard';
-      $scope.collapseVar = 1;
+   function header() {
+    return {
+      templateUrl:'scripts/directives/header.html',
+      restrict: 'E',
+      replace: true,
+      scope: {
+      },
+      controller:function($scope, localStorageService, roleService, AuthenticationService, $location, $rootScope){
+        $scope.selectedMenu = 'dashboard';
+        $scope.collapseVar = 1;
 
-      $scope.userName = $rootScope.userName;
-      $scope.role = $rootScope.roleName
-      $scope.roleId = $rootScope.roleId;
+        $scope.userName = $rootScope.userName;
+        $scope.role = $rootScope.roleName;
+        $scope.roleId = $rootScope.roleId;
 
-      $scope.check = function(x){
+        $scope.check = function(x){
 
-        if(x === $scope.collapseVar){
-          if(x > 9) {
-            $scope.collapseVar = x/10;
+          if(x === $scope.collapseVar){
+            if(x > 9) {
+              $scope.collapseVar = x/10;
+            }
+            else{
+                $scope.collapseVar = 0;
+            } 
           }
-          else $scope.collapseVar = 0;
-        }
-        else {
-          $scope.collapseVar = x;
-        }
-      };
+          else {
+            $scope.collapseVar = x;
+          }
+        };
 
-      $scope.logout = function() {
-        AuthenticationService.logOut();
-      };
+        $scope.logout = function() {
+          AuthenticationService.logOut();
+        };
 
-      $scope.hasPermission = function(route) {
-        return roleService.hasPermission(route, $rootScope.roleId);
-      };
+        $scope.hasPermission = function(route) {
+          return roleService.hasPermission(route, $rootScope.roleId);
+        };
+      }
     }
-  };
-}
+  }
+})();

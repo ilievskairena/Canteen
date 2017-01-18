@@ -55,13 +55,13 @@
       vm.isEditing = false;
       vm.editIndex = null;
       vm.editModel = null;
-    };
+    }
 
     function edit(row, index){
       vm.isEditing = true;
       vm.editIndex = index;
       vm.editModel = row;
-    };
+    }
 
     function getAllCostCenters(){
       $http({
@@ -81,8 +81,6 @@
           //Hide the count div
           counts: [],
           getData: function($defer, params) {
-            var filter = params.filter();
-            var sorting = params.sorting();
             var count = params.count();
             var page = params.page();
             //var filteredData = filter ? $filter('filter')(vm.data, filter) : vm.data
@@ -91,9 +89,9 @@
           }
         });
       }, function errorCallback(response){
-        console.log("Error getting cost centers");
+        console.log("Error getting cost centers", response);
       });
-    };
+    }
 
     function insert(){
       vm.progressBar.setColor('#8dc63f');
@@ -109,7 +107,7 @@
         url:  APP_CONFIG.BASE_URL + APP_CONFIG.costcenter_insert,
         data: newCostCenter
       }).then(function successCallback(response){
-        toastr.success("Успешно додадено трошковно место!")
+        toastr.success("Успешно додадено трошковно место!");
         getAllCostCenters();
         vm.title = "";
         vm.code = "";
@@ -117,8 +115,9 @@
       }, function errorCallback(response){
         toastr.error("Грешка при додавање на трошковно место. Ве молиме обидете се повторно!");
         vm.progressBar.reset();
+        console.log(response);
       });
-    };
+    }
 
     function openRemoveDialog(data){
 
@@ -130,7 +129,7 @@
 
       // NOTE: return the promise from openConfirm
       return nestedConfirmDialog;   
-    };
+    }
 
     function removeItem(costCenterId){
       $http({
@@ -143,8 +142,9 @@
         getAllCostCenters();
       }, function errorCallback(response){
         toastr.error("Грешка при бришење на трошковното место. Можеби записот е веќе референциран и не може да биде отстранет.");
+        console.log(response);
       });
-    };
+    }
 
     function update(){
       vm.progressBar.setColor('#8dc63f');
@@ -170,8 +170,9 @@
 
         toastr.error("Грешка при промена на трошковно место. Ве молиме обидете се повторно!");
         vm.progressBar.reset();
+        console.log(response);
 
       });
-    };
+    }
   }
 })();
