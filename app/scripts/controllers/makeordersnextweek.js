@@ -71,7 +71,7 @@
     // Define functions here
 
     function confirm() {
-      var data = vm.formatPreviewData();
+      var data = formatPreviewData();
       var confirmDialog = ngDialog.openConfirm({
         template: "../../views/partials/confirmOrder.html",
         scope: $scope,
@@ -130,7 +130,7 @@
         } 
         for(var j in date.MealChoices) {
           var meal = date.MealChoices[j];
-          if(meal.MealID === date.selectedMeal) {
+          if(meal.MealID == date.selectedMeal) {
             result.push({
               date : date.Date,
               meal : meal.MealDescription,
@@ -148,7 +148,7 @@
     function getMeal(date){
       for(var i in date.MealChoices) {
         var meal = date.MealChoices[i];
-        if(meal.MealID === date.selectedMeal){
+        if(meal.MealID == date.selectedMeal){
           return meal.MealDescription;   
         }
       }

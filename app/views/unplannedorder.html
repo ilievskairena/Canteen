@@ -55,7 +55,7 @@
 		<div class="radio">
 		  <label>
 		    <input type="radio" ng-model="vm.shift" 
-		    name="shiftRadio" value="1">
+		    name="shiftRadio" value="1" checked="checked">
 		    <strong>Прва </strong>смена
 		  </label>
 		</div>
@@ -74,6 +74,11 @@
 		  </label>
 		</div>
 	</div>
+	<div ng-if="vm.step > 1 && !vm.isInsert && vm.shift !== 0" class="col-md-2">
+			<input type="checkbox" ng-model="vm.guests"/> Пријавете гости
+			<input type="number" ng-model="vm.noOfGuests" class="form-control" ng-if="vm.guests"/>
+	</div>
+
 	<div ng-if="vm.step > 3" class="col-md-2">
 		<div class="form-group" ng-if="vm.isInsert">
 			<label for="">&nbsp;</label><br>
@@ -84,7 +89,7 @@
 				<span>Додади</span>
 			</button>
 		</div>
-		<div class="form-group" ng-if="!vm.isInsert">
+		<div class="form-group" ng-if="!vm.isInsert && vm.shift !== 0">
 			<label for=""></label>
 			<button class="btn btn-warning"
 				ng-disabled="vm.person.ID == 0 && (vm.numberWorker == 0 || vm.numberWorker == '' || vm.numberWorker == null)"
@@ -102,7 +107,7 @@
 		</div>
 	</div>
 </div>
-<div class="row" ng-if="vm.person.ID == 0">
+<div class="row" ng-if="vm.person.ID === 0">
 	<div class="col-md-3">
 		<div class="form-group">
 			<label for="">Број на ангажирани работници:</label>

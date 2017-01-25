@@ -57,6 +57,9 @@
       open: false
     };
 
+    vm.guests = false;
+    vm.noOfGuests = 0;
+
     // Functions
     vm.confirmDelete = confirmDelete;
     vm.delete = Delete;
@@ -158,6 +161,8 @@
 
     function getMealsForDay() {
       vm.showMealChoices = null;
+      vm.person = null;
+      vm.selectedMeal = null;
       vm.progressBar.setColor('#8dc63f');
       vm.progressBar.start();
       var date = $filter("date")(vm.date.selected, "yyyy-MM-dd HH:mm:ss.sss");
@@ -167,6 +172,7 @@
         url:  APP_CONFIG.BASE_URL + APP_CONFIG.meals_by_date + "?dateFrom=" +  date + "&dateTo=" + date
       }).then(function successCallback(response){
         vm.step = 1;
+        vm.shift = 0;
         vm.meals = response.data[0];
         vm.progressBar.complete();
       }, function errorCallback(response){
@@ -203,7 +209,6 @@
         if(vm.person.ID === 0) {
           vm.numberWorker = data.length;
         }
-        vm.shift = data[0].Shift;
         vm.isInsert = false;
       }, function errorCallback(response){
         if(response.status !== 500) {
@@ -288,8 +293,10 @@
         DateID: vm.meals.DateId,
         MealPerDayID: vm.selectedMeal.MealID,
         Shift: parseInt(vm.shift),
-        Count: parseInt(vm.numberWorker)
+        Count: parseInt(vm.numberWorker),
+        Guests: vm.guests === true? vm.noOfGuests : null
       };
+      console.log(data);
       $http({
         method: 'PUT',
         data: data,

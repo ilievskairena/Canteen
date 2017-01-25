@@ -101,7 +101,6 @@
                 var obj = order.Meals[i];
                 tmp += obj.length*2;
             }
-            console.log(tmp);
             return (tmp+order.Meals.length*2);
         }
 

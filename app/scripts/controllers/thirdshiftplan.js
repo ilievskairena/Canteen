@@ -187,7 +187,7 @@
       var date = new Date();
       date.setHours(0,0,0,0);
       $http({
-        method: 'PUT',
+        method: 'POST',
         contentType:'application/json',
         crossDomain: true,
         url:  APP_CONFIG.BASE_URL + APP_CONFIG.thirdShiftPlan + "?date=" + $filter('date')(date, "yyyy-MM-dd HH:mm:ss.sss"),

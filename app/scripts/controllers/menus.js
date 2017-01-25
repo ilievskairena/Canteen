@@ -192,7 +192,7 @@
             crossDomain: true,
             url: APP_CONFIG.BASE_URL + APP_CONFIG.menu
         }).then(function successCallback(response){
-            if(response.data !== null){
+            if(response.data != ""){
               toastr.error("Промена на менито не е возможно. Веќе постојат нарачки за тоа мени за одбраниот/те датум/и!");
               return;
             }
