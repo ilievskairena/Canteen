@@ -10,13 +10,15 @@
  * Controller of the canteenApp
  */
  
+ /* jshint latedef:nofunc */
+ 
     angular.module('canteenApp')
     .controller('ReportsOrdersCtrl', ReportsOrdersCtrl);
 
     ReportsOrdersCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
 
     function ReportsOrdersCtrl($rootScope, $filter, roleService, $location, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
-
+/* jshint validthis: true */
         var vm = this;
 
         vm.progressBar = ngProgressFactory.createInstance();
@@ -69,6 +71,7 @@
 
         function exportToExcel(){
             var ord = vm.orders;
+            console.log(ord);
             return utility.downloadStatistics(ord, 'All_Orders');
         }
 

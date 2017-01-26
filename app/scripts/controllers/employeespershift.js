@@ -9,14 +9,15 @@
      * # EmployeespershiftCtrl
      * Controller of the canteenApp
      */
-
+     
+     /* jshint latedef:nofunc */
      angular.module('canteenApp')
      .controller('EmployeespershiftCtrl', EmployeespershiftCtrl);
 
      EmployeespershiftCtrl.$inject = ['$rootScope', 'roleService', '$location', '$scope', '$filter', 'ngDialog', '$http', 'utility', 'APP_CONFIG', 'toastr', 'ngProgressFactory'];
 
      function EmployeespershiftCtrl($rootScope, roleService, $location, $scope, $filter, ngDialog, $http, utility, APP_CONFIG, toastr, ngProgressFactory) {
-
+        /* jshint validthis: true */
         var vm = this;
 
         $rootScope.isLogin = false;

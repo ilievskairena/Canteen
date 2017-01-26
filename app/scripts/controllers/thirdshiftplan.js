@@ -9,6 +9,8 @@
  * # MenuspercategoryCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
   angular.module('canteenApp')
   .controller('ThirdShiftPlanCtrl', ThirdShiftPlanCtrl);
@@ -16,7 +18,7 @@
   ThirdShiftPlanCtrl.$inject = ['$rootScope', 'roleService', '$location', 'utility', '$filter', '$http', 'APP_CONFIG', 'toastr', 'ngProgressFactory'];
 
   function ThirdShiftPlanCtrl($rootScope, roleService, $location, utility, $filter, $http, APP_CONFIG, toastr, ngProgressFactory) {
-
+/* jshint validthis: true */
     var vm = this;
 
     vm.progressBar = ngProgressFactory.createInstance();

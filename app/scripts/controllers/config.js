@@ -8,13 +8,14 @@
   * Controller of the canteenApp
   */
 
+  /* jshint latedef:nofunc */
   angular.module('canteenApp')
   .controller('ConfigCtrl', ConfigCtrl);
 
   ConfigCtrl.$inject = ['$http', '$filter', '$location', '$rootScope', 'roleService', 'utility', 'toastr', 'ngProgressFactory', 'APP_CONFIG'];
 
   function ConfigCtrl($http, $filter, $location, $rootScope, roleService, utility, toastr, ngProgressFactory, APP_CONFIG) {
-
+/* jshint validthis: true */
     var vm = this;
 
     vm.progressBar = ngProgressFactory.createInstance();

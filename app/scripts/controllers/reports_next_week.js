@@ -9,6 +9,8 @@
  * # ReportsNextWeekCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
     angular.module('canteenApp')
     .controller('ReportsNextWeekCtrl', ReportsNextWeekCtrl);
@@ -16,7 +18,7 @@
     ReportsNextWeekCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
 
     function ReportsNextWeekCtrl($rootScope, $filter, roleService, $location, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
-
+/* jshint validthis: true */
         var vm = this;
 
         vm.progressBar = ngProgressFactory.createInstance();
@@ -86,11 +88,15 @@
                 params: params
             }).then(function successCallback(response){
                 vm.progressBar.complete();
-                var ord = angular.copy(response.data);
-                return utility.downloadStatistics(ord, 'Plan_Next_Week');
+                var data = angular.copy(response.data);
+                for(var i in data){
+                    data[i].Date = $filter('shortdate')(data[i].Date);
+                }
+                return utility.downloadStatistics(data, 'Plan_Next_Week');
             }, function errorCallback(response){
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
+                console.log(response);
             });
             
         }
@@ -152,8 +158,8 @@
                   //Hide the count div
                   //counts: [],
                   getData: function($defer, params) {
-                    var filter = params.filter();
-                    var sorting = params.sorting();
+                    // var filter = params.filter();
+                    // var sorting = params.sorting();
                     var count = params.count();
                     var page = params.page();
                     $defer.resolve(data.slice((page - 1) * count, page * count));
@@ -163,6 +169,7 @@
             }, function errorCallback(response){
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
+                console.log(response);
             });
         }
 

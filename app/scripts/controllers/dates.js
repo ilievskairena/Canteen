@@ -9,6 +9,8 @@
  * # DatesCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
  angular.module('canteenApp')
  .controller('DatesCtrl', DatesCtrl);
@@ -16,7 +18,7 @@
  DatesCtrl.$inject = ['$rootScope', 'roleService', '$location', '$filter', '$http', 'MaterialCalendarData', 'APP_CONFIG', 'ngTableParams', 'toastr', 'utility'];
 
  function DatesCtrl($rootScope, roleService, $location, $filter, $http, MaterialCalendarData, APP_CONFIG, ngTableParams, toastr, utility) {
-
+/* jshint validthis: true */
     var vm = this;
 
         //Keep the dates that were set as holidays

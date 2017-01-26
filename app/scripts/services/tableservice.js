@@ -10,6 +10,8 @@
  * Service in the canteenApp.
  */
  
+ /* jshint latedef:nofunc */
+ 
     angular.module('canteenApp')
     .service('tableService', tableService);
 
@@ -17,7 +19,7 @@
 
     function tableService() {
         // AngularJS will instantiate a singleton by calling "new" on this function
-
+        /* jshint validthis: true */
         this.getTable = getTable;
 
         // This function is exposed for usage

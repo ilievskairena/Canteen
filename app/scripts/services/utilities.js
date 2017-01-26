@@ -9,14 +9,14 @@
  * # utility
  * Service in the canteenApp.
  */
- 
+  /* jshint latedef:nofunc */
     angular.module('canteenApp')
     .service('utility', utility);
 
     utility.$inject = ['$http', 'APP_CONFIG', 'localStorageService', '$location', '$rootScope', 'tableService', '$q'];
 
     function utility($http, APP_CONFIG, localStorageService, $location, $rootScope, tableService, $q) {
-
+        /* jshint validthis: true */
         this.getAllCostCenters = getAllCostCenters;
         this.getUserPerID = getUserPerID;
         this.getMealTypes = getMealTypes;
@@ -145,15 +145,15 @@
         }
 
         function statToExcel(fileName, html) {
-            var fileName = fileName + ".xls";
+            var FileName = fileName + ".xls";
             var fileRaw = html;
-            var sheetName = fileName;
+            var sheetName = FileName;
             fileRaw = fileRaw.split("↑").join("");
             var file = fileRaw.split("↓").join("");
-            var uri = 'data:application/vnd.ms-excel;base64,'
-            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><?xml version="1.0" encoding="UTF-8" standalone="yes"?><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>{table}</body></html>'
-            , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
-            , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+            var uri = 'data:application/vnd.ms-excel;base64,',
+            template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><?xml version="1.0" encoding="UTF-8" standalone="yes"?><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>{table}</body></html>',
+            base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s)));},
+            format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; });};
 
             var toExcel = file;
             var ctx = {

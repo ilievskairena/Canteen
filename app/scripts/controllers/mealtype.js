@@ -9,6 +9,8 @@
  * # MealtypeCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
   angular.module('canteenApp')
   .controller('MealtypeCtrl', MealtypeCtrl);
@@ -16,7 +18,7 @@
   MealtypeCtrl.$inject = ['$rootScope', '$location', 'roleService', '$scope', '$http', 'ngDialog', 'APP_CONFIG', 'utility', 'ngTableParams', 'toastr'];
 
   function MealtypeCtrl($rootScope, $location, roleService, $scope,$http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr) {
-
+/* jshint validthis: true */
     var vm = this;
 
     vm.isEditing = false;

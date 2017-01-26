@@ -7,6 +7,9 @@
  * @description
  * # header
  */
+
+ /* jshint latedef:nofunc */
+ 
   angular.module('canteenApp')
   .directive('header', header);
 
@@ -48,6 +51,6 @@
           return roleService.hasPermission(route, $rootScope.roleId);
         };
       }
-    }
+    };
   }
 })();

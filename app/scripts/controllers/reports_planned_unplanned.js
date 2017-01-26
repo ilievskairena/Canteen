@@ -9,6 +9,8 @@
  * # ReportsPlannedUnplannedCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
     angular.module('canteenApp')
     .controller('ReportsPlannedUnplannedCtrl', ReportsPlannedUnplannedCtrl); 
@@ -16,6 +18,7 @@
     ReportsPlannedUnplannedCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
 
     function ReportsPlannedUnplannedCtrl($rootScope, $filter, roleService, $location, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
+        /* jshint validthis: true */
         var vm = this;
 
         vm.progressBar = ngProgressFactory.createInstance();
@@ -82,11 +85,16 @@
                 url:  APP_CONFIG.BASE_URL + APP_CONFIG.reports_planned_unplanned_export,
                 params: params
             }).then(function successCallback(response){
-                utility.downloadStatistics(response.data, 'Planned_Unplanned_Orders');
+                var data = angular.copy(response.data);
+                for(var i in data){
+                    data[i].Date = $filter('shortdate')(data[i].Date);
+                }
+                utility.downloadStatistics(data, 'Planned_Unplanned_Orders');
                 vm.progressBar.complete();
             }, function errorCallback(response){
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");
+                console.log(response);
             });
         }
 
@@ -138,8 +146,8 @@
                   //Hide the count div
                   //counts: [],
                   getData: function($defer, params) {
-                    var filter = params.filter();
-                    var sorting = params.sorting();
+                    // var filter = params.filter();
+                    // var sorting = params.sorting();
                     var count = params.count();
                     var page = params.page();
                     $defer.resolve(data.slice((page - 1) * count, page * count));
@@ -149,6 +157,7 @@
             }, function errorCallback(response){
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
+                console.log(response);
             });
         }
 

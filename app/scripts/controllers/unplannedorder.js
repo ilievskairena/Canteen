@@ -10,13 +10,15 @@
  * Controller of the canteenApp
  */
  
+ /* jshint latedef:nofunc */
+ 
   angular.module('canteenApp')
   .controller('UnplannedorderCtrl', UnplannedorderCtrl);
 
   UnplannedorderCtrl.$inject = ['$rootScope', 'roleService', '$location', '$scope','$filter', 'utility', 'ngDialog','$http', 'APP_CONFIG', 'toastr', 'ngProgressFactory'];
 
   function UnplannedorderCtrl($rootScope, roleService, $location, $scope, $filter, utility, ngDialog, $http, APP_CONFIG, toastr, ngProgressFactory) {
-
+/* jshint validthis: true */
     var vm = this;
 
     vm.progressBar = ngProgressFactory.createInstance();

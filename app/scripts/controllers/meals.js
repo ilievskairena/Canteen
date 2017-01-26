@@ -10,13 +10,15 @@
 * Controller of the canteenApp
 */
 
+/* jshint latedef:nofunc */
+
   angular.module('canteenApp')
   .controller('MealsCtrl', MealsCtrl);
 
   MealsCtrl.$inject = ['$rootScope', '$location', 'roleService', '$scope', '$http', 'ngDialog', 'APP_CONFIG', 'utility', 'ngTableParams', 'toastr', 'ngProgressFactory'];
 
   function MealsCtrl($rootScope, $location, roleService, $scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr, ngProgressFactory) {
-
+/* jshint validthis: true */
     var vm = this;
 
     vm.isEditing = false;

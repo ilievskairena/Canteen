@@ -7,6 +7,9 @@
  * @description
  * # maxLimit
  */
+
+ /* jshint latedef:nofunc */
+ 
     angular.module('canteenApp')
     .directive('limitTo', limitTo);
 

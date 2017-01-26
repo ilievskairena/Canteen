@@ -9,6 +9,8 @@
  * # MenupreviewCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
 	angular.module('canteenApp')
  	.controller('MenupreviewCtrl', MenupreviewCtrl);
@@ -16,6 +18,7 @@
  	MenupreviewCtrl.$inject = ['$rootScope', 'roleService', '$location', 'utility', 'APP_CONFIG', '$http', 'toastr', '$filter', 'ngTableParams'];
 
  	function MenupreviewCtrl($rootScope, roleService, $location, utility, APP_CONFIG, $http, toastr, $filter, ngTableParams) {
+ 		/* jshint validthis: true */
  		var vm = this;
 
  		vm.dateOptions = {

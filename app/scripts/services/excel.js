@@ -10,6 +10,8 @@
  * Factory in the canteenApp.
  */
  
+ /* jshint latedef:nofunc */
+ 
     angular.module('canteenApp')
     .factory('Excel', Excel);
 

@@ -7,6 +7,9 @@
      * @description
      * # onFinishRender
      */
+
+     /* jshint latedef:nofunc */
+     
     angular.module('canteenApp')
     .directive('onFinishRender', onFinishRender);
 

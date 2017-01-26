@@ -10,13 +10,15 @@
  * Controller of the canteenApp
  */
  
+ /* jshint latedef:nofunc */
+ 
   angular.module('canteenApp')
   .controller('MenusCtrl', MenusCtrl);
 
   MenusCtrl.$inject = ['$rootScope', '$route', 'roleService', '$location', '$http', '$scope', 'utility', 'APP_CONFIG', 'toastr', '$filter'];
 
   function MenusCtrl($rootScope, $route, roleService, $location, $http, $scope, utility, APP_CONFIG, toastr, $filter) {
-
+/* jshint validthis: true */
     var vm = this;
 
     vm.shiftOne = [];

@@ -10,13 +10,15 @@
  * Controller of the canteenApp
  */
  
+ /* jshint latedef:nofunc */
+ 
   angular.module('canteenApp')
   .controller('WorkerplanningCtrl', WorkerplanningCtrl);
 
   WorkerplanningCtrl.$inject = ['$rootScope', 'roleService', 'toastr', 'utility', '$location', 'ngProgressFactory', '$filter', '$http', 'APP_CONFIG', '$route'];
 
   function WorkerplanningCtrl($rootScope, roleService, toastr, utility, $location, ngProgressFactory, $filter, $http, APP_CONFIG, $route) {
-
+/* jshint validthis: true */
     var vm = this;
 
     vm.progressBar = ngProgressFactory.createInstance();

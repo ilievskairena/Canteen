@@ -10,13 +10,15 @@
  * Controller of the canteenApp
  */
 
+ /* jshint latedef:nofunc */
+
     angular.module('canteenApp')
     .controller('MainCtrl', MainCtrl);
 
     MainCtrl.$inject = ['$http', 'utility', '$rootScope', '$filter', '$location', 'roleService', 'AuthenticationService', 'APP_CONFIG'];
 
     function MainCtrl($http, utility, $rootScope, $filter, $location, roleService, AuthenticationService, APP_CONFIG) {
-    
+    /* jshint validthis: true */
         var vm = this;
 
         vm.chartOrder = {
@@ -75,7 +77,7 @@
                     vm.chartCCRatio.label.push(response.data[i].CostCenter);
                 }
             }, function errorCallback(response){
-
+                console.log(response);
             });
         }
 

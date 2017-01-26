@@ -9,6 +9,8 @@
  * # MakeordersnextweekCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
   angular.module('canteenApp')
   .controller('MakeordersnextweekCtrl', MakeordersnextweekCtrl);
@@ -16,7 +18,7 @@
   MakeordersnextweekCtrl.$inject = ['$scope', 'toastr', '$location', '$route', 'APP_CONFIG', '$rootScope', 'roleService', 'ngDialog', '$http', '$filter', 'utility', 'ngProgressFactory'];
 
   function MakeordersnextweekCtrl($scope, toastr, $location, $route, APP_CONFIG, $rootScope, roleService, ngDialog, $http, $filter, utility, ngProgressFactory) {
-
+/* jshint validthis: true */
     var vm = this;
 
     vm.progressBar = ngProgressFactory.createInstance();

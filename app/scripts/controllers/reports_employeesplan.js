@@ -9,6 +9,8 @@
  * # ReportsEmployeesplanCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
     angular.module('canteenApp')
     .controller('ReportsEmployeesplanCtrl', ReportsEmployeesplanCtrl);
@@ -16,7 +18,7 @@
     ReportsEmployeesplanCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
 
     function ReportsEmployeesplanCtrl($rootScope, $filter, roleService, $location, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
-    
+    /* jshint validthis: true */
         var vm = this;
 
         vm.progressBar = ngProgressFactory.createInstance();
@@ -84,10 +86,14 @@
             }).then(function successCallback(response){
                 var data = angular.copy(response.data);
                 vm.progressBar.complete();
+                for(var i in data){
+                    data[i].Date = $filter('shortdate')(data[i].Date);
+                }
                 return utility.downloadStatistics(data, 'Employees_Plan');
             }, function errorCallback(response){
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
+                console.log(response);
             });
             
         }
@@ -139,8 +145,8 @@
                   //Hide the count div
                   //counts: [],
                   getData: function($defer, params) {
-                    var filter = params.filter();
-                    var sorting = params.sorting();
+                    // var filter = params.filter();
+                    // var sorting = params.sorting();
                     var count = params.count();
                     var page = params.page();
                     $defer.resolve(data.slice((page - 1) * count, page * count));
@@ -151,6 +157,7 @@
             }, function errorCallback(response){
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
+                console.log(response);
             });
         }
 

@@ -9,6 +9,8 @@
  * # LoginCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
   angular.module('canteenApp')
   .controller('LoginCtrl', LoginCtrl);

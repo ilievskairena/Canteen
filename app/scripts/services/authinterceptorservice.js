@@ -10,6 +10,8 @@
  * Service in the canteenApp.
  */
  
+ /* jshint latedef:nofunc */
+ 
     angular.module('canteenApp')
     .service('authInterceptorService', authInterceptorService);
 

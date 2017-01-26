@@ -9,6 +9,8 @@
  * # CostcenterCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
   angular.module('canteenApp')
   .controller('CostcenterCtrl', CostcenterCtrl);
@@ -16,7 +18,7 @@
   CostcenterCtrl.$inject = ['$scope', 'roleService', 'ngDialog', '$http', 'utility', '$location', 'APP_CONFIG', 'ngTableParams', 'toastr', 'ngProgressFactory', '$rootScope'];
 
   function CostcenterCtrl($scope, roleService, ngDialog, $http, utility, $location, APP_CONFIG, ngTableParams, toastr, ngProgressFactory, $rootScope) {
-
+/* jshint validthis: true */
     var vm = this;
     
     vm.progressBar = ngProgressFactory.createInstance();

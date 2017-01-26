@@ -9,6 +9,8 @@
  * # ReportsOrdersCostCenterCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
     angular.module('canteenApp')
     .controller('ReportsOrdersCostCenterCtrl', ReportsOrdersCostCenterCtrl);
@@ -16,7 +18,7 @@
     ReportsOrdersCostCenterCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
 
     function ReportsOrdersCostCenterCtrl($rootScope, $filter, roleService, $location, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
-    
+    /* jshint validthis: true */
         var vm = this;
 
         vm.progressBar = ngProgressFactory.createInstance();
@@ -92,14 +94,18 @@
             }).then(function successCallback(response){
 
                 vm.progressBar.complete();
-                var ord = angular.copy(response.data);
+                var data = angular.copy(response.data);
+                for(var i in data){
+                    data[i].Date = $filter('shortdate')(data[i].Date);
+                }
 
-                return utility.downloadStatistics(ord, 'Orders_Per_Cost_Center');
+                return utility.downloadStatistics(data, 'Orders_Per_Cost_Center');
 
             }, function errorCallback(response){
 
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
+                console.log(response);
 
             });
         }
@@ -115,7 +121,7 @@
                 vm.costCenters = response.data;
 
             }, function errorCallback(response){
-                console.log("Error getting cost centers");
+                console.log("Error getting cost centers", response);
             });
         }
 
@@ -140,6 +146,7 @@
                 vm.progressBar.complete();
                 var data = response.data;
                 vm.orders = angular.copy(data);
+                //console.log(vm.orders);
 
                 for(var i in data) {
                     var date = data[i];
@@ -147,12 +154,13 @@
                     for(var j in date.CostCenters) {
                         var center = date.CostCenters[j];
 
-                        var centerSpan = center.ShiftOne.length + center.ShiftTwo.length + center.ShiftTwo.length;
+                        var centerSpan = center.ShiftOne.length + center.ShiftTwo.length + center.ShiftThree.length;
                         center.span = centerSpan;
                         total += centerSpan;
                     }
                     date.span = total;
                 }
+                console.log(data);
 
                 vm.table = new ngTableParams({
                   page: 1,
@@ -162,8 +170,8 @@
                   //Hide the count div
                   //counts: [],
                   getData: function($defer, params) {
-                    var filter = params.filter();
-                    var sorting = params.sorting();
+                    // var filter = params.filter();
+                    // var sorting = params.sorting();
                     var count = params.count();
                     var page = params.page();
                     $defer.resolve(data.slice((page - 1) * count, page * count));
@@ -173,6 +181,7 @@
             }, function errorCallback(response){
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање податоци. Обидете се повторно!");
+                console.log(response);
             });
         }
 

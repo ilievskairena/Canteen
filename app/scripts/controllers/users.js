@@ -9,6 +9,8 @@
  * # UsersCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
     angular.module('canteenApp')
     .controller('UsersCtrl', UsersCtrl);
@@ -16,7 +18,7 @@
     UsersCtrl.$inject = ['$rootScope', '$location', 'roleService', '$scope', '$http', 'ngDialog', 'APP_CONFIG', 'utility', 'ngTableParams', 'toastr', '$filter', 'ngProgressFactory'];
 
     function UsersCtrl($rootScope, $location, roleService, $scope, $http, ngDialog, APP_CONFIG, utility, ngTableParams, toastr, $filter, ngProgressFactory) {
-
+/* jshint validthis: true */
         var vm = this;
 
         vm.progressBar = ngProgressFactory.createInstance();

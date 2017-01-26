@@ -9,6 +9,8 @@
  * # ReportsWorkersGuestsCtrl
  * Controller of the canteenApp
  */
+
+ /* jshint latedef:nofunc */
  
     angular.module('canteenApp')
     .controller('ReportsWorkersGuestsCtrl', ReportsWorkersGuestsCtrl);
@@ -16,7 +18,7 @@
     ReportsWorkersGuestsCtrl.$inject = ['$rootScope', '$filter', 'roleService', '$location', '$http', 'APP_CONFIG', 'toastr', 'utility', 'ngProgressFactory', 'ngTableParams'];
 
     function ReportsWorkersGuestsCtrl($rootScope, $filter, roleService, $location, $http, APP_CONFIG, toastr, utility, ngProgressFactory, ngTableParams) {
-
+/* jshint validthis: true */
         var vm = this;
 
         vm.progressBar = ngProgressFactory.createInstance();
@@ -82,13 +84,17 @@
                 url:  APP_CONFIG.BASE_URL + APP_CONFIG.reports_workers_guests_full,
                 params: params
             }).then(function successCallback(response){
-                var data = angular.copy(response.data);
                 vm.progressBar.complete();
+                var data = angular.copy(response.data);
+                for(var i in data){
+                    data[i].Date = $filter('shortdate')(data[i].Date);
+                }
                 return utility.downloadStatistics(data, 'Workers_Guests_Orders');
 
             }, function errorCallback(response){
                 vm.progressBar.reset();
                 toastr.error("Грешка при преземање на податоците. Ве молиме обратете се кај администраторот!");
+                console.log(response);
             });
         }
 
