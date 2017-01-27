@@ -37,7 +37,7 @@
 				placeholder="дд.мм.гггг"
 				readonly
 				close-text="Close"
-				 ng-click="vm.openDateTo()" />
+				ng-click="vm.openDateTo()" />
 				<span class="input-group-btn">
 					<button type="button" class="btn btn-default" ng-click="vm.openDateTo()"><i class="glyphicon glyphicon-calendar"></i></button>
 				</span>
@@ -59,63 +59,70 @@
 			<label for="">&nbsp;</label><br>
 			<button class="btn btn-success"
 			ng-click="vm.getOrdersPerCostCenter(vm.dateFrom.selected, vm.dateTo.selected);">
-				<i class="fa fa-eye-slash"></i>
-				<span>Прикажи</span>
-			</button>
-		</div>
+			<i class="fa fa-eye-slash"></i>
+			<span>Прикажи</span>
+		</button>
 	</div>
-	<div class="col-md-12">
-		<div class="form-group">
-			<label for="">&nbsp;</label><br>
-			<button class="btn btn-success"
-			ng-click="vm.exportToExcel();" ng-disabled="vm.exportButtonDisabled">
-				<i class="fa fa-file-excel-o"></i>
-				<span>Export</span>
-			</button>
-		</div>
-	</div>
+</div>
+<div class="col-md-12">
+	<div class="form-group">
+		<label for="">&nbsp;</label><br>
+		<button class="btn btn-success"
+		ng-click="vm.exportToExcel();" ng-disabled="vm.exportButtonDisabled">
+		<i class="fa fa-file-excel-o"></i>
+		<span>Export</span>
+	</button>
+</div>
+</div>
 </div>
 <div class="row margin-top-15">
 	<div class="col-md-12">
 		<table ng-table="vm.table"
 		class="table table-bordered table-hover">
-			<colgroup>
-				<col width="5%">
-				<col width="10%">
-				<col width="5%">
-				<col width="10%">
-				<col width="10%">
-			</colgroup>
-			<tr>
-				<th>Датум</th>
-				<th>Трошковно место</th>
-				<th>Смена</th>
-				<th>Мени</th>
-				<th>Нарачки</th>
-			</tr>
-			<tr ng-repeat-start="order in $data">
-				<td rowspan="{{order.span + 3*order.CostCenters.length}}">{{order.Date | shortdate}}</td>
-			</tr>
-			<tr	ng-repeat-start="center in order.CostCenters"
-			ng-if="center.ShiftOne.length > 0 || center.ShiftTwo.length > 0 || center.ShifThree.length > 0">
-				<td rowspan="{{center.ShiftOne.length + center.ShiftTwo.length + center.ShiftThree.length + 3}}">{{center.Name}}</td>
-			</tr>
-			<tr	ng-repeat-start="meal in center.ShiftOne" ng-if="center.ShiftOne.length > 0 && $index == 0">
-				<td rowspan="{{center.ShiftOne.length + 2}}">1-Прва</td>
-			</tr>
-			<tr ng-repeat-end ng-if="center.ShiftOne.length > 0">
-				<td>{{meal.TypeName}}</td>
-				<td>{{meal.Count}}</td>
-			</tr>
-			<tr	ng-repeat-start="meal in center.ShiftTwo" ng-if="center.ShiftTwo.length > 0 && $index == 0">
-				<td rowspan="{{center.ShiftTwo.length + 2}}">2-Втора</td>
-			</tr>
-			<tr ng-repeat-end ng-if="center.ShiftTwo.length > 0">
-				<td>{{meal.TypeName}}</td>
-				<td>{{meal.Count}}</td>
-			</tr>
-			<tr ng-repeat-end></tr>
-			<tr ng-repeat-end></tr>
-		</table>
-	</div>
+		<colgroup>
+		<col width="5%">
+		<col width="10%">
+		<col width="5%">
+		<col width="10%">
+		<col width="10%">
+	</colgroup>
+	<tr>
+		<th>Датум</th>
+		<th>Трошковно место</th>
+		<th>Смена</th>
+		<th>Мени</th>
+		<th>Нарачки</th>
+	</tr>
+	<tr ng-repeat-start="order in $data">
+		<td rowspan="{{order.span}}">{{order.Date | shortdate}}</td>
+	</tr>
+	<tr ng-repeat-start="center in order.CostCenters"
+		ng-if="center.ShiftOne.length > 0 || center.ShiftTwo.length > 0 || center.ShiftThree.length > 0">
+		<td rowspan="{{center.span + 1}}">{{center.Name}}</td>
+	</tr>
+	<tr ng-repeat-start="meal in center.ShiftOne" ng-if="center.ShiftOne.length > 0 && $index == 0">
+		<td rowspan="{{center.ShiftOne.length + 1}}">1-Прва</td>
+	</tr>
+	<tr ng-repeat-end ng-if="center.ShiftOne.length > 0">
+		<td>{{meal.TypeName}}</td>
+		<td>{{meal.Count}}</td>
+	</tr>
+	<tr ng-repeat-start="meal in center.ShiftTwo" ng-if="center.ShiftTwo.length > 0 && $index == 0">
+		<td rowspan="{{center.ShiftTwo.length + 1}}">2-Втора</td>
+	</tr>
+	<tr ng-repeat-end ng-if="center.ShiftTwo.length > 0">
+		<td>{{meal.TypeName}}</td>
+		<td>{{meal.Count}}</td>
+	</tr>
+	<tr ng-repeat-start="meal in center.ShiftThree" ng-if="center.ShiftThree.length > 0 && $index == 0">
+		<td rowspan="{{center.ShiftThree.length + 1}}">3-Трета</td>
+	</tr>
+	<tr ng-repeat-end ng-if="center.ShiftThree.length > 0">
+		<td>{{meal.TypeName}}</td>
+		<td>{{meal.Count}}</td>
+	</tr>
+	<tr ng-repeat-end></tr>
+	<tr ng-repeat-end></tr>
+	</table>
+</div>
 </div>

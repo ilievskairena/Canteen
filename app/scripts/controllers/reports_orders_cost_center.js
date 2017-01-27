@@ -155,10 +155,10 @@
                         var center = date.CostCenters[j];
 
                         var centerSpan = center.ShiftOne.length + center.ShiftTwo.length + center.ShiftThree.length;
-                        center.span = centerSpan;
-                        total += centerSpan;
+                        center.span = centerSpan * 2;
+                        total += centerSpan * 2;
                     }
-                    date.span = total;
+                    date.span = total + date.CostCenters.length * 2;
                 }
                 console.log(data);
 

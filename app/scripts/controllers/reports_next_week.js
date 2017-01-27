@@ -102,6 +102,7 @@
         }
 
         function calculateRowSpan(order){
+            console.log(order);
             var tmp = 0;
             for (var i = 0; i < order.Meals.length; i++) {
                 var obj = order.Meals[i];
