@@ -32,8 +32,7 @@
 
     //Realized
     vm.realizedData = [];
-    vm.notRealizedOriginal = 0;
-    vm.notRealized = 0;
+    vm.realized = 0;
 
     // Functions
     vm.getRealized = getRealized;
@@ -41,7 +40,7 @@
     vm.getWeekDay = getWeekDay;
     vm.insertPlan = insertPlan;
     vm.toShortDate = toShortDate;
-    vm.validateMethod = validateMethod;
+    //vm.validateMethod = validateMethod;
     vm.updatePlan = updatePlan;
     vm.updateRealized = updateRealized;
 
@@ -67,7 +66,7 @@
       vm.notRealized = 0;
       var date = new Date();
       date.setHours(0,0,0,0);
-      date.setDate(date.getDate() - 1);
+      date.setDate(date.getDate() + 7);
       $http({
         method: 'GET',
         crossDomain: true,
@@ -77,16 +76,14 @@
         vm.realizedData = data;
         for(var i in data) {
           var order = data[i];
-          if(!order.IsRealized) {
-            vm.notRealized++;
-            vm.notRealizedOriginal++;
+          if(order.IsRealized) {
+            vm.realized++;
           }
         }
       }, function errorCallback(response){
         if(response.status === 404) {
           vm.realizedData = [];
-          vm.notRealized = 0;
-          vm.notRealizedOriginal = 0;
+          vm.realized = 0;
         }
       });
     }
@@ -156,30 +153,30 @@
 
     //Checks whether there is a modification of the data
     //Validates whether is POST (true) or PUT(false)
-    function validateMethod() {
-      var result = true;
-      for(var i = 0; i < vm.thirdShiftData.length; i++) {
-        var dateOriginal = vm.thirdShiftData[i];
-        var dateModel = vm.thirdShiftModel[i];
-        if(dateOriginal.Count !== dateModel.Count) {
-          result = false;
-          break;
-        }
-        else if (dateOriginal.Note !== dateModel.Note) {
-          result = false;
-          break;
-        }
-        else if(dateOriginal.Count !== 0) {
-          result = false;
-          break;
-        }
-        else if(dateOriginal.Node !== "") {
-          result = false;
-          break;
-        }
-      }
-      return result;
-    }
+    // function validateMethod() {
+    //   var result = true;
+    //   for(var i = 0; i < vm.thirdShiftData.length; i++) {
+    //     var dateOriginal = vm.thirdShiftData[i];
+    //     var dateModel = vm.thirdShiftModel[i];
+    //     if(dateOriginal.Count !== dateModel.Count) {
+    //       result = false;
+    //       break;
+    //     }
+    //     else if (dateOriginal.Note !== dateModel.Note) {
+    //       result = false;
+    //       break;
+    //     }
+    //     else if(dateOriginal.Count !== 0) {
+    //       result = false;
+    //       break;
+    //     }
+    //     else if(dateOriginal.Node !== "") {
+    //       result = false;
+    //       break;
+    //     }
+    //   }
+    //   return result;
+    // }
 
     //Validate
 

@@ -133,7 +133,7 @@
             $http({
                 method: 'GET',
                 crossDomain: true,
-                url:  APP_CONFIG.BASE_URL +"/api/users"
+                url:  APP_CONFIG.BASE_URL + "/api/users"
             }).then(function successCallback(response){
                 //console.log(response.data);
                 var data = angular.copy(response.data);
@@ -189,9 +189,10 @@
             vm.costCenter = null;
             vm.personNumber = "";
             vm.role = null;
-            vm.isEmployee = true;
+            vm.isEmployee = false;
             vm.cardNumber = "";
             vm.cardType = "";
+            vm.WorksHolidays = false;
         }
 
         function save(){
@@ -208,7 +209,8 @@
                 isEmployee: vm.isEmployee,
                 CardNumber: vm.cardNumber,
                 CardType: vm.cardType,
-                CardID: null
+                CardID: null,
+                WorksHolidays: vm.worksHolidays
             };
             //console.log(newUser);
             $http({
@@ -243,8 +245,10 @@
                 IsActive: vm.editModel.IsActive,
                 CardNumber: vm.editModel.CardNumber,
                 CardType: vm.editModel.CardType,
-                CardID: vm.editModel.CardID
+                CardID: vm.editModel.CardID,
+                WorksHolidays: vm.editModel.WorksHolidays
             };
+
             $http({
                 method: 'PUT',
                 data: editUser,

@@ -86,7 +86,7 @@
 						    </ui-select-match>
 						    <ui-select-choices 
 						    group-by="'Type'" 
-						    repeat="meal.MealID as meal in vm.meals.secondShift | filter: $select.search">
+						    repeat="meal.MealID as meal in vm.meals.firstShift | filter: $select.search">
 						      <div ng-bind-html="meal.MealDescription"></div>
 						    </ui-select-choices>
 						</ui-select>
@@ -132,6 +132,6 @@
 <div class="row">
 	<div class="col-md-3 col-md-offset-8">
 		<button class="btn btn-success" ng-disabled="!vm.hasChange()" ng-click="vm.submit()">Зачувај</button>
-		<button class="btn btn-danger" ng-disabled="!vm.enableDelete()" ng-click="vm.delete()">Избриши план</button>
+<!-- 		<button class="btn btn-danger" ng-disabled="!vm.enableDelete()" ng-click="vm.delete()">Избриши план</button> -->
 	</div>
 </div>

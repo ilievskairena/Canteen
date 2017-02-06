@@ -80,7 +80,7 @@
 
     // Functions
     vm.boxData = boxData;
-    vm.delete = Delete;
+    //vm.delete = Delete;
     vm.edit = edit;
     vm.enableDelete = enableDelete;
     vm.getMealsForDay = getMealsForDay;
@@ -117,21 +117,21 @@
       };
     }
 
-    function Delete() {
-      vm.progressBar.start();
-      $http({
-        method: 'DELETE',
-        crossDomain: true,
-        url:  APP_CONFIG.BASE_URL + APP_CONFIG.orders_workers +'?dateId='+vm.model.dateId
-      }).then(function successCallback(response){
-        vm.progressBar.complete();
-        toastr.success("Нарачката е успешно избришана");
-        $route.reload(); 
-      }, function errorCallback(response){
-        vm.progressBar.reset();
-        toastr.error("Грешка при бришење на нарачката");
-      });
-    }
+    // function Delete() {
+    //   vm.progressBar.start();
+    //   $http({
+    //     method: 'DELETE',
+    //     crossDomain: true,
+    //     url:  APP_CONFIG.BASE_URL + APP_CONFIG.orders_workers +'?dateId='+vm.model.dateId
+    //   }).then(function successCallback(response){
+    //     vm.progressBar.complete();
+    //     toastr.success("Нарачката е успешно избришана");
+    //     $route.reload(); 
+    //   }, function errorCallback(response){
+    //     vm.progressBar.reset();
+    //     toastr.error("Грешка при бришење на нарачката");
+    //   });
+    // }
 
     function edit() {
       vm.progressBar.start();

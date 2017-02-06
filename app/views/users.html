@@ -78,6 +78,9 @@
 					<div class="checkbox">
 						<label>
 							<input type="checkbox" ng-model="vm.isEmployee"> вработен во Пивара?
+						</label>&nbsp;
+						<label>
+							<input type="checkbox" ng-model="vm.worksHolidays"> работи празници/викенди?
 						</label>
 					</div>
 				</div>
@@ -110,7 +113,7 @@
 						<div class="col-md-6">
 							<div class="form-group" ng-class="{ 'has-error' : form.cardType.$error.required && form.cardType.$touched }">
 								<label for="cardType">Тип на картичка</label>
-								<select class="form-control" id="cardType" ng-model="vm.cardType">
+								<select class="form-control" id="cardType" ng-model="vm.cardType" required>
 									<option value="" disabled>Одбери тип на картичка...</option>
 									<option value="Персонална">Персонална</option>
 									<option value="Дополнителна">Дополнителна</option>
@@ -157,15 +160,16 @@
 		<table ng-table="vm.table"
 		class="table table-bordered table-striped">
 			<colgroup>
-				<col width="10%">
+				<col width="8%">
 				<col width="15%">
 				<col width="10%">
 				<col width="8%">
-				<col width="15%">
-				<col width="15%">
+				<col width="13%">
+				<col width="13%">
 				<col width="10%">
 				<col width="5%">
 				<col width="5%">
+				<col width="7%">
 				<col width="12%">
 			</colgroup>
 			<tr>
@@ -178,6 +182,7 @@
 				<th>Тип на картичка</th>
 				<th>Враб.?</th>
 				<th>Акт.?</th>
+				<th>Раб. Празн.</th>
 				<th>Акции</th>
 			</tr>
 			<tr 
@@ -197,6 +202,10 @@
 				<td ng-if="!vm.isEditing || vm.editIndex != $index">
 					<span ng-if="row.IsActive != false">Да</span>
 					<span ng-if="row.IsActive == false">Не</span>
+				</td>
+				<td ng-if="!vm.isEditing || vm.editIndex != $index">
+					<span ng-if="row.WorksHolidays == true">Да</span>
+					<span ng-if="row.WorksHolidays == false">Не</span>
 				</td>
 				<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.PersonNumber" 
@@ -241,6 +250,9 @@
 	            </td>
 	            <td  ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
 	              	<input ng-switch-default type="checkbox" name="" ng-model="vm.editModel.IsActive" required />
+	            </td>
+	            <td  ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+	              	<input ng-switch-default type="checkbox" name="" ng-model="vm.editModel.WorksHolidays" required />
 	            </td>
 				<td class="command">
 					<button class="btn btn-primary btn-sm" ng-click="vm.update()" ng-if="vm.isEditing && vm.editIndex == $index" 

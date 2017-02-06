@@ -59,13 +59,13 @@
 										<div class="col-md-9 col-md-offset-3">
 											<div class="form-group">
 												<label>&nbsp;</label><br/>
-												<button ng-if="vm.validateMethod()" class="btn btn-success center pull-right col-md-3" ng-click="vm.insertPlan()">
+												<!-- <button ng-if="vm.validateMethod()" class="btn btn-success center pull-right col-md-3" ng-click="vm.insertPlan()">
 													<i class="fa fa-save"></i>
 													<span>Зачувај</span>
-												</button>
-												<button ng-if="!vm.validateMethod()" class="btn btn-warning center pull-right col-md-3" ng-click="vm.updatePlan()">
+												</button> -->
+												<button class="btn btn-warning center pull-right col-md-3" ng-click="vm.updatePlan()">
 													<i class="fa fa-save"></i>
-													<span>Промени</span>
+													<span>Зачувај</span>
 												</button>
 											</div>
 										</div>
@@ -101,14 +101,15 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<label>Бр. нереализирани</label>
+										<label>Бр. реализирани</label>
 										<input type="number" class="form-control"
 										min="0" max="{{vm.realizedData.length}}"
 										placeholder="Внесете број..." 
-										ng-model="vm.notRealized">
+										ng-model="vm.realized" 
+										disabled="disabled">
 									</div>				
 								</div>
-								<div class="col-md-2">
+								<!-- <div class="col-md-2">
 									<div class="form-group">
 										<label>&nbsp;</label><br>
 										<button class="btn btn-success"
@@ -118,7 +119,7 @@
 										<span>Зачувај</span>
 										</button>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
