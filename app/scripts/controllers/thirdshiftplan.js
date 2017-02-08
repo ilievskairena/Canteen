@@ -66,7 +66,7 @@
       vm.notRealized = 0;
       var date = new Date();
       date.setHours(0,0,0,0);
-      date.setDate(date.getDate() + 7);
+      date.setDate(date.getDate() - 1);
       $http({
         method: 'GET',
         crossDomain: true,

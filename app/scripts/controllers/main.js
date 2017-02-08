@@ -21,6 +21,9 @@
     /* jshint validthis: true */
         var vm = this;
 
+        vm.noOfMeals = 0;
+        vm.noOfOrders = 0;
+
         vm.chartOrder = {
             data: [],
             label: []
@@ -42,6 +45,8 @@
         vm.chartLineRatio = chartLineRatio;
         vm.chartPieOrders = chartPieOrders;
         vm.getCostCenters = getCostCenters;
+        vm.getMeals = getMeals;
+        vm.getNumberOfOrders = getNumberOfOrders;
         vm.getUsers = getUsers;
 
 
@@ -60,6 +65,8 @@
         
         getCostCenters();
         getUsers();
+        getMeals();
+        getNumberOfOrders();
         chartPieOrders();
         chartLineRatio();
         chartCenterRatio();
@@ -128,6 +135,25 @@
             },
             function(error) {
                 AuthenticationService.logOut();
+            });
+        }
+
+        function getMeals(){
+            utility.getNoOfMeals().then(function(result){
+                vm.noOfMeals = result.length;
+
+            },
+            function(error){
+                console.log(error);
+            });
+        }
+
+        function getNumberOfOrders(){
+            utility.getNumberOfOrders().then(function(result){
+                vm.noOfOrders = result.data;
+            },
+            function(error){
+                console.log(error);
             });
         }
 

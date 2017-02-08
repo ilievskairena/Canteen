@@ -1,134 +1,238 @@
 <div class="row">
 	<div class="col-md-12">
-		<h3 class="page-header">Внес на непланиран оброк</h3>
+		<h3 class="page-header">Непланирани оброци</h3>
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-3">
-		<div class="form-group">
-			<label for="">Датум</label>
-			<p class="input-group">
-				<input type="text" class="form-control date-control"
-				ng-click="vm.openDate()"
-				ng-change="vm.getMealsForDay()"
-				uib-datepicker-popup="dd.MM.yyyy"
-				ng-model="vm.date.selected"
-				is-open="vm.date.open"
-				datepicker-options="vm.dateOptions"
-				ng-required="true"
-				placeholder="дд.мм.гггг"
-				readonly
-				close-text="Close" />
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-default" ng-click="vm.openDate()"><i class="glyphicon glyphicon-calendar"></i></button>
-				</span>
-			</p>
-		</div>
-	</div>
-	<div ng-if="vm.step > 0" class="col-md-3">
-		<div class="form-group">
-			<label for="">Корисник</label>
-			<div class="input-group">
-				<ui-select ng-model="vm.person" 
-				theme="bootstrap"
-				on-select="vm.personChange()"
-				style="width: 100%;">
-				    <ui-select-match placeholder="Select a person...">
-				    {{$select.selected.Name}}
-				    </ui-select-match>
-				    <ui-select-choices 
-				    group-by="'CostCenterName'" 
-				    repeat="person in vm.users | filter: $select.search">
-				      <div ng-bind-html="person.Name | highlight: $select.search"></div>
-				      <small>
-				        Корисничко име: <span ng-bind-html="''+person.Username | highlight: $select.search"></span>
-				      </small>
-				    </ui-select-choices>
-				</ui-select>
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-default" ng-click="vm.person = null"><i class="glyphicon glyphicon-trash"></i></button>
-				</span>
-			</div>
-		</div>
-	</div>
-	<div ng-if="vm.step > 1" class="col-md-2">
-		<div class="radio">
-		  <label>
-		    <input type="radio" ng-model="vm.shift" 
-		    name="shiftRadio" value="1" checked="checked">
-		    <strong>Прва </strong>смена
-		  </label>
-		</div>
-		<div class="radio">
-		  <label>
-		    <input type="radio" ng-model="vm.shift" 
-		    name="shiftRadio" value="2">
-		    <strong>Втора</strong> смена
-		  </label>
-		</div>
-		<div class="radio">
-		  <label>
-		    <input type="radio" ng-model="vm.shift"
-		     name="shiftRadio" value="3">
-		    <strong>Трета</strong> смена
-		  </label>
-		</div>
-	</div>
-	<div ng-if="vm.step > 1 && !vm.isInsert && vm.shift !== 0" class="col-md-2">
-			<input type="checkbox" ng-model="vm.guests"/> Пријавете гости
-			<input type="number" ng-model="vm.noOfGuests" class="form-control" ng-if="vm.guests"/>
-	</div>
+	<div class="col-md-12">
+		<ul class="nav nav-tabs">
+			<li role="presentation" class="active" ng-click="vm.cancelShiftUsers = []; vm.date.selected = null; vm.step = 0">
+				<a data-target="#unplanned"
+				data-toggle="tab" aria-expanded="true" >Внес на непланиран оброк</a>
+			</li>
+			<li role="presentation" ng-click="vm.cancelShiftUsers = []; vm.date.selected = null">
+				<a data-target="#shifts"
+				data-toggle="tab" aria-expanded="true" >Откажување смена</a>
+			</li>
+		</ul>
+		<div class="tab-content margin-top-15">
+			<div class="tab-pane fade active in" id="unplanned">
+				<div class="row">
+				
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="">Датум</label>
+							<p class="input-group">
+								<input type="text" class="form-control date-control"
+								ng-click="vm.openDate()"
+								ng-change="vm.getMealsForDay()"
+								uib-datepicker-popup="dd.MM.yyyy"
+								ng-model="vm.date.selected"
+								is-open="vm.date.open"
+								datepicker-options="vm.dateOptions"
+								ng-required="true"
+								placeholder="дд.мм.гггг"
+								readonly
+								close-text="Close" />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="vm.openDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</p>
+						</div>
+					</div>
 
-	<div ng-if="vm.step > 3" class="col-md-2">
-		<div class="form-group" ng-if="vm.isInsert">
-			<label for="">&nbsp;</label><br>
-			<button class="btn btn-success"
-				ng-disabled="vm.person.ID == 0 && (vm.numberWorker == 0 || vm.numberWorker == '' || vm.numberWorker == null)"
-				ng-click="vm.insert();">
-				<i class="fa fa-save"></i>
-				<span>Додади</span>
-			</button>
-		</div>
-		<div class="form-group" ng-if="!vm.isInsert && vm.shift !== 0">
-			<label for=""></label>
-			<button class="btn btn-warning"
-				ng-disabled="vm.person.ID == 0 && (vm.numberWorker == 0 || vm.numberWorker == '' || vm.numberWorker == null)"
-				ng-click="vm.update();">
-				<i class="fa fa-pencil"></i>
-				<span>Промени</span>
-			</button>
-			<br><br>
-			<button class="btn btn-danger"
-				ng-disabled="vm.person.ID == 0 && (vm.numberWorker == 0 || vm.numberWorker == '' || vm.numberWorker == null)"
-				ng-click="vm.confirmDelete();">
-				<i class="fa fa-trash"></i>
-				<span>Избриши</span>
-			</button>
-		</div>
-	</div>
-</div>
-<div class="row" ng-if="vm.person.ID === 0">
-	<div class="col-md-3">
-		<div class="form-group">
-			<label for="">Број на ангажирани работници:</label>
-			<input class="form-control" 
-			placeholder="Внесете бр. на работници..." 
-			type="number" min="1" ng-model="vm.numberWorker">
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-3" 
-	ng-if="meal.Shift == vm.shift"
-	ng-repeat="meal in vm.meals.Meals">
-		<div class="panel panel-green meal-option"
-		ng-class="{'meal-active' : vm.selectedMeal == meal }"
-		ng-click="vm.selectMeal(meal);">
-		  	<div class="panel-heading">
-		    	<h3 class="panel-title">{{meal.Type}}</h3>
-		  	</div>
-		  	<div class="panel-body">
-		    {{meal.MealDescription}}
+					<div ng-if="vm.step > 0" class="col-md-3">
+						<div class="form-group">
+							<label for="">Корисник</label>
+							<div class="input-group">
+								<ui-select ng-model="vm.person" 
+								theme="bootstrap"
+								on-select="vm.personChange()"
+								style="width: 100%;">
+									<ui-select-match placeholder="Одберете корисник...">
+										{{$select.selected.Name}}
+									</ui-select-match>
+									<ui-select-choices 
+									group-by="'CostCenterName'" 
+									repeat="person in vm.users | filter: $select.search">
+									<div ng-bind-html="person.Name | highlight: $select.search"></div>
+									<small>
+										Корисничко име: <span ng-bind-html="''+person.Username | highlight: $select.search"></span>
+									</small>
+									</ui-select-choices>
+								</ui-select>
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="vm.person = null"><i class="glyphicon glyphicon-trash"></i></button>
+								</span>
+							</div>
+						</div>	
+					</div>
+				
+					<div ng-if="vm.step > 1" class="col-md-2">
+						<div class="radio">
+							<label>
+								<input type="radio" ng-model="vm.shift" 
+								name="shiftRadio" value="1" checked="checked">
+								<strong>Прва </strong>смена
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" ng-model="vm.shift" 
+								name="shiftRadio" value="2">
+								<strong>Втора</strong> смена
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" ng-model="vm.shift"
+								name="shiftRadio" value="3">
+								<strong>Трета</strong> смена
+							</label>
+						</div>
+					</div>
+					<div ng-if="vm.step > 1 && !vm.isInsert && vm.shift !== 0" class="col-md-2">
+						<input type="checkbox" ng-model="vm.guests"/> Пријавете гости
+						<input type="number" ng-model="vm.noOfGuests" class="form-control" ng-if="vm.guests"/>
+					</div>
+
+					<div ng-if="vm.step > 3" class="col-md-2">
+						<div class="form-group" ng-if="vm.isInsert">
+							<label for="">&nbsp;</label><br>
+							<button class="btn btn-success"
+							ng-disabled="vm.person.ID == 0 && (vm.numberWorker == 0 || vm.numberWorker == '' || vm.numberWorker == null)"
+							ng-click="vm.insert();">
+								<i class="fa fa-save"></i>
+								<span>Додади</span>
+							</button>
+						</div>
+						<div class="form-group" ng-if="!vm.isInsert && vm.shift !== 0">
+							<label for=""></label>
+							<button class="btn btn-warning"
+							ng-disabled="vm.person.ID == 0 && (vm.numberWorker == 0 || vm.numberWorker == '' || vm.numberWorker == null)"
+							ng-click="vm.update();">
+								<i class="fa fa-pencil"></i>
+								<span>Промени</span>
+							</button>
+							<br><br>
+							<button class="btn btn-danger"
+							ng-disabled="vm.person.ID == 0 && (vm.numberWorker == 0 || vm.numberWorker == '' || vm.numberWorker == null)"
+							ng-click="vm.confirmDelete();">
+								<i class="fa fa-trash"></i>
+								<span>Избриши</span>
+							</button>
+						</div>
+					</div>
+					<div class="row" ng-if="vm.person.ID === 0">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="">Број на ангажирани работници:</label>
+								<input class="form-control" 
+								placeholder="Внесете бр. на работници..." 
+								type="number" min="1" ng-model="vm.numberWorker">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3" 
+						ng-if="meal.Shift == vm.shift"
+						ng-repeat="meal in vm.meals.Meals">
+						<div class="panel panel-green meal-option"
+						ng-class="{'meal-active' : vm.selectedMeal == meal }"
+						ng-click="vm.selectMeal(meal);">
+							<div class="panel-heading">
+								<h3 class="panel-title">{{meal.Type}}</h3>
+							</div>
+							<div class="panel-body">
+								{{meal.MealDescription}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="shifts">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="">Датум</label>
+							<p class="input-group">
+								<input type="text" class="form-control date-control"
+								ng-click="vm.openDate()"
+								uib-datepicker-popup="dd.MM.yyyy"
+								ng-model="vm.date.selected"
+								is-open="vm.date.open"
+								datepicker-options="vm.dateOptions"
+								ng-required="true"
+								placeholder="дд.мм.гггг"
+								readonly
+								close-text="Close" />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="vm.openDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</p>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="">Корисник</label>
+							<div class="input-group">
+								<ui-select ng-model="vm.cancelShiftUsers" 
+								theme="bootstrap"
+								style="width: 100%;"
+								multiple>
+									<ui-select-match placeholder="Одберете корисници...">
+										{{$item.Name}}
+									</ui-select-match>
+									<ui-select-choices 
+									group-by="'CostCenterName'" 
+									repeat="person in vm.users | filter: $select.search">
+									<div ng-bind-html="person.Name | highlight: $select.search"></div>
+									<small>
+										Корисничко име: <span ng-bind-html="''+person.Username | highlight: $select.search"></span>
+									</small>
+									</ui-select-choices>
+								</ui-select>
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="vm.cancelShiftUsers = []"><i class="glyphicon glyphicon-trash"></i></button>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3" ng-if="vm.checkValidity()">
+						<div class="form-group">
+							<button class="btn btn-success" style="margin-top: 1.5em" ng-click="vm.getOrdersForUsers()">Прикажи</button>
+						</div>
+					</div>
+				</div>
+				<div class="row" ng-if="vm.cancelShiftUsersOrders">
+					<div class="col-md-6">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Корисник</th>
+									<th>Смена</th>
+									<th>Нарачка</th>
+									<th>Гости</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-if="vm.cancelShiftUsersOrders.length === 0">
+									<td colspan="4" class="text-center">Нема пронајдено нарачки за овие корисници за одбраниот датум!</td>
+								</tr>
+								<tr ng-if="vm.cancelShiftUsersOrders.length !== 0" ng-repeat="order in vm.cancelShiftUsersOrders">
+									<td ng-bind="::order.Name"></td>
+									<td ng-bind="::order.Shift"></td>
+									<td ng-bind="::order.Meal"></td>
+									<td ng-bind="::order.Guests"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-12">
+						<button class="btn btn-success" ng-click="vm.cancelShift()">Откажи Смена</button>
+					</div>
+				</div>	
 			</div>
 		</div>
 	</div>

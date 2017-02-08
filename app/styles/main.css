@@ -227,3 +227,7 @@ body > .select2-container.open {
   opacity: 0;
   padding: 0 10px;
 }
+
+a:hover{
+  cursor: pointer;
+}

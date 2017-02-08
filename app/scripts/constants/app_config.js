@@ -40,6 +40,7 @@
  	mealtype_insert: "/api/mealtype/insert",
  	menu: "/api/meals/menu",
  	orders: "/api/orders",
+ 	orders_cancelShift: "/api/orders/cancelorders",
  	orders_existing: "/api/orders/existing",
  	orders_delete: "/api/orders/delete/",
  	orders_thidshift: "/api/orders/thirdshift",

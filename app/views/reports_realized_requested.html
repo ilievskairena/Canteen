@@ -74,12 +74,14 @@
 				<col width="5%">
 				<col width="10%">
 				<col width="10%">
+				<col width="10%">
 			</colgroup>
 			<tr>
 				<th>Датум</th>
 				<th>Трошковно место</th>
 				<th>Реализирани</th>
 				<th>Нереализирани</th>
+				<th>Откажани</th>
 			</tr>
 			<tr ng-repeat-start="order in $data" ng-if="order.CostCenter.length !=0">
 				<td rowspan="{{order.CostCenter.length*2}}">{{order.Date | shortdate}}</td>
@@ -88,6 +90,7 @@
 				<td rowspan="2">{{center.Name}}</td>
 				<td>{{center.Realized}}</td>
 				<td>{{center.Unrealized}}</td>
+				<td>{{center.Canceled}}</td>
 			</tr>
 			<tr	ng-repeat-end></tr>
 			<tr ng-repeat-end></tr>

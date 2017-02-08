@@ -35,6 +35,9 @@
     vm.selectedMeal = null;
     vm.numberWorker = null;
     vm.isInsert = true;
+    vm.person = null;
+    vm.cancelShiftUsers = [];
+    vm.cancelShiftUsersOrders = undefined;
 
     //How many orders there are to delete (Sync requests)
     vm.deleteCount = 0;
@@ -63,10 +66,13 @@
     vm.noOfGuests = 0;
 
     // Functions
+    vm.cancelShift = cancelShift;
+    vm.checkValidity = checkValidity;
     vm.confirmDelete = confirmDelete;
     vm.delete = Delete;
     vm.getMealsForDay = getMealsForDay;
     vm.getOrder = getOrder;
+    vm.getOrdersForUsers = getOrdersForUsers;
     vm.insert = insert;
     vm.openDate = openDate;
     vm.personChange = personChange;
@@ -108,6 +114,41 @@
       });
 
     // Define functions here
+
+    function cancelShift(){
+      vm.progressBar.setColor('#8dc63f');
+      vm.progressBar.start();
+
+      var ordersId = [];
+      for(var order in vm.cancelShiftUsersOrders){
+        ordersId.push(vm.cancelShiftUsersOrders[order].OrderId);
+      }
+
+      var data = {
+        OrdersId: ordersId
+      };
+
+      $http({
+        method: 'PUT',
+        data: data,
+        contentType:'application/json',
+        crossDomain: true,
+        url: APP_CONFIG.BASE_URL + APP_CONFIG.orders_cancelShift
+      }).then(function successCallback(response){
+        vm.progressBar.complete();
+        toastr.success("Смената е успешно откажана!");
+        vm.cancelShiftUsersOrders = undefined;
+        vm.cancelShiftUsers = [];
+      }, function errorCallback(response){
+        vm.progressBar.reset();
+        toastr.error("Грешка при откажување на смената. Ве молиме обидете се повторно или обратете се кај администраторот.");
+      });
+
+    }
+
+    function checkValidity(){
+      return vm.cancelShiftUsers.length !== 0 && vm.date.selected !== null && vm.date.selected !== undefined;
+    }
 
     function confirmDelete() {
       var nestedConfirmDialog = ngDialog.openConfirm({
@@ -225,11 +266,42 @@
       });
     }
 
+    function getOrdersForUsers(){
+      vm.progressBar.setColor('#8dc63f');
+      vm.progressBar.start();
+
+      var users = [];
+      for(var user in vm.cancelShiftUsers){
+        users.push(vm.cancelShiftUsers[user].ID);
+      }
+
+      var data = {
+        Date: $filter("date")(vm.date.selected, "yyyy-MM-dd HH:mm:ss.sss"),
+        Users: users
+      };
+
+      $http({
+        method: 'POST',
+        url:  APP_CONFIG.BASE_URL + APP_CONFIG.orders_existing,
+        data: data,
+        contentType:'application/json',
+        crossDomain: true,
+      }).then(function successCallback(response){
+        vm.progressBar.complete();
+        var data = response.data;
+        vm.cancelShiftUsersOrders = data;
+        
+      }, function errorCallback(response){
+        toastr.error("Грешка при преземање на податоците за нарачките. Ве молиме обратете се кај администраторот!");
+        vm.progressBar.reset();
+      });
+    }
+
     function insert() {
       vm.progressBar.setColor('#8dc63f');
       vm.progressBar.start();
       var data = {
-        IsWorker: vm.person.ID == 0,
+        IsWorker: vm.person.ID === 0,
         UserID: vm.person.ID,
         DateID: vm.meals.DateId,
         MealPerDayID: vm.selectedMeal.MealID,
@@ -248,7 +320,7 @@
         toastr.success("Нарачката е успешно внесена!");
       }, function errorCallback(response){
         vm.progressBar.reset();
-        toastr.error("Грешка при внес на нарачката. Обратете се кај администраторот.")
+        toastr.error("Грешка при внес на нарачката. Обратете се кај администраторот.");
       });
     }
 

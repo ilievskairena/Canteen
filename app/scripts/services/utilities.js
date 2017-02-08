@@ -34,6 +34,8 @@
         this.getThisWeekEnd = getThisWeekEnd;
         this.getNextWeekStart = getNextWeekStart;
         this.getWorkerOrders = getWorkerOrders;
+        this.getNumberOfOrders = getNumberOfOrders;
+        this.getNoOfMeals = getNoOfMeals;
 
 
         function getAllCostCenters() {
@@ -226,6 +228,20 @@
                 deferred.reject(response.data);
             });
             return deferred.promise;
+        }
+
+        function getNumberOfOrders(){
+            return $http.get(APP_CONFIG.BASE_URL + APP_CONFIG.orders).
+            then(function(result) {
+                return result;
+            }); 
+        }
+
+        function getNoOfMeals(){
+            return $http.get(APP_CONFIG.BASE_URL + APP_CONFIG.meals).
+            then(function(result) {
+                return result.data;
+            });
         }
     }
 })();
