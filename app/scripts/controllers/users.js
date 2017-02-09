@@ -38,7 +38,7 @@
         vm.regex = {
             number: "[0-9]{8}",
             username: ".+",
-            card: "[0-9]{15}"
+            card: "[0-9]+"
         };
 
         // Functions
