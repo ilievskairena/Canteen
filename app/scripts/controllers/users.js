@@ -29,6 +29,7 @@
         vm.editIndex = null;
         vm.showFilters = false;
         vm.returnedUser = {};
+        vm.loading = false;
         vm.filters = {
             PersonNumber: undefined,
             Name: undefined,
@@ -123,13 +124,14 @@
 
         function getUser(user){
             utility.getUserPerID(user.ID).then(function(result) {
-                /*console.log(result.data);*/
+                
                 vm.returnedUser = result.data;
-                //openEditDialog();
+
             });
         }
 
         function getUsers() {
+            vm.loading = true;
             $http({
                 method: 'GET',
                 crossDomain: true,
@@ -153,6 +155,7 @@
                     $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                   }
               });
+                vm.loading = false;
             }, function errorCallback(response){
                 console.log("Error getting users");
             });

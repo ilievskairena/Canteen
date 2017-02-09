@@ -24,6 +24,7 @@
     vm.isEditing = false;
     vm.editModel = null;
     vm.editIndex = null;
+    vm.loading = false;
 
     // Functions
 
@@ -63,7 +64,8 @@
       vm.editIndex = index;
     }
 
-    function getAllMealTypes(user){
+    function getAllMealTypes(){
+      vm.loading = true;
       utility.getMealTypes().then(function(result) {
         vm.allMealTypes = result.data;
         vm.table = new ngTableParams(
@@ -83,7 +85,9 @@
             $defer.resolve(result.data.slice((page - 1) * count, page * count));
           }
         }
+
         );
+        vm.loading = false;
       });
     }
 

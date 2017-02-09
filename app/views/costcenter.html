@@ -47,41 +47,44 @@
 <div class="row margin-top-15">
 	<table ng-table="vm.table"
 	class="table table-bordered table-striped table-condensed">
-			<colgroup>
-				<col width="25%">
-				<col width="60%">
-				<col width="15%">
-			</colgroup>
-			<tr>
-				<th>Код</th>
-				<th>Назив на трошковно место</th>
-				<th>Акции</th>
-			</tr>
-			<tr ng-repeat="row in $data">
-				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Code}}</td>
-				<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Name}}</td>
-				<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
-					<input ng-switch-default type="text" name="" ng-model="vm.editModel.Code" 
-	              	class="editable-input form-control input-sm" required />
-	            </td>
-				<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
-	              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.Name" 
-	              	class="editable-input form-control input-sm" required />
-	            </td>
-				<td class="command">
-					<button class="btn btn-primary btn-sm" ng-click="vm.update()" ng-if="vm.isEditing && vm.editIndex == $index" ng-disabled="vm.editModel.Name == ''">
-						<span class="glyphicon glyphicon-ok"></span>
-					</button>
-					<button class="btn btn-default btn-sm" ng-click="vm.cancel(row, $index)" ng-if="vm.isEditing && vm.editIndex == $index">
-						<span class="glyphicon glyphicon-remove"></span>
-					</button>
-					<button class="btn btn-default btn-sm" ng-click="vm.edit(row, $index);" ng-if="!vm.isEditing || vm.editIndex != $index">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</button>
-					<button class="btn btn-danger btn-sm" ng-click="vm.openRemoveDialog(row)" ng-if="!vm.isEditing || vm.editIndex != $index">
-						<span class="glyphicon glyphicon-trash"></span>
-					</button>
-				</td>
-			</tr>
-		</table>
+		<colgroup>
+			<col width="25%">
+			<col width="60%">
+			<col width="15%">
+		</colgroup>
+		<tr>
+			<th>Код</th>
+			<th>Назив на трошковно место</th>
+			<th>Акции</th>
+		</tr>
+		<tr ng-repeat="row in $data">
+			<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Code}}</td>
+			<td ng-if="!vm.isEditing || vm.editIndex != $index">{{row.Name}}</td>
+			<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+				<input ng-switch-default type="text" name="" ng-model="vm.editModel.Code" 
+              	class="editable-input form-control input-sm" required />
+            </td>
+			<td ng-if="vm.isEditing && vm.editIndex == $index" class="controls" ng-switch="col.dataType">
+              	<input ng-switch-default type="text" name="" ng-model="vm.editModel.Name" 
+              	class="editable-input form-control input-sm" required />
+            </td>
+			<td class="command">
+				<button class="btn btn-primary btn-sm" ng-click="vm.update()" ng-if="vm.isEditing && vm.editIndex == $index" ng-disabled="vm.editModel.Name == ''">
+					<span class="glyphicon glyphicon-ok"></span>
+				</button>
+				<button class="btn btn-default btn-sm" ng-click="vm.cancel(row, $index)" ng-if="vm.isEditing && vm.editIndex == $index">
+					<span class="glyphicon glyphicon-remove"></span>
+				</button>
+				<button class="btn btn-default btn-sm" ng-click="vm.edit(row, $index);" ng-if="!vm.isEditing || vm.editIndex != $index">
+					<span class="glyphicon glyphicon-pencil"></span>
+				</button>
+				<button class="btn btn-danger btn-sm" ng-click="vm.openRemoveDialog(row)" ng-if="!vm.isEditing || vm.editIndex != $index">
+					<span class="glyphicon glyphicon-trash"></span>
+				</button>
+			</td>
+		</tr>
+	</table>
+	<div ng-if="vm.loading" class="text-center">
+		<i class="fa fa-3x fa-spin fa-spinner" aria-hidden="true"></i>
+	</div>
 </div>

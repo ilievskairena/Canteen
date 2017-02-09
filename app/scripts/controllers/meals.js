@@ -24,6 +24,7 @@
     vm.isEditing = false;
     vm.editIndex = null;
     vm.editModel = null;
+    vm.loading = false;
 
     vm.progressBar = ngProgressFactory.createInstance();
 
@@ -93,6 +94,7 @@
     }
 
     function getAllMeals(){
+      vm.loading = true;
       $http({
         method: 'GET',
         crossDomain: true,
@@ -111,8 +113,6 @@
           //Hide the count div
           counts: [],
           getData: function($defer, params) {
-            var filter = params.filter();
-            var sorting = params.sorting();
             var count = params.count();
             var page = params.page();
               //var filteredData = filter ? $filter('filter')(vm.data, filter) : vm.data
@@ -120,12 +120,13 @@
               $defer.resolve(data.slice((page - 1) * count, page * count));
             }
           });
+          vm.loading = false;
         }, function errorCallback(response){
-          console.log("Error getting meals");
+          console.log("Error getting meals", response);
       });
     }
 
-    function getAllMealTypes(user){
+    function getAllMealTypes(){
       utility.getMealTypes().then(function(result) {
         vm.allMealTypes = result.data;
       });
@@ -159,7 +160,7 @@
         vm.progressBar.complete();
         getAllMeals();
       }, function errorCallback(response){
-        toastr.error("Грешка при бришење на оброк.");
+        toastr.error("Грешка при бришење на оброк.", response);
         vm.progressBar.reset();
       });
     }

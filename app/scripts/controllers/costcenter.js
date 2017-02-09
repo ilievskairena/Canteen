@@ -25,6 +25,7 @@
     vm.isEditing = false;
     vm.editIndex = null;
     vm.editModel = null;
+    vm.loading = false;
 
     // Functions
     vm.cancel = cancel;
@@ -66,6 +67,7 @@
     }
 
     function getAllCostCenters(){
+      vm.loading = true;
       $http({
         method: 'GET',
         crossDomain: true,
@@ -90,6 +92,7 @@
             $defer.resolve(data.slice((page - 1) * count, page * count));
           }
         });
+        vm.loading = false;
       }, function errorCallback(response){
         console.log("Error getting cost centers", response);
       });
