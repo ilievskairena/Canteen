@@ -231,3 +231,10 @@ body > .select2-container.open {
 a:hover{
   cursor: pointer;
 }
+
+.test input {
+ width: auto !important; 
+}
+.test .ui-select-container{
+  height: 34px !important;
+}
