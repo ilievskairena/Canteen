@@ -158,6 +158,10 @@
                 crossDomain: true,
                 url: APP_CONFIG.BASE_URL + APP_CONFIG.dates_last
             }).then( function successCallback(response){
+                if(response.data === null){
+                    createDates();
+                    return;
+                }
                 var year = response.data.split('-')[0];
                 var createNewDates = 0;
                 for(var i = 0; i < vm.dateObjectList.length; i++){
