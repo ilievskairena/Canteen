@@ -22,18 +22,18 @@
             "/users": [1],
             "/costCenter": [1],
             "/cards": [1],
-            "/meals": [1,6],
-            "/mealType": [1,6],
-            "/menu/planning": [1,6],
+            "/meals": [1,4,6],
+            "/mealType": [1,4,6],
+            "/menu/planning": [1,4,6],
             "/dates": [1],
             "/menu/preview": [1,4],
             "/planning/thirdshift": [1,2],
             "/planning/unplanned": [1,2],
-            "/planning/workers": [1, 2],
+            "/planning/workers": [1,2],
             "/employeesPerShift": [1,2],
             "/makeOrdersNextWeek": [1,2,4,5,6],
             "/config": [1],
-            // Unnecessary redundant routes?
+            // redundant routes?
             // "/users": [1],
             // "/users": [1],
             // "/users": [1],
@@ -47,7 +47,7 @@
             '/reports/employeesPlan' : [1,4,6],
             //Menu root folder
             "administration": [1],
-            "menus": [1,6],
+            "menus": [1,4,6],
             "menus-plan-preview": [1,4,6],
             "planning": [1,2],
             "reports": [1,4,6]
