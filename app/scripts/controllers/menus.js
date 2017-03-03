@@ -195,10 +195,12 @@
             url: APP_CONFIG.BASE_URL + APP_CONFIG.menu
         }).then(function successCallback(response){
             if(response.data != ""){
-              toastr.error("Промена на менито не е возможно. Веќе постојат нарачки за тоа мени за одбраниот/те датум/и!");
-              return;
+              toastr.info("Едно или повеќе од менија не беа променети. Веќе постојат нарачки за тоа мени за одбраниот/те датум/и!");
             }
-            toastr.success("Менијата се успешно запишани.");
+            else{
+              toastr.success("Менијата се успешно запишани.");
+            }
+            
             $route.reload();
             vm.summary = {
               selectedDates:[],

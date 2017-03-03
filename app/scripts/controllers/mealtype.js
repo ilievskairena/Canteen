@@ -131,7 +131,7 @@
         getAllMealTypes();
       }, function errorCallback(response){
         toastr.error("Грешка при бришење на тип на оброк. Ве молиме обидете се повторно!");
-        console.log(response);
+        console.log("Error removing type");
       });
     }
 

@@ -137,7 +137,6 @@
                 var data = response.data;
                 vm.progressBar.complete();
                 vm.orders = data;
-                console.log(data);
                 vm.table = new ngTableParams({
                   page: 1,
                   count: 5

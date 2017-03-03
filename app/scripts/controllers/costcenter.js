@@ -94,7 +94,7 @@
         });
         vm.loading = false;
       }, function errorCallback(response){
-        console.log("Error getting cost centers", response);
+        console.log("Error getting cost centers");
       });
     }
 

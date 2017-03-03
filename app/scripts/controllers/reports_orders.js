@@ -71,7 +71,6 @@
 
         function exportToExcel(){
             var ord = vm.orders;
-            console.log(ord);
             return utility.downloadStatistics(ord, 'All_Orders');
         }
 

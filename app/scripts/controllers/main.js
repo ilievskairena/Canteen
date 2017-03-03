@@ -110,7 +110,7 @@
                     vm.chartRatio.label.push(date);
                 }
             }, function errorCallback(response){
-                console.log("Error",response);
+                console.log("Chart Line Error");
             });
         }
 
@@ -125,7 +125,7 @@
                     vm.chartOrder.label.push(response.data[i].CostCenter);
                 }
             }, function errorCallback(response){
-                console.log("Error",response);
+                console.log("chart pie Error");
             });
         }
 

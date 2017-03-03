@@ -122,7 +122,7 @@
           });
           vm.loading = false;
         }, function errorCallback(response){
-          console.log("Error getting meals", response);
+          console.log("Error getting meals");
       });
     }
 

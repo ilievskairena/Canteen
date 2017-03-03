@@ -121,7 +121,7 @@
                 vm.costCenters = response.data;
 
             }, function errorCallback(response){
-                console.log("Error getting cost centers", response);
+                console.log("Error getting cost centers");
             });
         }
 
@@ -160,7 +160,6 @@
                     }
                     date.span = total + date.CostCenters.length * 2;
                 }
-                console.log(data);
 
                 vm.table = new ngTableParams({
                   page: 1,

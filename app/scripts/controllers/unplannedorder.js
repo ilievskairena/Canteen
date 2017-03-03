@@ -335,7 +335,6 @@
     }
 
     function removeItem() {
-      console.log(vm.order);
       vm.progressBar.setColor('#8dc63f');
       vm.progressBar.start();
 
@@ -370,7 +369,6 @@
         Count: parseInt(vm.numberWorker),
         Guests: vm.guests === true? vm.noOfGuests : null
       };
-      console.log(data);
       $http({
         method: 'PUT',
         data: data,
