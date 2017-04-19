@@ -143,6 +143,7 @@
         vm.summary.shiftThree.push([]);
       }, function errorCallback(response){
         toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
+        console.log(response);
       });
     }
 
@@ -160,6 +161,7 @@
         }
       }, function errorCallback(response){
         toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
+        console.log(response);
       });
     }
 
@@ -183,6 +185,7 @@
 
       }, function errorCallback(response){
         toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
+        console.log(response);
       });
     }
 
@@ -211,6 +214,7 @@
             getMeals();
         }, function errorCallback(response){
             toastr.error("Грешка при запишување на менијата. Ве молиме обидете се повторно!");
+            console.log(response);
         });
     }
 

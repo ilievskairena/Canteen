@@ -219,6 +219,7 @@
             }, function errorCallback(response){
                 toastr.error("Грешка при креирање на распоредот. Ве молиме обидете се повторно!");
                 vm.progressBar.reset();
+                console.log(response);
             });
         }
     }

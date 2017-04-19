@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="col-md-2" ng-if="!vm.isAlreadyOrdered(date)">
-    <select class="form-control" ng-model="date.shift" ng-change="date.selectedMeal = null;">
+    <select class="form-control" ng-model="date.shift" ng-change="date.selectedMeal = null;" ng-disabled="date.isHoliday">
       <option value="" disabled selected>Одбери смена...</option>
       <option value="1" id="1">Прва смена</option>
       <option value="2" id="2">Втора смена</option>
@@ -38,7 +38,7 @@
     <input type="text" class="form-control" value="{{date.shift == 1? 'Прва смена': 'Втора смена'}}" readonly="true"/>
   </div>
   <div class="col-md-3" ng-if="!vm.isAlreadyOrdered(date)">
-    <select class="form-control" ng-model="date.selectedMeal">
+    <select class="form-control" ng-model="date.selectedMeal" ng-disabled="date.isHoliday">
       <option value="" disabled selected>Одбери оброк...</option>
       <optgroup ng-repeat="meal in date.MealChoices" ng-if="date.shift == meal.Shift" label="{{meal.Type}}">
         <option value="{{meal.MealID}}">
@@ -51,13 +51,14 @@
     <input type="text" class="form-control" value="{{vm.getMeal(date)}}" readonly="true"/>
   </div>
   <div class="col-md-2"  ng-if="!vm.isAlreadyOrdered(date)">
-    <input type="number" class="form-control" placeholder="Внесете број на гости" ng-model="date.Guests" />
+    <input type="number" class="form-control" placeholder="Внесете број на гости" ng-model="date.Guests" ng-disabled="date.isHoliday" />
   </div>
   <div class="col-md-2"  ng-if="vm.isAlreadyOrdered(date)">
     <input type="number" class="form-control" placeholder="Внесете број на гости" ng-model="date.Guests" readonly="true" />
   </div>
   <div class="col-md-2" class="text-center">
     <span ng-if="date.IsCanceled" style="color: red;">Откажано</span>
+    <span ng-if="date.isHoliday" style="color: red;">Празник</span>
   </div>
 </div>
 

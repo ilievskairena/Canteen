@@ -118,7 +118,8 @@
             }).then(function successCallback(response){
                 vm.Roles = response.data;
             }, function errorCallback(response){
-                console.log("Error getting roles");
+                toastr.error('Грешка при превземање на улогите. Освежете ја страната и обидете се повторно!');
+                console.log(response);
             });
         }
 
@@ -157,7 +158,8 @@
               });
                 vm.loading = false;
             }, function errorCallback(response){
-                console.log("Error getting users");
+                toastr.error('Грешка при превземање на корисниците. Освежете ја страната и обидете се повторно!');
+                console.log(response);
             });
         }
 
@@ -182,7 +184,7 @@
                 vm.getUsers();
             }, function errorCallback(response){
                 toastr.error('Грешка при деактивирање на корисник. Ве молиме обидете се повторно!');
-                //console.log(response.data);
+                console.log(response);
             });
         }
 
@@ -232,6 +234,7 @@
                 vm.progressBar.setColor('red');
                 vm.progressBar.reset();
                 toastr.error("Грешка при додавање на корисник. Ве молиме обидете се повторно!");
+                console.log(response);
             });
         }
 
@@ -267,6 +270,7 @@
                 vm.progressBar.setColor('red');
                 vm.progressBar.reset();
                 toastr.error("Грешка при промена на корисник. Ве молиме обидете се повторно!");
+                console.log(response);
             });
         }
     }

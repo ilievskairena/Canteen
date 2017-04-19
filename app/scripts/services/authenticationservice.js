@@ -36,7 +36,7 @@
  
         function _login(loginData) {
  
-            var data = "grant_type=password&username=" + loginData.username + "&password=" + loginData.password;
+            var data = "grant_type=password&username=" + loginData.username + "&password=" + encodeURIComponent(loginData.password);
      
             var deferred = $q.defer();
      

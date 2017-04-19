@@ -95,8 +95,8 @@
 	                //Hide the count div
 	                counts: [],
 	                getData: function($defer, params) {
-	                	var filter = params.filter();
-	                	var sorting = params.sorting();
+	                	//var filter = params.filter();
+	                	//var sorting = params.sorting();
 	                	var count = params.count();
 	                	var page = params.page();
 	                    //var filteredData = filter ? $filter('filter')(vm.data, filter) : vm.data
@@ -109,6 +109,7 @@
 		      }, function errorCallback(response){
 		      	vm.isLoading = false;
 		      	toastr.error("Грешка при вчитување на оброците. Освежете ја страната и обидете се повторно!");
+		      	console.log(response);
 	      	});
  		}
  	}

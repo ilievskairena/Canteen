@@ -94,7 +94,8 @@
         });
         vm.loading = false;
       }, function errorCallback(response){
-        console.log("Error getting cost centers");
+        toastr.error('Грешка при превземање на трошковните места. Обидете се повторно.');
+        console.log(response);
       });
     }
 

@@ -88,7 +88,8 @@
                 vm.changes = false;
                 vm.saveButtonDisabled = false;
             }, function errorCallback(response){
-                console.log("Error inserting dates");
+                toastr.error('Грешка при креирање на датумите. Обидете се повторно или известете го администраторот!');
+                console.log(response);
                 vm.saveButtonDisabled = false;
             });
         }
@@ -147,7 +148,8 @@
                 }
                 );
             }, function errorCallback(response){
-                console.log("Error getting dates");
+                toastr.error('Грешка при превземање на датумите. Обидете се повторно или известете го администраторот!');
+                console.log(response);
             });
         }
 
@@ -278,7 +280,7 @@
                 vm.saveButtonDisabled = false;
             }, function errorCallback(response){
                 toastr.error("Грешка при внесување на датумите. Ве молиме обидете се повторно!");
-                console.log("Error inserting dates");
+                console.log(response);
                 vm.saveButtonDisabled = false;
             });
         }

@@ -54,6 +54,7 @@
          vm.progressBar.setColor('red');
          vm.progressBar.reset();
          toastr.error("Погрешно корисничко име или лозинка!");
+         console.log(error);
         }
       );
     }

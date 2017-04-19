@@ -180,6 +180,7 @@
       }, 
       function(error) {
         toastr.error("Грешка при превземањето на нарачките. Ве молиме обидете се повторно или обратете се на администраторот!");
+        console.log(error);
       });
     }
 
@@ -201,6 +202,7 @@
         toastr.error("Нарачката не е зачувана. Ве молиме обидете се повторно!");
         vm.progressBar.setColor('red');
         vm.progressBar.reset();
+        console.log(response);
       });
     }
 

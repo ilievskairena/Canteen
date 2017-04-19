@@ -111,6 +111,7 @@
                 }
             }, function errorCallback(response){
                 console.log("Chart Line Error");
+                console.log(response);
             });
         }
 
@@ -125,7 +126,8 @@
                     vm.chartOrder.label.push(response.data[i].CostCenter);
                 }
             }, function errorCallback(response){
-                console.log("chart pie Error");
+                console.log("Chart pie error");
+                console.log(response);
             });
         }
 
@@ -135,6 +137,7 @@
             },
             function(error) {
                 AuthenticationService.logOut();
+                console.log(error);
             });
         }
 
@@ -163,6 +166,7 @@
             },
             function(error) {
                 AuthenticationService.logOut();
+                console.log(error);
             });
         }
     }

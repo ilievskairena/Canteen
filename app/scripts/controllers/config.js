@@ -71,7 +71,8 @@
         vm.meals = response.data;
         getConfig();
       }, function errorCallback(response){
-        console.log("Error getting meals");
+        toastr.error('Грешка при превземање на оброците!');
+        console.log(response);
       });
     }
 

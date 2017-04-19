@@ -85,6 +85,7 @@
           vm.realizedData = [];
           vm.realized = 0;
         }
+        console.log(response);
       });
     }
 
@@ -105,6 +106,7 @@
           vm.thirdShiftData = [];
           vm.loading = false;
         }
+        console.log(response);
       });
     }
     
@@ -139,6 +141,7 @@
       }, function errorCallback(response){
         toastr.error("Грешка при креирање на нарачки за трета смена. Ве молиме обидете се повторно!");
         vm.progressBar.reset();
+        console.log(response);
       });
     }
 
@@ -198,6 +201,7 @@
       }, function errorCallback(response){
         toastr.error("Грешка при промена на нарачки за трета смена. Ве молиме обидете се повторно!");
         vm.progressBar.reset();
+        console.log(response);
       });
     }
 
@@ -220,6 +224,7 @@
       }, function errorCallback(response){
         toastr.error("Грешка при промена на нереализирани оброци за трета смена. Ве молиме обидете се повторно!");
         vm.progressBar.reset();
+        console.log(response);
       });
     }
   }

@@ -27,7 +27,7 @@
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     var endDate = new Date();
-    endDate.setDate(endDate.getDate() + 5);
+    endDate.setDate(endDate.getDate() + 7);
     vm.dateOptions = {
       formatYear: 'yyyy',
       maxDate: endDate,
@@ -168,6 +168,7 @@
       }, function errorCallback(response){
         vm.progressBar.reset();
         toastr.error("Грешка при ажурирање на нарачката");
+        console.log(response);
       });
     }
 
@@ -221,6 +222,7 @@
             toastr.error("Грешка при преземање на податоците!");
         } 
         vm.progressBar.reset();
+        console.log(response);
       });
     }
 
@@ -269,6 +271,7 @@
       }, function errorCallback(response){
         vm.progressBar.reset();
         toastr.error("Грешка при бришење на нарачката");
+        console.log(response);
       });
     }
 

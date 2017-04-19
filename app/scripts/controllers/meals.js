@@ -122,7 +122,8 @@
           });
           vm.loading = false;
         }, function errorCallback(response){
-          console.log("Error getting meals");
+          toastr.error('Грешка при превземање на оброците. Ве молиме обидете се повторно!');
+          console.log(response);
       });
     }
 
@@ -187,6 +188,7 @@
       }, function errorCallback(response){
         vm.progressBar.reset();
         toastr.error("Грешка при промена на оброкот! Ве молиме обидете се повторно.");
+        console.log(response);
       });
     }
   }

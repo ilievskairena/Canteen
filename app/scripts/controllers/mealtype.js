@@ -107,6 +107,7 @@
         vm.MealTypeTitle = "";
       }, function errorCallback(response){
         toastr.error("Грешка при додавање на тип! Ве молиме обидете се повторно.");
+        console.log(response);
       });
     }
 
@@ -131,7 +132,7 @@
         getAllMealTypes();
       }, function errorCallback(response){
         toastr.error("Грешка при бришење на тип на оброк. Ве молиме обидете се повторно!");
-        console.log("Error removing type");
+        console.log(response);
       });
     }
 
@@ -151,6 +152,7 @@
         getAllMealTypes();
       }, function errorCallback(response){
         toastr.error("Грешка при промена на тип! Ве молиме обидете се повторно.");
+        console.log(response);
       });
     }
   }
